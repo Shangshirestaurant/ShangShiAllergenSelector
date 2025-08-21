@@ -437,3 +437,9 @@ body.light .header {
   ) !important;
   box-shadow: 0 4px 12px rgba(0,0,0,0.06) !important;
 }
+
+/* Stronger subtitle contrast in light mode */
+body.light .subtitle {
+  color: #1b3b2f !important;
+  opacity: 0.85 !important;
+}
