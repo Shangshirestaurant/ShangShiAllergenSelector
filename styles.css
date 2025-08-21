@@ -443,3 +443,30 @@ body.light .subtitle {
   color: #1b3b2f !important;
   opacity: 0.85 !important;
 }
+
+/* === Color refinements (safe badge + preset chips) === */
+
+/* Softer, premium green for SAFE mark — dark theme */
+.safe-badge {
+  background: linear-gradient(145deg, #3ba776, #2f6e4f) !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.22), 0 0 4px rgba(59,167,118,0.35) !important;
+}
+
+/* Softer SAFE in light theme too (slightly lighter tones) */
+body.light .safe-badge {
+  background: linear-gradient(145deg, #47b584, #2f6e4f) !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 0 4px rgba(71,181,132,0.30) !important;
+}
+
+/* Preset chips: active state in GOLD instead of green */
+.chip.active {
+  background: #D2A455 !important;   /* golden */
+  border-color: #B5862E !important;
+  color: #121212 !important;
+  box-shadow: 0 0 8px rgba(210,164,85,0.25) !important;
+}
+
+/* Keep the Filters button dot golden even when open */
+#filterToggle[aria-expanded="true"] .dot {
+  background: #D2A455 !important;
+}
