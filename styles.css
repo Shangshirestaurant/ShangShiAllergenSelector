@@ -268,3 +268,138 @@ html,body{margin:0;color:var(--text);background: radial-gradient(1100px 320px at
 .filter-panel {
   bottom: calc(env(safe-area-inset-bottom) + 68px) !important; /* closer to Filters button */
 }
+
+
+/* === THEME VARIABLES === */
+:root {
+  --bg: #0c0f14;        /* default dark */
+  --card-bg: #1a1f24;
+  --text-color: #ffffff;
+  --accent: #4caf50;
+}
+
+body.light{
+  --bg:#f7f5ef;          /* off-white (warmer) */
+  --panel:#f2efe7;       /* subtle warm panel */
+  --card:#fff9ef;        /* ivory cards */
+  --text:#143d31;        /* deep green text */
+  --muted:#3e5a4b;       /* muted green */
+  --heading:#103228;     /* stronger heading green */
+  --accent:#2f6e4f;      /* accent green */
+  --accent2:#265a40;     /* darker accent */
+  --chip:#eef3ea;        /* chip bg in light */
+}
+
+/* Apply theme variables globally */
+html, body {
+  background-color: var(--bg);
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.card {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.theme-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  background: var(--card-bg);
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--text-color);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* === THEME TOGGLE: variables and light mode === */
+:root{
+  --bg:#0B0F12;
+  --panel:#0D1419;
+  --card:#121A20;
+  --text:#E7ECEA;
+  --muted:#667074;
+  --heading:#DFE8E2;
+  --accent:#34c759;   /* Apple green for accents in dark */
+  --accent2:#2aa84c;
+  --chip:#1A2329;
+}
+
+body.light{
+  --bg:#f7f5ef;          /* off-white (warmer) */
+  --panel:#f2efe7;       /* subtle warm panel */
+  --card:#fff9ef;        /* ivory cards */
+  --text:#143d31;        /* deep green text */
+  --muted:#3e5a4b;       /* muted green */
+  --heading:#103228;     /* stronger heading green */
+  --accent:#2f6e4f;      /* accent green */
+  --accent2:#265a40;     /* darker accent */
+  --chip:#eef3ea;        /* chip bg in light */
+}
+
+/* Apply variables */
+html,body{
+  background: radial-gradient(1100px 320px at 50% -160px, rgba(46,107,76,0.08), transparent), linear-gradient(var(--bg), var(--bg));
+  color: var(--text);
+}
+
+/* Components inherit */
+.card{ background: var(--card); color: var(--text); }
+.badge{ color: var(--text); }
+.subtitle{ color: var(--muted); }
+.active-filter{ color: var(--accent); }
+
+/* Filter dock + chips adapt to theme */
+.dock-inner{ background: rgba(255,255,255,0.85); }
+body.light .dock-inner{ background: rgba(0,0,0,0.06); }
+.filter-btn{ color: var(--text); }
+.filter-panel .chips{ background: rgba(255,255,255,0.06); border-color: rgba(0,0,0,0.08); }
+body.light .filter-panel .chips{ background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.06); }
+
+/* Safe badge keeps Apple style but contrast for light */
+body.light .safe-badge{
+  background: linear-gradient(145deg, #3ddc84, #34c759) !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 0 6px rgba(76,217,100,0.45) !important;
+}
+
+/* Toggle button */
+.theme-btn{
+  position: fixed;
+  top: max(10px, calc(env(safe-area-inset-top) + 8px));
+  right: 12px;
+  z-index: 1000;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 999px;
+  padding: 8px 10px;
+  font-size: 14px;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  cursor: pointer;
+  user-select: none;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+}
+.theme-btn:hover{ transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,0.2); }
+.theme-btn:active{ transform: translateY(0) scale(.98); }
+
+body.light .card{
+  border:1px solid rgba(16,50,40,0.08) !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5) !important;
+}
+body.light .filter-btn{
+  background: rgba(255,255,255,0.95) !important;
+  color: #143d31 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12) !important;
+}
+body.light .dock-inner{
+  background: rgba(0,0,0,0.04) !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08) !important;
+}

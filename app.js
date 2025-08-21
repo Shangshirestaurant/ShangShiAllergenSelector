@@ -110,3 +110,23 @@ document.addEventListener('DOMContentLoaded', ()=>{
     setTimeout(() => { if (window.applyFilters) window.applyFilters(); }, 0);
   }, {passive:true});
 })();    
+
+
+// === Theme toggle logic ===
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("themeToggle");
+  if (!btn) return;
+
+  // Restore saved theme if any
+  if (localStorage.getItem("theme") === "light") {
+    document.body.classList.add("light");
+    btn.textContent = "☀️";
+  }
+
+  btn.addEventListener("click", () => {
+    document.body.classList.toggle("light");
+    const isLight = document.body.classList.contains("light");
+    btn.textContent = isLight ? "☀️" : "🌙";
+    localStorage.setItem("theme", isLight ? "light" : "dark");
+  });
+});
