@@ -79,3 +79,34 @@ document.addEventListener('DOMContentLoaded', ()=>{
   updateMeta(dishes.length, []);
   empty.classList.add('hidden');
 })();
+
+
+// === Patch: case-insensitive filtering ===
+(function(){
+  function toLowerArray(arr){ try { return (arr||[]).map(x => String(x).toLowerCase()); } catch(e){ return []; } }
+  function getActiveFilters(){
+    return Array.from(document.querySelectorAll('.chip.active')).map(ch => String(ch.dataset.code||'').toLowerCase());
+  }
+  // If a global applyFilters exists, wrap it; otherwise provide one.
+  const _apply = (typeof applyFilters === 'function') ? applyFilters : null;
+  window.applyFilters = function(){
+    const active = getActiveFilters();
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      let allergens = [];
+      try { allergens = JSON.parse(card.dataset.allergens || "[]"); } catch(e){ allergens = []; }
+      const low = toLowerArray(allergens);
+      const visible = active.every(code => !low.includes(code));
+      card.style.display = visible ? "" : "none";
+    });
+    if (_apply && _apply !== window.applyFilters) { try { _apply(); } catch(e){} }
+  };
+  // Ensure chips mark use lowercase codes when toggling
+  document.addEventListener('click', function(e){
+    const el = e.target.closest && e.target.closest('.chip');
+    if (!el) return;
+    // force dataset code to lowercase once
+    if (el.dataset && el.dataset.code) el.dataset.code = String(el.dataset.code).toLowerCase();
+    setTimeout(() => { if (window.applyFilters) window.applyFilters(); }, 0);
+  }, {passive:true});
+})();    
