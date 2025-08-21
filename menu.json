@@ -4,7 +4,7 @@
     "allergens": [
       "CE",
       "GL",
-      "Mi",
+      "MI",
       "MR"
     ],
     "description": ""
@@ -23,7 +23,7 @@
       "MR",
       "SE",
       "CR",
-      "Mi",
+      "MI",
       "EG"
     ],
     "description": ""
@@ -129,7 +129,8 @@
     "name": "Grilled Chilean Sea Bass in Honey",
     "allergens": [
       "GL",
-      "SO"
+      "SO",
+      "FI"
     ],
     "description": "Marinated in Honey"
   },
@@ -288,9 +289,8 @@
   {
     "name": "Rack of Lamb with Chef's Special Sauce",
     "allergens": [
-      "Mi",
+      "MI",
       "ON",
-      "MI"
     ],
     "description": ""
   },
@@ -306,7 +306,7 @@
     "name": "Wasabi Blanch",
     "allergens": [
       "EG",
-      "Mi",
+      "MI",
       "NU"
     ],
     "description": ""
@@ -314,7 +314,7 @@
   {
     "name": "Venison Puff",
     "allergens": [
-      "Mi",
+      "MI",
       "EG",
       "SE"
     ],
@@ -323,7 +323,7 @@
   {
     "name": "Ham&Cheese Sandwich",
     "allergens": [
-      "Mi",
+      "MI",
       "GL"
     ],
     "description": ""
@@ -450,7 +450,7 @@
     "name": "Baked venison puff",
     "allergens": [
       "SE",
-      "Mi"
+      "MI"
     ],
     "description": ""
   },
