@@ -1,6 +1,6 @@
 // Allergen legend
 const LEGEND = {
-  "CE":"Celery","GL":"Gluten","CR":"Crustaceans","EG":"Eggs","FI":"Fish","MO":"Molluscs","MI":"Milk","MU":"Mustard","NU":"Nuts",
+  "CE":"Celery","GL":"Gluten","CR":"Crustaceans","EG":"Eggs","FI":"Fish","MO":"Molluscs","Mi":"Milk","MU":"Mustard","NU":"Nuts",
   "SE":"Sesame","SO":"Soya","GA":"Garlic","ON":"Onion","MR":"Mushrooms"
 };
 function codeToLabel(c){ return LEGEND[c]||c; }
