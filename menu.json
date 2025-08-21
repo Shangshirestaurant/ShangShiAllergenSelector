@@ -4,7 +4,7 @@
     "allergens": [
       "CE",
       "GL",
-      "MI",
+      "Mi",
       "MR"
     ],
     "description": ""
@@ -23,7 +23,7 @@
       "MR",
       "SE",
       "CR",
-      "MI",
+      "Mi",
       "EG"
     ],
     "description": ""
@@ -288,7 +288,7 @@
   {
     "name": "Rack of Lamb with Chef's Special Sauce",
     "allergens": [
-      "MI",
+      "Mi",
       "ON",
       "MI"
     ],
@@ -306,7 +306,7 @@
     "name": "Wasabi Blanch",
     "allergens": [
       "EG",
-      "MI",
+      "Mi",
       "NU"
     ],
     "description": ""
@@ -314,15 +314,16 @@
   {
     "name": "Venison Puff",
     "allergens": [
-      "MI",
-      "EG"
+      "Mi",
+      "EG",
+      "SE"
     ],
     "description": ""
   },
   {
     "name": "Ham&Cheese Sandwich",
     "allergens": [
-      "MI",
+      "Mi",
       "GL"
     ],
     "description": ""
@@ -448,7 +449,8 @@
   {
     "name": "Baked venison puff",
     "allergens": [
-      "SE"
+      "SE",
+      "Mi"
     ],
     "description": ""
   },
