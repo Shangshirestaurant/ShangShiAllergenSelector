@@ -19,7 +19,12 @@
   {
     "name": "Deep Fried Dim Sum Assortment",
     "allergens": [
-      "GL"
+      "GL",
+      "MR",
+      "SE",
+      "CR",
+      "MI",
+      "EG"
     ],
     "description": ""
   },
@@ -27,7 +32,8 @@
     "name": "Golden Fried Soft Shell Crab with Chilli",
     "allergens": [
       "EG",
-      "GL"
+      "GL",
+      "CR"
     ],
     "description": ""
   },
@@ -50,7 +56,8 @@
   {
     "name": "Aromatic Crispy Duck Salad",
     "allergens": [
-      "GL"
+      "GL",
+      "NU"
     ],
     "description": ""
   },
@@ -86,7 +93,8 @@
       "CR",
       "EG",
       "GL",
-      "ON"
+      "ON",
+      "SO"
     ],
     "description": ""
   },
@@ -123,7 +131,7 @@
       "GL",
       "SO"
     ],
-    "description": ""
+    "description": "Marinated in Honey"
   },
   {
     "name": "Deep Fried King Scallop with Minced Prawns in Teriyaki Sauce",
@@ -133,7 +141,8 @@
       "GA",
       "GL",
       "ON",
-      "SO"
+      "SO",
+      "MR"
     ],
     "description": ""
   },
@@ -172,7 +181,8 @@
     "name": "Sweet and Sour Iberico Pork with Pineapple",
     "allergens": [
       "GL",
-      "ON"
+      "ON",
+      "MR"
     ],
     "description": ""
   },
@@ -239,7 +249,7 @@
       "MU",
       "ON"
     ],
-    "description": ""
+    "description": "Can be vegetarian"
   },
   {
     "name": "Claypot Silken Egg Tofu with Vegetables (V)",
@@ -254,16 +264,18 @@
   {
     "name": "Stir-Fry Asparagus with Lily Bulbs, Water Chestnut, and Yellow Fungus (V)",
     "allergens": [
-      "MR"
+      "MR",
+      "GL"
     ],
     "description": ""
   },
   {
     "name": "Vegetable spring roll",
     "allergens": [
-      "MR"
+      "MR",
+      "GL"
     ],
-    "description": ""
+    "description": "Canape"
   },
   {
     "name": "Pumpkin ball",
@@ -277,7 +289,8 @@
     "name": "Rack of Lamb with Chef's Special Sauce",
     "allergens": [
       "MI",
-      "ON"
+      "ON",
+      "MI"
     ],
     "description": ""
   },
@@ -301,14 +314,16 @@
   {
     "name": "Venison Puff",
     "allergens": [
-      "MI"
+      "MI",
+      "EG"
     ],
     "description": ""
   },
   {
     "name": "Ham&Cheese Sandwich",
     "allergens": [
-      "MI"
+      "MI",
+      "GL"
     ],
     "description": ""
   },
