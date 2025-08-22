@@ -12,7 +12,9 @@
   {
     "name": "Steamed Dim Sum Platter",
     "allergens": [
-      "GL"
+      "GL",
+      "CR",
+      "ON",
     ],
     "description": ""
   },
@@ -24,7 +26,8 @@
       "SE",
       "CR",
       "Mi",
-      "EG"
+      "EG",
+      "ON"
     ],
     "description": ""
   },
