@@ -470,3 +470,9 @@ body.light .safe-badge {
 #filterToggle[aria-expanded="true"] .dot {
   background: #D2A455 !important;
 }
+
+/* === Smooth scrolling & iOS momentum === */
+html { scroll-behavior: smooth; }
+.main, .grid {
+  -webkit-overflow-scrolling: touch; /* iOS inertial scroll */
+}
