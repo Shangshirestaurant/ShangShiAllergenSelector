@@ -45,7 +45,10 @@
     "name": "Home-made Salt and Pepper Crispy Tofu (v)",
     "allergens": [
       "GA",
-      "GL"
+      "GL",
+      "EG",
+      "CE",
+      "SO"
     ],
     "description": ""
   },
@@ -63,7 +66,8 @@
       "GL",
       "NU",
       "MU",
-      "SO"
+      "SO",
+      "ON"
     ],
     "description": ""
   },
@@ -73,14 +77,19 @@
       "GL",
       "MR",
       "SE",
-      "SO"
+      "SO",
+      "ON"
     ],
     "description": ""
   },
   {
     "name": "Crispy Duck Salad",
     "allergens": [
-      "GL"
+      "GL",
+      "NU",
+      "MU",
+      "SO",
+      "ON"
     ],
     "description": ""
   },
@@ -260,7 +269,8 @@
     "allergens": [
       "CR",
       "MR",
-      "MU"
+      "MU",
+      "ON"
     ],
     "description": ""
   },
