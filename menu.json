@@ -78,7 +78,9 @@
       "MR",
       "SE",
       "SO",
-      "ON"
+      "ON",
+      "EG",
+      "Mi"
     ],
     "description": ""
   },
@@ -99,7 +101,10 @@
       "CR",
       "GA",
       "GL",
-      "SO"
+      "SO",
+      "ON",
+      "EG",
+      "Mi"
     ],
     "description": ""
   },
@@ -111,7 +116,8 @@
       "GL",
       "ON",
       "SO",
-      "GA"
+      "GA",
+      "Mi"
     ],
     "description": ""
   },
@@ -121,14 +127,18 @@
       "CR",
       "GL",
       "MR",
-      "SO"
+      "SO",
+      "EG",
+      "Mi"
     ],
     "description": ""
   },
   {
     "name": "Legendary Peking Duck",
     "allergens": [
-      "GL"
+      "GL",
+      "Mi",
+      "EG"
     ],
     "description": ""
   },
@@ -138,7 +148,10 @@
       "CR",
       "GL",
       "MR",
-      "SO"
+      "SO",
+      "ON",
+      "EG",
+      "Mi"
     ],
     "description": ""
   },
@@ -161,7 +174,9 @@
       "GL",
       "ON",
       "SO",
-      "MR"
+      "MR",
+      "EG",
+      "Mi"
     ],
     "description": ""
   },
@@ -172,7 +187,8 @@
       "GL",
       "NU",
       "ON",
-      "SO"
+      "SO",
+      "MR"
     ],
     "description": ""
   },
@@ -183,7 +199,8 @@
       "ON",
       "SO",
       "MR",
-      "GA"
+      "GA",
+      "CR"
     ],
     "description": ""
   },
@@ -204,7 +221,9 @@
     "allergens": [
       "GL",
       "ON",
-      "MR"
+      "MR",
+      "CR",
+      "MO"
     ],
     "description": ""
   },
@@ -215,7 +234,8 @@
       "GL",
       "ON",
       "SO",
-      "SE"
+      "SE",
+      "FI"
     ],
     "description": ""
   },
@@ -225,7 +245,10 @@
       "GL",
       "SO",
       "CR",
-      "GA"
+      "GA",
+      "Mi",
+      "EG",
+      "MO"
     ],
     "description": ""
   },
@@ -237,7 +260,9 @@
       "MR",
       "SO",
       "ON",
-      "CR"
+      "CR",
+      "Mi",
+      "FI"
     ],
     "description": ""
   },
@@ -250,7 +275,9 @@
       "MR",
       "ON",
       "SO",
-      "SE"
+      "SE",
+      "Mi",
+      "EG"
     ],
     "description": ""
   },
@@ -260,7 +287,11 @@
       "GL",
       "EG",
       "CR",
-      "SO"
+      "SO",
+      "GA",
+      "ON",
+      "SE",
+      "Mi"
     ],
     "description": ""
   },
@@ -270,7 +301,9 @@
       "CR",
       "MR",
       "MU",
-      "ON"
+      "ON",
+      "Mi",
+      "EG"
     ],
     "description": ""
   },
@@ -278,8 +311,11 @@
     "name": "Mapo Tofu (with Minced Beef)",
     "allergens": [
       "MR",
-      "MU",
-      "ON"
+      "EG",
+      "ON",
+      "GA",
+      "SO",
+      "Mi"
     ],
     "description": "Can be vegetarian"
   },
@@ -290,7 +326,8 @@
       "MR",
       "ON",
       "SO",
-      "CR"
+      "CR",
+      "Mi"
     ],
     "description": ""
   },
@@ -298,9 +335,11 @@
     "name": "Stir-Fry Asparagus with Lily Bulbs, Water Chestnut, and Yellow Fungus (V)",
     "allergens": [
       "MR",
-      "GA"
+      "GA",
+      "EG",
+      "Mi"
     ],
-    "description": ""
+    "description": "It can be withou Egg and Milk"
   },
   {
     "name": "Vegetable spring roll",
@@ -325,7 +364,8 @@
       "Mi",
       "ON",
       "GA",
-      "SO"
+      "SO",
+      "EG"
     ],
     "description": ""
   },
@@ -378,7 +418,8 @@
       "CR",
       "EG",
       "GA",
-      "ON"
+      "ON",
+      "Mi"
     ],
     "description": ""
   },
@@ -386,7 +427,10 @@
     "name": "Lobster with Ginger and Spring Onion",
     "allergens": [
       "CR",
-      "ON"
+      "ON",
+      "EG",
+      "Mi",
+      "SE"
     ],
     "description": ""
   },
@@ -396,7 +440,8 @@
       "EG",
       "GA",
       "ON",
-      "SO"
+      "SO",
+      "Mi"
     ],
     "description": ""
   },
@@ -414,7 +459,9 @@
   {
     "name": "Five Spice Crispy Corn Fed Chicken Parcel with Thai Basil",
     "allergens": [
-      "GA"
+      "GA",
+      "Mi",
+      "EG"
     ],
     "description": ""
   },
@@ -431,7 +478,11 @@
     "name": "Legendary Peking Duck 3rd Course",
     "allergens": [
       "NU",
-      "SO"
+      "SO",
+      "Mi",
+      "FI",
+      "ON",
+      "EG"
     ],
     "description": ""
   },
@@ -467,14 +518,16 @@
     "name": "Sweet Corn Soup with Chicken",
     "allergens": [
       "EG",
-      "ON"
+      "ON",
+      "Mi"
     ],
     "description": ""
   },
   {
     "name": "Golden Egg Fried Rice",
     "allergens": [
-      "EG"
+      "EG",
+      "Mi"
     ],
     "description": ""
   },
@@ -484,7 +537,8 @@
       "SE",
       "MR",
       "GL",
-      "CR"
+      "CR",
+      "GA"
     ],
     "description": ""
   },
@@ -499,7 +553,11 @@
   {
     "name": "Crispy Pork Belly",
     "allergens": [
-      "MU"
+      "MU",
+      "EG",
+      "ON",
+      "GA",
+      "Mi"
     ],
     "description": ""
   }
