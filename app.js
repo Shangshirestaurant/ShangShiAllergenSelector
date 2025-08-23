@@ -1,3 +1,24 @@
+function normalizeCategory(s){
+  if(!s) return "";
+  const x = String(s).trim().toLowerCase();
+  if (x.startsWith("dim")) return "dimsum";
+  if (x.startsWith("starter")) return "starters";
+  if (x.startsWith("main")) return "mains";
+  if (x.startsWith("dessert")) return "desserts";
+  return "";
+}
+function deriveCategory(item){
+  // Prefer explicit category from data
+  const explicit = normalizeCategory(item && item.category);
+  if (explicit) return explicit;
+  // Fallback: name-based guess
+  const name = (item && item.name || '').toLowerCase();
+  if (/(dessert|ice cream|sorbet|mousse|pudding|cake|tart|parfait|cheesecake)/.test(name)) return 'desserts';
+  if (/(dumpling|siew mai|siu mai|xiao long bao|bao|spring roll|roll|puff|toast|har gow|gyoza)/.test(name)) return 'dimsum';
+  if (/(starter|salad|soup|tartare|appetizer|small plate|cold dish)/.test(name)) return 'starters';
+  return 'mains';
+}
+
 // Allergen legend (single source of truth)
 const LEGEND = {
   "CE":"Celery","GL":"Gluten","CR":"Crustaceans","EG":"Eggs","FI":"Fish","MO":"Molluscs","Mi":"Milk","MU":"Mustard","NU":"Nuts",
@@ -136,13 +157,18 @@ document.addEventListener('DOMContentLoaded', () => {
 (async function init(){
   const chips = document.getElementById('chips');
   const grid  = document.getElementById('grid');
+  const catTabs = document.getElementById('catTabs');
+  let currentCategory = 'all';
   const empty = document.getElementById('empty');
 
   const dishes = await loadMenu();
 
   const rerender = () => {
     const sel  = getActiveFilters();      // ALWAYS fresh from DOM
-    const data = filterDishes(dishes, sel);
+    let data = filterDishes(dishes, sel);
+    if (currentCategory !== 'all') {
+      data = data.filter(item => deriveCategory(item) === currentCategory);
+    }
     renderGrid(grid, data, sel);
     updateMeta(data.length, sel);
     empty.classList.toggle('hidden', data.length !== 0);
@@ -154,6 +180,20 @@ document.addEventListener('DOMContentLoaded', () => {
   renderGrid(grid, dishes, []);
   updateMeta(dishes.length, []);
   empty.classList.add('hidden');
+
+  if (catTabs){
+    catTabs.addEventListener('click', (e)=>{
+      const btn = e.target.closest('.cat-tab');
+      if(!btn) return;
+      currentCategory = btn.dataset.cat || 'all';
+      catTabs.querySelectorAll('.cat-tab').forEach(b=>{
+        const active = b===btn;
+        b.classList.toggle('active', active);
+        b.setAttribute('aria-selected', String(active));
+      });
+      rerender();
+    }, {passive:true});
+  }
 })();
 
 // -------- Theme toggle (unchanged) --------

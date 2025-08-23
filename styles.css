@@ -553,3 +553,76 @@ html { scroll-behavior: smooth; }
 
 /* Keep card shadows intact (documentation only; no change required) */
 /* .card { box-shadow: ... } */
+
+
+/* === Readability: slight blur on bottom dock (desktop), crisp fallback on mobile === */
+@media (min-width: 900px){
+  .filter-dock .dock-inner{
+    -webkit-backdrop-filter: blur(8px) saturate(120%) !important;
+    backdrop-filter: blur(8px) saturate(120%) !important;
+    background: rgba(255,255,255,0.22) !important; /* light theme */
+    border: 1px solid rgba(0,0,0,0.08) !important;
+  }
+  body:not(.light) .filter-dock .dock-inner{
+    background: rgba(16,20,24,0.42) !important;    /* dark theme */
+    border-color: rgba(255,255,255,0.10) !important;
+  }
+}
+@media (max-width: 899px){
+  .filter-dock .dock-inner{
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background: rgba(255,255,255,0.18) !important; /* readable, no blur */
+    border: 1px solid rgba(0,0,0,0.08) !important;
+  }
+  body:not(.light) .filter-dock .dock-inner{
+    background: rgba(16,20,24,0.42) !important;
+    border-color: rgba(255,255,255,0.10) !important;
+  }
+}
+
+
+/* === Category tabs (restored) === */
+.cat-tabs{
+  position: sticky;
+  top: calc(56px + env(safe-area-inset-top));
+  z-index: 25;
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.85); /* readable without blur */
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+body:not(.light) .cat-tabs{
+  background: rgba(16,20,24,0.75);
+  border-bottom-color: rgba(255,255,255,0.12);
+}
+.cat-tab{
+  appearance: none;
+  border: 1px solid rgba(0,0,0,0.10);
+  background: rgba(255,255,255,0.65);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+  white-space: nowrap;
+}
+body:not(.light) .cat-tab{
+  background: rgba(16,20,24,0.35);
+  border-color: rgba(255,255,255,0.12);
+}
+.cat-tab:hover{ transform: translateY(-1px); }
+.cat-tab.active{
+  background: rgba(210,164,85,0.22);
+  border-color: rgba(210,164,85,0.55);
+  box-shadow: 0 6px 16px rgba(210,164,85,0.20);
+}
+@media (max-width: 480px){
+  .cat-tabs{ padding: 6px 12px; gap: 6px; }
+  .cat-tab{ padding: 7px 10px; font-size: 12px; }
+}
