@@ -1,3 +1,18 @@
+
+// --- Dynamic header height for category bar offset ---
+(function(){
+  const headerEl = document.querySelector('header.header, .header, header');
+  const setH = () => {
+    const h = headerEl ? headerEl.offsetHeight : 56;
+    document.documentElement.style.setProperty('--header-height', h + 'px');
+  };
+  setH();
+  window.addEventListener('resize', setH, {passive:true});
+  if (window.ResizeObserver && headerEl){
+    try{ new ResizeObserver(setH).observe(headerEl); }catch(e){}
+  }
+})();
+
 function normalizeCategory(s){
   if(!s) return "";
   const x = String(s).trim().toLowerCase();
