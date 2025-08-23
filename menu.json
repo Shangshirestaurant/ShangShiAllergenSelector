@@ -12,9 +12,7 @@
   {
     "name": "Steamed Dim Sum Platter",
     "allergens": [
-      "GL",
-      "CR",
-      "ON"
+      "GL"
     ],
     "description": ""
   },
@@ -26,8 +24,7 @@
       "SE",
       "CR",
       "Mi",
-      "EG",
-      "ON"
+      "EG"
     ],
     "description": ""
   },
@@ -36,8 +33,7 @@
     "allergens": [
       "EG",
       "GL",
-      "CR",
-      "Mi"
+      "CR"
     ],
     "description": ""
   },
@@ -45,10 +41,7 @@
     "name": "Home-made Salt and Pepper Crispy Tofu (v)",
     "allergens": [
       "GA",
-      "GL",
-      "EG",
-      "CE",
-      "SO"
+      "GL"
     ],
     "description": ""
   },
@@ -64,10 +57,7 @@
     "name": "Aromatic Crispy Duck Salad",
     "allergens": [
       "GL",
-      "NU",
-      "MU",
-      "SO",
-      "ON"
+      "NU"
     ],
     "description": ""
   },
@@ -77,21 +67,14 @@
       "GL",
       "MR",
       "SE",
-      "SO",
-      "ON",
-      "EG",
-      "Mi"
+      "SO"
     ],
     "description": ""
   },
   {
     "name": "Crispy Duck Salad",
     "allergens": [
-      "GL",
-      "NU",
-      "MU",
-      "SO",
-      "ON"
+      "GL"
     ],
     "description": ""
   },
@@ -100,11 +83,7 @@
     "allergens": [
       "CR",
       "GA",
-      "GL",
-      "SO",
-      "ON",
-      "EG",
-      "Mi"
+      "GL"
     ],
     "description": ""
   },
@@ -115,9 +94,7 @@
       "EG",
       "GL",
       "ON",
-      "SO",
-      "GA",
-      "Mi"
+      "SO"
     ],
     "description": ""
   },
@@ -127,18 +104,14 @@
       "CR",
       "GL",
       "MR",
-      "SO",
-      "EG",
-      "Mi"
+      "SO"
     ],
     "description": ""
   },
   {
     "name": "Legendary Peking Duck",
     "allergens": [
-      "GL",
-      "Mi",
-      "EG"
+      "GL"
     ],
     "description": ""
   },
@@ -148,10 +121,7 @@
       "CR",
       "GL",
       "MR",
-      "SO",
-      "ON",
-      "EG",
-      "Mi"
+      "SO"
     ],
     "description": ""
   },
@@ -160,8 +130,7 @@
     "allergens": [
       "GL",
       "SO",
-      "FI",
-      "MR"
+      "FI"
     ],
     "description": "Marinated in Honey"
   },
@@ -174,9 +143,7 @@
       "GL",
       "ON",
       "SO",
-      "MR",
-      "EG",
-      "Mi"
+      "MR"
     ],
     "description": ""
   },
@@ -187,8 +154,7 @@
       "GL",
       "NU",
       "ON",
-      "SO",
-      "MR"
+      "SO"
     ],
     "description": ""
   },
@@ -197,10 +163,7 @@
     "allergens": [
       "GL",
       "ON",
-      "SO",
-      "MR",
-      "GA",
-      "CR"
+      "SO"
     ],
     "description": ""
   },
@@ -211,8 +174,7 @@
       "GL",
       "Mi",
       "ON",
-      "SO",
-      "CR"
+      "SO"
     ],
     "description": ""
   },
@@ -221,9 +183,7 @@
     "allergens": [
       "GL",
       "ON",
-      "MR",
-      "CR",
-      "MO"
+      "MR"
     ],
     "description": ""
   },
@@ -233,9 +193,7 @@
       "GA",
       "GL",
       "ON",
-      "SO",
-      "SE",
-      "FI"
+      "SO"
     ],
     "description": ""
   },
@@ -243,12 +201,7 @@
     "name": "Braised Pork Belly",
     "allergens": [
       "GL",
-      "SO",
-      "CR",
-      "GA",
-      "Mi",
-      "EG",
-      "MO"
+      "SO"
     ],
     "description": ""
   },
@@ -258,11 +211,7 @@
       "EG",
       "GL",
       "MR",
-      "SO",
-      "ON",
-      "CR",
-      "Mi",
-      "FI"
+      "SO"
     ],
     "description": ""
   },
@@ -274,24 +223,14 @@
       "GL",
       "MR",
       "ON",
-      "SO",
-      "SE",
-      "Mi",
-      "EG"
+      "SO"
     ],
     "description": ""
   },
   {
     "name": "Special Pork Rice",
     "allergens": [
-      "GL",
-      "EG",
-      "CR",
-      "SO",
-      "GA",
-      "ON",
-      "SE",
-      "Mi"
+      "GL"
     ],
     "description": ""
   },
@@ -300,10 +239,7 @@
     "allergens": [
       "CR",
       "MR",
-      "MU",
-      "ON",
-      "Mi",
-      "EG"
+      "MU"
     ],
     "description": ""
   },
@@ -311,11 +247,8 @@
     "name": "Mapo Tofu (with Minced Beef)",
     "allergens": [
       "MR",
-      "EG",
-      "ON",
-      "GA",
-      "SO",
-      "Mi"
+      "MU",
+      "ON"
     ],
     "description": "Can be vegetarian"
   },
@@ -325,9 +258,7 @@
       "EG",
       "MR",
       "ON",
-      "SO",
-      "CR",
-      "Mi"
+      "SO"
     ],
     "description": ""
   },
@@ -335,11 +266,9 @@
     "name": "Stir-Fry Asparagus with Lily Bulbs, Water Chestnut, and Yellow Fungus (V)",
     "allergens": [
       "MR",
-      "GA",
-      "EG",
-      "Mi"
+      "GL"
     ],
-    "description": "It can be withou Egg and Milk"
+    "description": ""
   },
   {
     "name": "Vegetable spring roll",
@@ -353,8 +282,7 @@
     "name": "Pumpkin ball",
     "allergens": [
       "MR",
-      "NU",
-      "GL"
+      "NU"
     ],
     "description": ""
   },
@@ -362,10 +290,7 @@
     "name": "Rack of Lamb with Chef's Special Sauce",
     "allergens": [
       "Mi",
-      "ON",
-      "GA",
-      "SO",
-      "EG"
+      "ON"
     ],
     "description": ""
   },
@@ -418,8 +343,7 @@
       "CR",
       "EG",
       "GA",
-      "ON",
-      "Mi"
+      "ON"
     ],
     "description": ""
   },
@@ -427,10 +351,7 @@
     "name": "Lobster with Ginger and Spring Onion",
     "allergens": [
       "CR",
-      "ON",
-      "EG",
-      "Mi",
-      "SE"
+      "ON"
     ],
     "description": ""
   },
@@ -439,9 +360,7 @@
     "allergens": [
       "EG",
       "GA",
-      "ON",
-      "SO",
-      "Mi"
+      "ON"
     ],
     "description": ""
   },
@@ -459,9 +378,7 @@
   {
     "name": "Five Spice Crispy Corn Fed Chicken Parcel with Thai Basil",
     "allergens": [
-      "GA",
-      "Mi",
-      "EG"
+      "GA"
     ],
     "description": ""
   },
@@ -469,20 +386,14 @@
     "name": "XO Sauce king crab dumpling (red)",
     "allergens": [
       "GA",
-      "SE",
-      "CR"
+      "SE"
     ],
     "description": ""
   },
   {
     "name": "Legendary Peking Duck 3rd Course",
     "allergens": [
-      "NU",
-      "SO",
-      "Mi",
-      "FI",
-      "ON",
-      "EG"
+      "NU"
     ],
     "description": ""
   },
@@ -517,28 +428,21 @@
   {
     "name": "Sweet Corn Soup with Chicken",
     "allergens": [
-      "EG",
-      "ON",
-      "Mi"
+      "EG"
     ],
     "description": ""
   },
   {
     "name": "Golden Egg Fried Rice",
     "allergens": [
-      "EG",
-      "Mi"
+      "EG"
     ],
     "description": ""
   },
   {
     "name": "Amuse Bouche",
     "allergens": [
-      "SE",
-      "MR",
-      "GL",
-      "CR",
-      "GA"
+      "SE"
     ],
     "description": ""
   },
@@ -553,11 +457,7 @@
   {
     "name": "Crispy Pork Belly",
     "allergens": [
-      "MU",
-      "EG",
-      "ON",
-      "GA",
-      "Mi"
+      "MU"
     ],
     "description": ""
   }
