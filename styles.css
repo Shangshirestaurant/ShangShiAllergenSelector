@@ -532,3 +532,24 @@ html { scroll-behavior: smooth; }
 
 /* Ensure badges (allergen chips) never overlap labels */
 .card .badges{ margin-top:10px; }
+
+
+/* === Performance: remove blur everywhere except the header === */
+.chips,
+.result-badge,
+.pill,
+.safe-pill,
+.modal,
+.modal-card,
+.filter-dock .dock-inner,
+.cat-tabs,
+.cat-tab,
+.badge{
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  /* never use filter: blur() on these */
+  filter: none !important;
+}
+
+/* Keep card shadows intact (documentation only; no change required) */
+/* .card { box-shadow: ... } */
