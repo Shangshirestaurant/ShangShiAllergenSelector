@@ -7,7 +7,8 @@
       "Mi",
       "MR"
     ],
-    "description": ""
+    "description": "",
+    "category": "Starters"
   },
   {
     "name": "Steamed Dim Sum Platter",
@@ -16,7 +17,8 @@
       "CR",
       "ON"
     ],
-    "description": ""
+    "description": "",
+    "category": "Starters"
   },
   {
     "name": "Deep Fried Dim Sum Assortment",
@@ -29,7 +31,8 @@
       "EG",
       "ON"
     ],
-    "description": ""
+    "description": "",
+    "category": "Starters"
   },
   {
     "name": "Golden Fried Soft Shell Crab with Chilli",
@@ -39,7 +42,8 @@
       "CR",
       "Mi"
     ],
-    "description": ""
+    "description": "",
+    "category": "Starters"
   },
   {
     "name": "Home-made Salt and Pepper Crispy Tofu (v)",
@@ -50,7 +54,8 @@
       "CE",
       "SO"
     ],
-    "description": ""
+    "description": "",
+    "category": "Starters"
   },
   {
     "name": "Black Truffle Vegetable Spring Roll (v)",
@@ -58,7 +63,8 @@
       "GL",
       "MR"
     ],
-    "description": ""
+    "description": "",
+    "category": "Starters"
   },
   {
     "name": "Aromatic Crispy Duck Salad",
@@ -69,7 +75,8 @@
       "SO",
       "ON"
     ],
-    "description": ""
+    "description": "",
+    "category": "Starters"
   },
   {
     "name": "Duck Soup",
@@ -82,7 +89,8 @@
       "EG",
       "Mi"
     ],
-    "description": ""
+    "description": "",
+    "category": "Starters"
   },
   {
     "name": "Crispy Duck Salad",
@@ -93,7 +101,8 @@
       "SO",
       "ON"
     ],
-    "description": ""
+    "description": "",
+    "category": "Starters"
   },
   {
     "name": "Norwegian King Crab (Pan-fried with Chilli and Garlic)",
@@ -106,7 +115,8 @@
       "EG",
       "Mi"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Norwegian King Crab (Steamed with Chinese Rice Wine and Egg White)",
@@ -119,7 +129,8 @@
       "GA",
       "Mi"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Braised South African Kippin Abalone in Superior Oyster Sauce",
@@ -131,7 +142,8 @@
       "EG",
       "Mi"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Legendary Peking Duck",
@@ -140,7 +152,8 @@
       "Mi",
       "EG"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Braised Fish Maw with Japanese Shitake Mushroom in Superior Oyster Sauce",
@@ -153,7 +166,8 @@
       "EG",
       "Mi"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Grilled Chilean Sea Bass in Honey",
@@ -163,7 +177,8 @@
       "FI",
       "MR"
     ],
-    "description": "Marinated in Honey"
+    "description": "Marinated in Honey",
+    "category": "Mains"
   },
   {
     "name": "Deep Fried King Scallop with Minced Prawns in Teriyaki Sauce",
@@ -178,7 +193,8 @@
       "EG",
       "Mi"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Kung Pao Prawn with Cashew",
@@ -190,7 +206,8 @@
       "SO",
       "MR"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Slow Cooked Japanese Wagyu with Black Truffle Sauce",
@@ -202,7 +219,8 @@
       "GA",
       "CR"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Stir-fry Angus Tenderloin Beef with Black Pepper Sauce",
@@ -214,7 +232,8 @@
       "SO",
       "CR"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Sweet and Sour Iberico Pork with Pineapple",
@@ -225,7 +244,8 @@
       "CR",
       "MO"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Sizzling Taiwanese Three Cups Chicken",
@@ -237,7 +257,8 @@
       "SE",
       "FI"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Braised Pork Belly",
@@ -250,7 +271,8 @@
       "EG",
       "MO"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Stir Fry Lamian with Angus Beef",
@@ -264,7 +286,8 @@
       "Mi",
       "FI"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Spicy Singapore Noodles with Seafood",
@@ -279,7 +302,8 @@
       "Mi",
       "EG"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Special Pork Rice",
@@ -293,7 +317,8 @@
       "SE",
       "Mi"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Hot and Sour Soup with Seafood",
@@ -305,7 +330,8 @@
       "Mi",
       "EG"
     ],
-    "description": ""
+    "description": "",
+    "category": "Starters"
   },
   {
     "name": "Mapo Tofu (with Minced Beef)",
@@ -317,7 +343,8 @@
       "SO",
       "Mi"
     ],
-    "description": "Can be vegetarian"
+    "description": "Can be vegetarian",
+    "category": "Mains"
   },
   {
     "name": "Claypot Silken Egg Tofu with Vegetables (V)",
@@ -329,7 +356,8 @@
       "CR",
       "Mi"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Stir-Fry Asparagus with Lily Bulbs, Water Chestnut, and Yellow Fungus (V)",
@@ -339,7 +367,8 @@
       "EG",
       "Mi"
     ],
-    "description": "It can be withou Egg and Milk"
+    "description": "It can be withou Egg and Milk",
+    "category": "Mains"
   },
   {
     "name": "Vegetable spring roll",
@@ -347,7 +376,8 @@
       "MR",
       "GL"
     ],
-    "description": "Canape"
+    "description": "Canape",
+    "category": "Dim Sums"
   },
   {
     "name": "Pumpkin ball",
@@ -356,7 +386,8 @@
       "NU",
       "GL"
     ],
-    "description": ""
+    "description": "",
+    "category": "Dim Sums"
   },
   {
     "name": "Rack of Lamb with Chef's Special Sauce",
@@ -367,7 +398,8 @@
       "SO",
       "EG"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Peach Melba",
@@ -375,7 +407,8 @@
       "EG",
       "Mi"
     ],
-    "description": ""
+    "description": "",
+    "category": "Desserts"
   },
   {
     "name": "Wasabi Blanch",
@@ -384,7 +417,8 @@
       "Mi",
       "NU"
     ],
-    "description": ""
+    "description": "",
+    "category": "Desserts"
   },
   {
     "name": "Venison Puff",
@@ -393,7 +427,8 @@
       "EG",
       "SE"
     ],
-    "description": ""
+    "description": "",
+    "category": "Dim Sums"
   },
   {
     "name": "Ham&Cheese Sandwich",
@@ -401,7 +436,8 @@
       "Mi",
       "GL"
     ],
-    "description": ""
+    "description": "",
+    "category": "Dim Sums"
   },
   {
     "name": "Crispy Aromatic Duck Salad",
@@ -410,7 +446,8 @@
       "ON",
       "SO"
     ],
-    "description": ""
+    "description": "",
+    "category": "Starters"
   },
   {
     "name": "Stir Fried Squid with Pepper, Chilli, and Garlic",
@@ -421,7 +458,8 @@
       "ON",
       "Mi"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Lobster with Ginger and Spring Onion",
@@ -432,7 +470,8 @@
       "Mi",
       "SE"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Salt and Pepper Estonian Quail",
@@ -443,7 +482,8 @@
       "SO",
       "Mi"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Special Pork Fried Rice with XO Sauce",
@@ -454,7 +494,8 @@
       "ON",
       "SE"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Five Spice Crispy Corn Fed Chicken Parcel with Thai Basil",
@@ -463,7 +504,8 @@
       "Mi",
       "EG"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "XO Sauce king crab dumpling (red)",
@@ -472,7 +514,8 @@
       "SE",
       "CR"
     ],
-    "description": ""
+    "description": "",
+    "category": "Dim Sums"
   },
   {
     "name": "Legendary Peking Duck 3rd Course",
@@ -484,35 +527,40 @@
       "ON",
       "EG"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Matcha Financier",
     "allergens": [
       "NU"
     ],
-    "description": ""
+    "description": "",
+    "category": "Desserts"
   },
   {
     "name": "Tobiko scallop siew mai (yellow)",
     "allergens": [
       "CR"
     ],
-    "description": ""
+    "description": "",
+    "category": "Dim Sums"
   },
   {
     "name": "Spinach dumpling (green)",
     "allergens": [
       "CR"
     ],
-    "description": ""
+    "description": "",
+    "category": "Dim Sums"
   },
   {
     "name": "Chopped pepper lamb dumpling (pink)",
     "allergens": [
       "CR"
     ],
-    "description": ""
+    "description": "",
+    "category": "Dim Sums"
   },
   {
     "name": "Sweet Corn Soup with Chicken",
@@ -521,7 +569,8 @@
       "ON",
       "Mi"
     ],
-    "description": ""
+    "description": "",
+    "category": "Starters"
   },
   {
     "name": "Golden Egg Fried Rice",
@@ -529,7 +578,8 @@
       "EG",
       "Mi"
     ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   },
   {
     "name": "Amuse Bouche",
@@ -540,7 +590,8 @@
       "CR",
       "GA"
     ],
-    "description": ""
+    "description": "",
+    "category": "Starters"
   },
   {
     "name": "Baked venison puff",
@@ -548,7 +599,8 @@
       "SE",
       "Mi"
     ],
-    "description": ""
+    "description": "",
+    "category": "Dim Sums"
   },
   {
     "name": "Crispy Pork Belly",
@@ -559,130 +611,7 @@
       "GA",
       "Mi"
     ],
-    "description": ""
-  },
-  {
-    "name": "Xiao Long Bao",
-    "allergens": [
-      "GL",
-      "ON"
-    ],
-    "description": ""
-  },
-  {
-    "name": "Caviar Prawn Dumpling",
-    "allergens": [
-      "GL",
-      "CR"
-    ],
-    "description": ""
-  },
-  {
-    "name": "Octopus and Pickled Cabbage Dumpling",
-    "allergens": [
-      "GL",
-      "ON",
-      "CR"
-    ],
-    "description": ""
-  },
-  {
-    "name": "Chicken and Foie Gras Dumpling",
-    "allergens": [
-      "GL",
-      "MR"
-    ],
-    "description": ""
-  },
-  {
-    "name": "Wagyu Beef Dumpling",
-    "allergens": [
-      "GL"
-    ],
-    "description": ""
-  },
-  {
-    "name": "Tobiko Scallop Siew Mai",
-    "allergens": [
-      "CR",
-      "GL"
-    ],
-    "description": ""
-  },
-  {
-    "name": "XO Sauce King Crab Dumpling",
-    "allergens": [
-      "CR",
-      "GL"
-    ],
-    "description": ""
-  },
-  {
-    "name": "Spinach and Prawn Dumpling",
-    "allergens": [
-      "CR",
-      "GL"
-    ],
-    "description": ""
-  },
-  {
-    "name": "King Oyster Mushroom Dumpling",
-    "allergens": [
-      "GL",
-      "MR"
-    ],
-    "description": ""
-  },
-  {
-    "name": "Morel Mushroom Dumpling",
-    "allergens": [
-      "GL",
-      "MR"
-    ],
-    "description": ""
-  },
-  {
-    "name": "Black Truffle Edamame Dumpling",
-    "allergens": [
-      "GL",
-      "Mi",
-      "MR"
-    ],
-    "description": ""
-  },
-  {
-    "name": "Spicy Vegetables Dumpling",
-    "allergens": [
-      "MR",
-      "GL",
-      "CE"
-    ],
-    "description": ""
-  },
-  {
-    "name": "Morel Mushroom Spring Roll",
-    "allergens": [
-      "GL",
-      "MR"
-    ],
-    "description": ""
-  },
-  {
-    "name": "Lamb Dumpling",
-    "allergens": [
-      "CR",
-      "MR",
-      "GL"
-    ],
-    "description": ""
-  },
-  {
-    "name": "Prawn Toast",
-    "allergens": [
-      "CR",
-      "GL",
-      "SE"
-    ],
-    "description": ""
+    "description": "",
+    "category": "Mains"
   }
 ]
