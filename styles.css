@@ -476,3 +476,43 @@ html { scroll-behavior: smooth; }
 .main, .grid {
   -webkit-overflow-scrolling: touch; /* iOS inertial scroll */
 }
+
+
+/* === Apple-style liquid glass count bubble (next to Filters) === */
+.dock-inner{ gap: 10px; } /* ensure space between button and bubble */
+.result-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:28px;
+  height:28px;
+  padding:0 10px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:700;
+  line-height:1;
+  color:#0e0e0e;
+  background: radial-gradient(120% 120% at 30% 10%, rgba(255,255,255,0.95), rgba(255,255,255,0.85) 60%, rgba(255,255,255,0.78));
+  border:1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.25), inset 0 0 0 0.5px rgba(255,255,255,0.45);
+  backdrop-filter: blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  user-select:none;
+  pointer-events:none; /* acts as an indicator only */
+  transform: translateZ(0);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.result-badge.pulse{
+  transform: scale(1.06);
+  box-shadow: 0 16px 30px rgba(0,0,0,0.28), inset 0 0 0 0.5px rgba(255,255,255,0.45);
+}
+/* Dark theme tweak so text is readable over translucent white */
+body:not(.light) .result-badge{ color:#121212; }
+body.light .result-badge{
+  background: radial-gradient(120% 120% at 30% 10%, rgba(255,255,255,0.98), rgba(255,255,255,0.92) 60%, rgba(255,255,255,0.88));
+  border-color: rgba(0,0,0,0.06);
+  color:#101010;
+}
+@media (max-width:480px){
+  .result-badge{ min-width:26px; height:26px; font-size:12px; }
+}
