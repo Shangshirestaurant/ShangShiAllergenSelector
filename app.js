@@ -8,8 +8,30 @@ const codeToLabel = c => LEGEND[c] || c;
 
 // -------- Data --------
 async function loadMenu(){
+  // Primary: fetch menu.json (works on GitHub Pages/Vercel)
   try{
     const r = await fetch('./menu.json', { cache: 'no-store' });
+    if(r.ok){
+      const data = await r.json();
+      if (Array.isArray(data) && data.length) return data;
+    } else {
+      console.warn('menu.json fetch status', r.status);
+    }
+  }catch(e){
+    console.warn('menu.json fetch failed, using inline fallback', e);
+  }
+  // Fallback: inline JSON <script id="menuData" type="application/json"> ... </script>
+  try{
+    const inline = document.getElementById('menuData');
+    if(inline && inline.textContent){
+      const data = JSON.parse(inline.textContent);
+      if (Array.isArray(data)) return data;
+    }
+  }catch(e){
+    console.error('inline menuData parse failed', e);
+  }
+  return [];
+});
     if(!r.ok) return [];
     return await r.json();
   }catch(e){
@@ -102,23 +124,7 @@ function renderGrid(el, list, sel){
 }
 
 function updateMeta(n, sel){
-  const rc = document.getElementById('resultCount');
-  if (rc) rc.textContent = `${n} dish${n===1?'':'es'}`;
-  const af = document.getElementById('activeFilter');
-  if (af) af.textContent = sel.length ? `SAFE without: ${sel.join(', ')}` : 'No filters active';
-
-  // Always-visible badge next to Filters
-  const badge = document.getElementById('resultBadge');
-  if (badge){
-    badge.textContent = n;
-    badge.setAttribute('aria-label', `${n} dishes shown`);
-    badge.classList.remove('pulse');
-    requestAnimationFrame(()=>{
-      badge.classList.add('pulse');
-      setTimeout(()=>badge.classList.remove('pulse'), 220);
-    });
-  }
-} dish${n===1?'':'es'}`;
+  document.getElementById('resultCount').textContent = `${n} dish${n===1?'':'es'}`;
   document.getElementById('activeFilter').textContent = sel.length ? `SAFE without: ${sel.join(', ')}` : 'No filters active';
 }
 
