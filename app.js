@@ -6,6 +6,27 @@ const LEGEND = {
 const KNOWN_CODES = Object.keys(LEGEND);
 const codeToLabel = c => LEGEND[c] || c;
 
+// -------- Category classification (name-based heuristic + optional explicit field) --------
+function deriveCategory(item){
+  if (!item) return 'mains';
+  if (item.category) {
+    const c = String(item.category).toLowerCase();
+    if (['dimsum','dim sum','dim sums','starters','mains','desserts'].includes(c)) {
+      return c.replace(' ', '');
+    }
+  }
+  const name = (item.name || '').toLowerCase();
+  // Desserts keywords
+  if (/(dessert|ice cream|sorbet|mousse|pudding|cake|tart|parfait|cheesecake)/.test(name)) return 'desserts';
+  // Dim sum keywords
+  if (/(dumpling|siew mai|siu mai|xiao long bao|bao|spring roll|roll|puff|toast|samosa|gyoza)/.test(name)) return 'dimsum';
+  // Starters keywords
+  if (/(starter|salad|soup|cold dish|appetizer|small plate)/.test(name)) return 'starters';
+  // Default
+  return 'mains';
+}
+
+
 // -------- Data --------
 async function loadMenu(){
   try{
@@ -61,6 +82,12 @@ function renderGrid(el, list, sel){
     card.className = 'card';
     // expose allergens only for debugging/optional usage
     card.dataset.allergens = JSON.stringify(item.allergens || []);
+
+    const cat = deriveCategory(item);
+    const clabel = document.createElement('span');
+    clabel.className = 'cat-label cat-' + cat;
+    clabel.textContent = (cat==='dimsum'?'Dim Sums':cat.charAt(0).toUpperCase()+cat.slice(1));
+    card.appendChild(clabel);
 
     const h = document.createElement('h3');
     h.textContent = item.name || '';
@@ -126,13 +153,31 @@ document.addEventListener('DOMContentLoaded', () => {
 (async function init(){
   const chips = document.getElementById('chips');
   const grid  = document.getElementById('grid');
+  const catTabs = document.getElementById('catTabs');
+  let currentCategory = 'all';
   const empty = document.getElementById('empty');
 
   const dishes = await loadMenu();
+  // Apply category map from localStorage if present
+  const catMapRaw = localStorage.getItem('categoryMap');
+  let categoryMap = {};
+  if (catMapRaw){ try{ categoryMap = JSON.parse(catMapRaw)||{}; }catch(e){} }
+  const applyCategoryMap = (arr) => {
+    const norm = s => (s||'').toLowerCase().replace(/\([^)]*\)/g,'').replace(/[^\w\s]/g,' ').replace(/\s+/g,' ').trim();
+    arr.forEach(it => {
+      const key = norm(it.name);
+      const val = categoryMap[key];
+      if (val){ it.category = val; }
+    });
+  };
+  applyCategoryMap(dishes);
 
   const rerender = () => {
     const sel  = getActiveFilters();      // ALWAYS fresh from DOM
-    const data = filterDishes(dishes, sel);
+    let data = filterDishes(dishes, sel);
+    if (currentCategory !== 'all') {
+      data = data.filter(item => deriveCategory(item) === currentCategory);
+    }
     renderGrid(grid, data, sel);
     updateMeta(data.length, sel);
     empty.classList.toggle('hidden', data.length !== 0);
@@ -144,6 +189,63 @@ document.addEventListener('DOMContentLoaded', () => {
   renderGrid(grid, dishes, []);
   updateMeta(dishes.length, []);
   empty.classList.add('hidden');
+
+  // Import categories CSV
+  const importBtn = document.getElementById('importCatsBtn');
+  const importInput = document.getElementById('importCatsInput');
+  function parseCSV(text){
+    const rows = text.split(/\r?\n/).filter(Boolean);
+    const out = {};
+    // expect headers: Name,Category
+    const header = rows.shift();
+    const idxName = header.toLowerCase().split(',').indexOf('name');
+    const idxCat  = header.toLowerCase().split(',').indexOf('category');
+    const norm = s => (s||'').toLowerCase().replace(/\([^)]*\)/g,'').replace(/[^\w\s]/g,' ').replace(/\s+/g,' ').trim();
+    for(const row of rows){
+      const cols = row.split(',');
+      const name = (cols[idxName]||'').trim();
+      const cat  = (cols[idxCat]||'').trim();
+      if(!name || !cat) continue;
+      const key = norm(name);
+      const val = normalizeCategory(cat) || cat.toLowerCase();
+      out[key] = val;
+    }
+    return out;
+  }
+  if(importBtn && importInput){
+    importBtn.addEventListener('click', ()=> importInput.click(), {passive:true});
+    importInput.addEventListener('change', (e)=>{
+      const file = e.target.files && e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try{
+          const map = parseCSV(String(reader.result||''));
+          localStorage.setItem('categoryMap', JSON.stringify(map));
+          categoryMap = map; applyCategoryMap(dishes); rerender();
+          alert('Categories imported.');
+        }catch(err){ alert('Failed to parse CSV'); }
+      };
+      reader.readAsText(file);
+    }, {passive:true});
+  }
+
+
+  // Category tabs behavior
+  if (catTabs){
+    catTabs.addEventListener('click', (e) => {
+      const btn = e.target.closest('.cat-tab');
+      if(!btn) return;
+      currentCategory = btn.dataset.cat || 'all';
+      // update aria/active styles
+      catTabs.querySelectorAll('.cat-tab').forEach(b => {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-selected', String(b === btn));
+      });
+      rerender();
+    }, {passive:true});
+  }
+
 })();
 
 // -------- Theme toggle (unchanged) --------

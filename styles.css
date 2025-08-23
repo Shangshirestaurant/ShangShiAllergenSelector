@@ -545,3 +545,71 @@ html { scroll-behavior: smooth; }
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
+
+
+/* === Category tabs === */
+.cat-tabs{
+  position: sticky;
+  top: calc(56px + env(safe-area-inset-top)); /* just below header; adjust if header size changes */
+  z-index: 25;
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px;
+  background: transparent;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.cat-tab{
+  appearance: none;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+  white-space: nowrap;
+}
+.cat-tab:hover{ transform: translateY(-1px); }
+.cat-tab.active{
+  background: rgba(210,164,85,0.18);
+  border-color: rgba(210,164,85,0.55);
+  box-shadow: 0 6px 16px rgba(210,164,85,0.20);
+}
+body.light .cat-tab{
+  border-color: rgba(0,0,0,0.12);
+  background: rgba(0,0,0,0.04);
+  color: #111;
+}
+body.light .cat-tab.active{
+  background: rgba(210,164,85,0.22);
+  border-color: rgba(210,164,85,0.6);
+}
+@media (max-width: 480px){
+  .cat-tabs{ padding: 6px 12px; gap: 6px; }
+  .cat-tab{ padding: 7px 10px; font-size: 12px; }
+}
+
+
+/* === Category label on cards === */
+.cat-label{
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 999px;
+  letter-spacing: .2px;
+  color: #0f1214;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.18);
+}
+body.light .cat-label{ background: rgba(255,255,255,0.98); color:#101010; }
+.cat-dimsum{ background: rgba(210,164,85,0.92); }
+.cat-starters{ background: rgba(120,186,255,0.92); }
+.cat-mains{ background: rgba(165,235,190,0.92); }
+.cat-desserts{ background: rgba(255,196,230,0.92); }
