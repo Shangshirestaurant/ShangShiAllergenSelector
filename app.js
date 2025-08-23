@@ -102,7 +102,24 @@ function renderGrid(el, list, sel){
 }
 
 function updateMeta(n, sel){
-  document.getElementById('resultCount').textContent = `${n} dish${n===1?'':'es'}`;
+  const rc = document.getElementById('resultCount');
+  if (rc) rc.textContent = `${n} dish${n===1?'':'es'}`;
+  const af = document.getElementById('activeFilter');
+  if (af) af.textContent = sel.length ? `SAFE without: ${sel.join(', ')}` : 'No filters active';
+
+  // Update the always-visible badge next to Filters
+  const badge = document.getElementById('resultBadge');
+  if (badge){
+    badge.textContent = n;
+    badge.setAttribute('aria-label', `${n} dishes shown`);
+    badge.classList.remove('pulse');
+    // micro-pulse to draw attention
+    requestAnimationFrame(()=>{
+      badge.classList.add('pulse');
+      setTimeout(()=>badge.classList.remove('pulse'), 220);
+    });
+  }
+} dish${n===1?'':'es'}`;
   document.getElementById('activeFilter').textContent = sel.length ? `SAFE without: ${sel.join(', ')}` : 'No filters active';
 }
 

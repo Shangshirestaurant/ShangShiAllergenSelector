@@ -476,3 +476,45 @@ html { scroll-behavior: smooth; }
 .main, .grid {
   -webkit-overflow-scrolling: touch; /* iOS inertial scroll */
 }
+
+
+/* === Floating results badge (Apple-style) === */
+.dock-inner{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.result-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:28px;
+  height:28px;
+  padding:0 8px;
+  font-weight:700;
+  font-size:13px;
+  line-height:1;
+  border-radius:999px;
+  color:#0e0e0e;
+  background: radial-gradient(120% 120% at 30% 10%, rgba(210,164,85,0.96), rgba(210,164,85,0.85) 60%, rgba(210,164,85,0.78));
+  border:1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.35), inset 0 0 0 0.5px rgba(0,0,0,0.25);
+  backdrop-filter: blur(8px) saturate(140%);
+  user-select:none;
+  z-index: 120;
+  transform: translateZ(0);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.result-badge.pulse{
+  transform: scale(1.06);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.38), inset 0 0 0 0.5px rgba(0,0,0,0.25);
+}
+body.light .result-badge{
+  color: #101010;
+  background: radial-gradient(120% 120% at 30% 10%, rgba(251,225,150,0.96), rgba(224,193,110,0.88) 60%, rgba(212,164,85,0.85));
+  border-color: rgba(0,0,0,0.08);
+}
+@media (max-width:480px){
+  .result-badge{ min-width:26px; height:26px; font-size:12px; }
+}
