@@ -507,3 +507,41 @@ html { scroll-behavior: smooth; }
 @media (max-width: 480px){
   .card{ box-shadow: 0 6px 12px rgba(0,0,0,0.18) !important; }
 }
+
+
+/* === Update: chips no blur + header slight blur === */
+
+/* 1) Allergen chips: remove blur completely */
+.chips{
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* 2) Header: add a slight blur (desktop to avoid mobile flicker) */
+@media (min-width: 900px){
+  .header{
+    -webkit-backdrop-filter: blur(6px) saturate(120%) !important;
+    backdrop-filter: blur(6px) saturate(120%) !important;
+    /* slightly lighter for a glass feel */
+    background: rgba(13, 20, 25, 0.72) !important;
+  }
+}
+
+/* If you want blur on all devices, uncomment below (may flicker on iOS):
+.header{
+  -webkit-backdrop-filter: blur(6px) saturate(120%) !important;
+  backdrop-filter: blur(6px) saturate(120%) !important;
+  background: rgba(13, 20, 25, 0.72) !important;
+}
+*/
+
+
+/* === Revert: keep blur on chips bar; badges stay crisp === */
+.chips{
+  -webkit-backdrop-filter: blur(6px) saturate(140%) !important;
+  backdrop-filter: blur(6px) saturate(140%) !important;
+}
+.badge{
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
