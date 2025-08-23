@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="./styles.css?v=final1">
 </head>
 <body>
+  <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">🌙</button>
   <header class="header">
     <img src="./logo.png" alt="Shang Shi logo" class="header-logo" />
     <p class="subtitle">Select allergen(s) to show only <strong>SAFE</strong> dishes.</p>
@@ -34,21 +35,5 @@
   </div>
 
   <script src="./app.js?v=final1" defer></script>
-
-<script>
-(function () {
-  const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-  if (!isiOS) return;
-  document.body.classList.add('ios');
-
-  let t;
-  window.addEventListener('scroll', () => {
-    document.body.classList.add('is-scrolling');
-    clearTimeout(t);
-    t = setTimeout(() => document.body.classList.remove('is-scrolling'), 120);
-  }, { passive: true });
-})();
-</script>
-
 </body>
 </html>

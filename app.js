@@ -79,3 +79,103 @@ document.addEventListener('DOMContentLoaded', ()=>{
   updateMeta(dishes.length, []);
   empty.classList.add('hidden');
 })();
+
+
+// === Patch: case-insensitive filtering ===
+(function(){
+  function toLowerArray(arr){ try { return (arr||[]).map(x => String(x).toLowerCase()); } catch(e){ return []; } }
+  function getActiveFilters(){
+    return Array.from(document.querySelectorAll('.chip.active')).map(ch => String(ch.dataset.code||'').toLowerCase());
+  }
+  // If a global applyFilters exists, wrap it; otherwise provide one.
+  const _apply = (typeof applyFilters === 'function') ? applyFilters : null;
+  window.applyFilters = function(){
+    const active = getActiveFilters();
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      let allergens = [];
+      try { allergens = JSON.parse(card.dataset.allergens || "[]"); } catch(e){ allergens = []; }
+      const low = toLowerArray(allergens);
+      const visible = active.every(code => !low.includes(code));
+      card.style.display = visible ? "" : "none";
+    });
+    if (_apply && _apply !== window.applyFilters) { try { _apply(); } catch(e){} }
+  };
+  // Ensure chips mark use lowercase codes when toggling
+  document.addEventListener('click', function(e){
+    const el = e.target.closest && e.target.closest('.chip');
+    if (!el) return;
+    // force dataset code to lowercase once
+    if (el.dataset && el.dataset.code) el.dataset.code = String(el.dataset.code).toLowerCase();
+    setTimeout(() => { if (window.applyFilters) window.applyFilters(); }, 0);
+  }, {passive:true});
+})();    
+
+
+// === Theme toggle logic ===
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("themeToggle");
+  if (!btn) return;
+
+  // Restore saved theme if any
+  if (localStorage.getItem("theme") === "light") {
+    document.body.classList.add("light");
+    btn.textContent = "☀️";
+  }
+
+  btn.addEventListener("click", () => {
+    document.body.classList.toggle("light");
+    const isLight = document.body.classList.contains("light");
+    btn.textContent = isLight ? "☀️" : "🌙";
+    localStorage.setItem("theme", isLight ? "light" : "dark");
+  });
+});
+
+// === Case-insensitive allergen matching (FI, Fi, fi, etc.) ===
+(function(){
+  function toLowerArray(arr){
+    try { return (arr || []).map(x => String(x).toLowerCase()); } catch(e){ return []; }
+  }
+  function getActiveFilters(){
+    return Array.from(document.querySelectorAll('.chip.active'))
+      .map(ch => String(ch.dataset.code || '').toLowerCase());
+  }
+  // Normalize any existing chip dataset codes on click
+  document.addEventListener('click', function(e){
+    const chip = e.target.closest && e.target.closest('.chip');
+    if (!chip) return;
+    if (chip.dataset && chip.dataset.code) chip.dataset.code = String(chip.dataset.code).toLowerCase();
+    setTimeout(() => { if (window.applyFilters) window.applyFilters(); }, 0);
+  }, {passive:true});
+
+  // Wrap/define applyFilters to compare in lowercase
+  const _apply = (typeof window.applyFilters === 'function') ? window.applyFilters : null;
+  window.applyFilters = function(){
+    const active = getActiveFilters(); // lowercase filters
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      let allergens = [];
+      try { allergens = JSON.parse(card.dataset.allergens || "[]"); } catch(e){ allergens = []; }
+      const low = toLowerArray(allergens);
+      const visible = active.every(code => !low.includes(code));
+      card.style.display = visible ? "" : "none";
+    });
+    if (_apply && _apply !== window.applyFilters) { try { _apply(); } catch(e){} }
+  };
+
+  // Normalize card datasets on load
+  function normalizeCardDatasets(){
+    document.querySelectorAll('.card').forEach(card => {
+      try {
+        const arr = JSON.parse(card.dataset.allergens || "[]");
+        const low = toLowerArray(arr);
+        card.dataset.allergens = JSON.stringify(low);
+      } catch(e){}
+    });
+  }
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', normalizeCardDatasets);
+  } else {
+    normalizeCardDatasets();
+  }
+})();
