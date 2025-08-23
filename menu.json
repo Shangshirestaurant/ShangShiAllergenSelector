@@ -560,5 +560,13 @@
       "Mi"
     ],
     "description": ""
+  },
+  {
+    "name": "Xiao Long Bao",
+    "allergens": [
+      "GL",
+      "ON"
+    ],
+    "description": ""
   }
 ]
