@@ -99,10 +99,9 @@ function renderGrid(el, list, sel){
       const pass = sel.every(c => !(item.allergens || []).includes(c));
       if(pass){
         const safe = document.createElement('span');
-        safe.className = 'safe-badge';
-        safe.setAttribute('aria-hidden', 'true');
-        safe.textContent = '✓'; // styled by CSS
-        card.appendChild(safe);
+        safe.className = 'safe-pill';
+        safe.textContent = 'SAFE';
+        labels.appendChild(safe);
       }
     }
 
