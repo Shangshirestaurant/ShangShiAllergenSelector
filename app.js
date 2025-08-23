@@ -1,3 +1,15 @@
+
+// --- Dynamic header height for category bar offset ---
+(function(){
+  const headerEl = document.querySelector('header.header, .header, header');
+  const setH = () => {
+    const h = headerEl ? headerEl.offsetHeight : 56;
+    document.documentElement.style.setProperty('--header-height', h + 'px');
+  };
+  setH();
+  window.addEventListener('resize', setH, {passive:true});
+  if (window.ResizeObserver && headerEl){ try{ new ResizeObserver(setH).observe(headerEl); }catch(e){} }
+})();
 // Allergen legend (single source of truth)
 const LEGEND = {
   "CE":"Celery","GL":"Gluten","CR":"Crustaceans","EG":"Eggs","FI":"Fish","MO":"Molluscs","Mi":"Milk","MU":"Mustard","NU":"Nuts",
