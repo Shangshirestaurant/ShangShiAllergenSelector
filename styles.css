@@ -522,3 +522,10 @@ body.light .cat-tab.active{
   .cat-tabs{ padding: 6px 12px; gap: 6px; }
   .cat-tab{ padding: 7px 10px; font-size: 12px; }
 }
+
+
+/* === Light mode background fix: remove dark radial band === */
+body.light{
+  background: var(--bg) !important;       /* flat warm off-white */
+  background-image: none !important;      /* kill radial gradient */
+}
