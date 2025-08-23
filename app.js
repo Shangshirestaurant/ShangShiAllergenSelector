@@ -62,18 +62,8 @@ function renderGrid(el, list, sel){
     // expose allergens only for debugging/optional usage
     card.dataset.allergens = JSON.stringify(item.allergens || []);
 
-    const labels = document.createElement('div');
-    labels.className = 'labels';
-    const cat = (typeof deriveCategory==='function') ? deriveCategory(item) : (item.category||'').toLowerCase();
-    const catKey = (cat||'').replace(/\s+/g,'') || 'mains';
-    const catPill = document.createElement('span');
-    catPill.className = 'pill pill-' + catKey;
-    catPill.textContent = (catKey==='dimsum'?'Dim Sum':catKey.charAt(0).toUpperCase()+catKey.slice(1));
-    labels.appendChild(catPill);
-
     const h = document.createElement('h3');
     h.textContent = item.name || '';
-    card.appendChild(labels);
     card.appendChild(h);
 
     if(item.description){
@@ -136,13 +126,18 @@ document.addEventListener('DOMContentLoaded', () => {
 (async function init(){
   const chips = document.getElementById('chips');
   const grid  = document.getElementById('grid');
+  const catTabs = document.getElementById('catTabs');
+  let currentCategory = 'all';
   const empty = document.getElementById('empty');
 
   const dishes = await loadMenu();
 
   const rerender = () => {
     const sel  = getActiveFilters();      // ALWAYS fresh from DOM
-    const data = filterDishes(dishes, sel);
+    let data = filterDishes(dishes, sel);
+    if (currentCategory !== 'all') {
+      data = data.filter(item => deriveCategory(item) === currentCategory);
+    }
     renderGrid(grid, data, sel);
     updateMeta(data.length, sel);
     empty.classList.toggle('hidden', data.length !== 0);
@@ -154,6 +149,20 @@ document.addEventListener('DOMContentLoaded', () => {
   renderGrid(grid, dishes, []);
   updateMeta(dishes.length, []);
   empty.classList.add('hidden');
+
+  if (catTabs){
+    catTabs.addEventListener('click', (e)=>{
+      const btn = e.target.closest('.cat-tab');
+      if(!btn) return;
+      currentCategory = btn.dataset.cat || 'all';
+      catTabs.querySelectorAll('.cat-tab').forEach(b=>{
+        const active = b===btn;
+        b.classList.toggle('active', active);
+        b.setAttribute('aria-selected', String(active));
+      });
+      rerender();
+    }, {passive:true});
+  }
 })();
 
 // -------- Theme toggle (unchanged) --------
