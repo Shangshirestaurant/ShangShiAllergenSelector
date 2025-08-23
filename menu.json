@@ -619,5 +619,65 @@
     "allergens": [],
     "description": "",
     "category": "Desserts"
+  },
+  {
+    "name": "Spicy Vegetables Dumpling",
+    "allergens": [],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Caviar Prawn Dumpling",
+    "allergens": [],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Wagyu Beef Dumpling",
+    "allergens": [],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Octopus and Cabbage Dumpling",
+    "allergens": [],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Chicken and Foie Gras",
+    "allergens": [],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "King Oyster Mushroom Dumpling",
+    "allergens": [],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Morel Mushroom Dumpling",
+    "allergens": [],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Black Truffle Edamame Dumpling",
+    "allergens": [],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Lamb Dumpling",
+    "allergens": [],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Prawn Toast",
+    "allergens": [],
+    "description": "",
+    "category": "Dim Sums"
   }
 ]
