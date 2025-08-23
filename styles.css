@@ -1,3 +1,4 @@
+
 :root{
   --bg:#0B0F12;        /* deep blue-black */
   --panel:#0D1419;     /* header / panels */
@@ -32,7 +33,13 @@ html,body{margin:0;color:var(--text);background: radial-gradient(1100px 320px at
 .badge{background:rgba(255,255,255,0.08);color:var(--text);border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;letter-spacing:.25px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 2px 6px rgba(0,0,0,.15);transition:all .3s cubic-bezier(0.22,1,0.36,1);}
 
 /* Floating SAFE badge */
-
+.safe-badge{
+  position:absolute; top:-10px; right:-10px; transform:translate(30%,-30%);
+  background:#ffffff; border:1px solid rgba(40,167,69,.25);
+  border-radius:999px; display:inline-flex; align-items:center; gap:6px;
+  padding:6px 10px; box-shadow:0 8px 18px rgba(0,0,0,.25);
+  font-size:13px; color:#28a745; z-index:2;
+}
 .safe-badge svg{flex:0 0 auto}
 
 /* Bottom dock (white glass) */
@@ -74,6 +81,7 @@ html,body{margin:0;color:var(--text);background: radial-gradient(1100px 320px at
   .filter-panel .chips{background:rgba(255,255,255,0.06);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:6px 8px;max-width:920px;margin:0 12px;gap:6px;display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:20px !important;}
 }
 
+.safe-badge {
   position: absolute !important;
   top: 10px !important;
   right: 10px !important;
@@ -96,9 +104,16 @@ html,body{margin:0;color:var(--text);background: radial-gradient(1100px 320px at
   text-indent: -9999px !important;
 }
 
-
+.safe-badge::before {
+  content: "✓" !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #7ED9A0 !important;
+  line-height: 1 !important;
+}
 
 /* === FIXED SAFE BADGE (one check only) === */
+.safe-badge {
   position: absolute !important;
   top: 10px !important;
   right: 10px !important;
@@ -118,6 +133,7 @@ html,body{margin:0;color:var(--text);background: radial-gradient(1100px 320px at
   text-indent: -9999px !important;
   overflow: hidden !important;
 }
+.safe-badge::before {
   content: "✓" !important;
   font-size: 14px !important;
   font-weight: 700 !important;
@@ -129,144 +145,6 @@ html,body{margin:0;color:var(--text);background: radial-gradient(1100px 320px at
 .filter-panel { position: fixed; left:0; right:0; bottom: calc(env(safe-area-inset-bottom) + 110px) !important; z-index:49; display:flex; justify-content:center; opacity:0; transform:translateY(8px); pointer-events:none; transition: opacity .4s ease, transform .4s ease; }
 .filter-panel .chips {
   margin-bottom: 20px !important;
-}
-
-/* === Apple-style Safe badge (inside card) === */
-.safe-badge {
-  position: absolute !important;
-  top: 8px !important;
-  right: 8px !important;
-  width: 22px !important;
-  height: 22px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  background: linear-gradient(145deg, #4cd964, #34c759) !important;
-  border: none !important;
-  border-radius: 50% !important;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.25), 0 0 6px rgba(76,217,100,0.6) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-
-  font-size: 0 !important;
-  color: transparent !important;
-  text-indent: -9999px !important; /* hide any text nodes */
-  overflow: hidden !important;
-}
-.safe-badge::before {
-  content: "✓" !important;
-  font-size: 13px !important;
-  font-weight: 700 !important;
-  color: #ffffff !important;
-  line-height: 1 !important;
-}
-
-/* === Apple-inspired UI polish === */
-
-/* Cards: softer depth, rounder corners, gentle hover */
-.card {
-  border-radius: 24px !important;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.03) !important;
-  transition: transform 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1) !important;
-}
-.card:hover {
-  transform: translateY(-2px) scale(1.01) !important;
-  box-shadow: 0 14px 36px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.03) !important;
-}
-
-/* Dock container: cleaner, translucent */
-.dock-inner {
-  background: rgba(255,255,255,0.72) !important;
-  border: none !important;
-  border-radius: 22px !important;
-  box-shadow: 0 10px 26px rgba(0,0,0,0.28) !important;
-  padding: 8px 10px !important;
-}
-
-/* Filters button: Apple-style pill */
-.filter-btn {
-  background: rgba(255,255,255,0.90) !important;
-  color: #121212 !important;
-  border: none !important;
-  border-radius: 999px !important;
-  padding: 10px 20px !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
-  transition: transform .2s ease, box-shadow .2s ease, background .2s ease !important;
-  -webkit-tap-highlight-color: transparent;
-}
-.filter-btn:hover {
-  transform: translateY(-1px) !important;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.22) !important;
-}
-.filter-btn:active {
-  transform: translateY(0) scale(.99) !important;
-}
-.filter-btn .dot {
-  width: 8px !important;
-  height: 8px !important;
-  border-radius: 50% !important;
-  background: #D2A455 !important; /* amber by default */
-  opacity: 1 !important;
-}
-
-/* Active state when panel is open */
-#filterToggle[aria-expanded="true"] {
-  background: rgba(255,255,255,0.95) !important;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.25) !important;
-}
-#filterToggle[aria-expanded="true"] .dot {
-  background: #34c759 !important; /* Apple green when active */
-}
-
-/* Filter panel chips: crisper glass */
-.filter-panel .chips {
-  background: rgba(255,255,255,0.10) !important;
-  border: 1px solid rgba(255,255,255,0.14) !important;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25) !important;
-  border-radius: 16px !important;
-}
-
-/* Keep Apple-style badge inside cards (already defined) but nudge for spacing */
-.safe-badge {
-  top: 8px !important;
-  right: 8px !important;
-}
-
-/* === Thicker presets bar & closer to Filters button === */
-.filter-panel {
-  bottom: calc(env(safe-area-inset-bottom) + 80px) !important; /* was ~110px */
-}
-.filter-panel .chips {
-  padding: 10px 12px !important;     /* thicker bar */
-  border-radius: 20px !important; 
-  gap: 8px !important;
-}
-.chip {
-  padding: 8px 12px !important;      /* bigger pills */
-  font-size: 14px !important;
-  border-radius: 999px !important;
-}
-@media (max-width:480px){
-  .filter-panel { bottom: calc(env(safe-area-inset-bottom) + 76px) !important; }
-  .filter-panel .chips { padding: 10px 10px !important; border-radius: 18px !important; }
-  .chip { padding: 8px 12px !important; font-size: 13.5px !important; }
-}
-
-/* === Remove grey dock box and move presets closer === */
-.dock-inner {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-.filter-panel {
-  bottom: calc(env(safe-area-inset-bottom) + 68px) !important; /* closer to Filters button */
 }
 
 /* === iOS scrolling performance helpers === */
@@ -289,7 +167,7 @@ body.ios.is-scrolling .header {
 }
 body.dark.ios.is-scrolling .header,
 body:not(.light).ios.is-scrolling .header {
-  background: rgba(13,20,25,0.72) !important;    /* dark mode fallback */
+  background: rgba(13,20,25,0.72) !important;    /* dark mode */
 }
 
 /* Cards: tone down shadows & glows during fling */
@@ -304,5 +182,5 @@ body.ios.is-scrolling .safe-badge {
 .card {
   backface-visibility: hidden;
   transform: translateZ(0);
-  min-height: 240px; /* adjust if your average card height differs */
+  min-height: 240px; /* adjust to your average card height */
 }
