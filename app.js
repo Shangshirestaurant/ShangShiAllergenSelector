@@ -180,11 +180,37 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 })();
 
+// === Robust applyFilters: reset visibility & case-insensitive matching ===
+function applyFilters() {
+  const active = Array.from(document.querySelectorAll('.chip.active'))
+    .map(ch => String(ch.dataset.code || '').toLowerCase());
 
+  const cards = document.querySelectorAll('.card');
 
-// PWA: register service worker
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(console.error);
+  cards.forEach(card => {
+    let allergens = [];
+    try {
+      allergens = JSON.parse(card.dataset.allergens || "[]").map(a => String(a).toLowerCase());
+    } catch (e) {
+      allergens = [];
+    }
+
+    // reset visible state first
+    let visible = true;
+
+    // hide card if it contains ANY active allergen
+    if (active.length > 0) {
+      visible = active.every(code => !allergens.includes(code));
+    }
+
+    card.style.display = visible ? "" : "none";
   });
 }
+
+// Ensure chip clicks normalize code casing and re-apply filters
+document.addEventListener('click', function(e){
+  const chip = e.target.closest && e.target.closest('.chip');
+  if (!chip) return;
+  if (chip.dataset && chip.dataset.code) chip.dataset.code = String(chip.dataset.code).toLowerCase();
+  setTimeout(() => { if (typeof applyFilters === 'function') applyFilters(); }, 0);
+}, {passive:true});

@@ -235,7 +235,7 @@
       "ON",
       "SO",
       "SE",
-      "Fi"
+      "FI"
     ],
     "description": ""
   },
@@ -262,7 +262,7 @@
       "ON",
       "CR",
       "Mi",
-      "Fi"
+      "FI"
     ],
     "description": ""
   },
@@ -404,9 +404,11 @@
     "description": ""
   },
   {
-    "name": "Genmaicha Ganache",
+    "name": "Crispy Aromatic Duck Salad",
     "allergens": [
-      "Mi"
+      "NU",
+      "ON",
+      "SO"
     ],
     "description": ""
   },
@@ -478,15 +480,16 @@
       "NU",
       "SO",
       "Mi",
-      "Fi",
+      "FI",
       "ON",
       "EG"
     ],
     "description": ""
   },
   {
-    "name": "Mango Pate Du Fruit",
+    "name": "Matcha Financier",
     "allergens": [
+      "NU"
     ],
     "description": ""
   },
