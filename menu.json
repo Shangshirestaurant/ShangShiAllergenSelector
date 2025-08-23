@@ -568,5 +568,121 @@
       "ON"
     ],
     "description": ""
+  },
+  {
+    "name": "Caviar Prawn Dumpling",
+    "allergens": [
+      "GL",
+      "CR"
+    ],
+    "description": ""
+  },
+  {
+    "name": "Octopus and Pickled Cabbage Dumpling",
+    "allergens": [
+      "GL",
+      "ON",
+      "CR"
+    ],
+    "description": ""
+  },
+  {
+    "name": "Chicken and Foie Gras Dumpling",
+    "allergens": [
+      "GL",
+      "MR"
+    ],
+    "description": ""
+  },
+  {
+    "name": "Wagyu Beef Dumpling",
+    "allergens": [
+      "GL"
+    ],
+    "description": ""
+  },
+  {
+    "name": "Tobiko Scallop Siew Mai",
+    "allergens": [
+      "CR",
+      "GL"
+    ],
+    "description": ""
+  },
+  {
+    "name": "XO Sauce King Crab Dumpling",
+    "allergens": [
+      "CR",
+      "GL"
+    ],
+    "description": ""
+  },
+  {
+    "name": "Spinach and Prawn Dumpling",
+    "allergens": [
+      "CR",
+      "GL"
+    ],
+    "description": ""
+  },
+  {
+    "name": "King Oyster Mushroom Dumpling",
+    "allergens": [
+      "GL",
+      "MR"
+    ],
+    "description": ""
+  },
+  {
+    "name": "Morel Mushroom Dumpling",
+    "allergens": [
+      "GL",
+      "MR"
+    ],
+    "description": ""
+  },
+  {
+    "name": "Black Truffle Edamame Dumpling",
+    "allergens": [
+      "GL",
+      "Mi",
+      "MR"
+    ],
+    "description": ""
+  },
+  {
+    "name": "Spicy Vegetables Dumpling",
+    "allergens": [
+      "MR",
+      "GL",
+      "CE"
+    ],
+    "description": ""
+  },
+  {
+    "name": "Morel Mushroom Spring Roll",
+    "allergens": [
+      "GL",
+      "MR"
+    ],
+    "description": ""
+  },
+  {
+    "name": "Lamb Dumpling",
+    "allergens": [
+      "CR",
+      "MR",
+      "GL"
+    ],
+    "description": ""
+  },
+  {
+    "name": "Prawn Toast",
+    "allergens": [
+      "CR",
+      "GL",
+      "SE"
+    ],
+    "description": ""
   }
 ]
