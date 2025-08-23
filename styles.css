@@ -478,79 +478,10 @@ html { scroll-behavior: smooth; }
 }
 
 
-/* === Anti‑flicker tweaks (sticky header + fixed dock) === */
-/* Promote to its own layer and avoid repaint thrash while scrolling */
-.header,
-.filter-dock .dock-inner{
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  transform: translateZ(0);
-  will-change: transform;
-}
-
-/* Turn off heavy backdrop blur on scrolling elements (prevents iOS/Safari flicker) */
-@media (min-width:0){
-  .header{
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-    /* keep the glass look without blur */
-    background: rgba(13, 20, 25, 0.88) !important;
-  }
-  .filter-dock .dock-inner{
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-    background: rgba(255,255,255,0.14) !important;
-  }
-}
-
-/* Optional: soften very heavy shadows on mobile to reduce paint cost */
-@media (max-width: 480px){
-  .card{ box-shadow: 0 6px 12px rgba(0,0,0,0.18) !important; }
-}
-
-
-/* === Update: chips no blur + header slight blur === */
-
-/* 1) Allergen chips: remove blur completely */
-.chips{
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-/* 2) Header: add a slight blur (desktop to avoid mobile flicker) */
-@media (min-width: 900px){
-  .header{
-    -webkit-backdrop-filter: blur(6px) saturate(120%) !important;
-    backdrop-filter: blur(6px) saturate(120%) !important;
-    /* slightly lighter for a glass feel */
-    background: rgba(13, 20, 25, 0.72) !important;
-  }
-}
-
-/* If you want blur on all devices, uncomment below (may flicker on iOS):
-.header{
-  -webkit-backdrop-filter: blur(6px) saturate(120%) !important;
-  backdrop-filter: blur(6px) saturate(120%) !important;
-  background: rgba(13, 20, 25, 0.72) !important;
-}
-*/
-
-
-/* === Revert: keep blur on chips bar; badges stay crisp === */
-.chips{
-  -webkit-backdrop-filter: blur(6px) saturate(140%) !important;
-  backdrop-filter: blur(6px) saturate(140%) !important;
-}
-.badge{
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-
 /* === Category tabs === */
 .cat-tabs{
   position: sticky;
-  top: calc(56px + env(safe-area-inset-top)); /* just below header; adjust if header size changes */
+  top: calc(56px + env(safe-area-inset-top));
   z-index: 25;
   display: flex;
   gap: 8px;
@@ -591,25 +522,3 @@ body.light .cat-tab.active{
   .cat-tabs{ padding: 6px 12px; gap: 6px; }
   .cat-tab{ padding: 7px 10px; font-size: 12px; }
 }
-
-
-/* === Category label on cards === */
-.cat-label{
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  padding: 4px 8px;
-  font-size: 11px;
-  font-weight: 700;
-  border-radius: 999px;
-  letter-spacing: .2px;
-  color: #0f1214;
-  background: rgba(255,255,255,0.92);
-  border: 1px solid rgba(0,0,0,0.08);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.18);
-}
-body.light .cat-label{ background: rgba(255,255,255,0.98); color:#101010; }
-.cat-dimsum{ background: rgba(210,164,85,0.92); }
-.cat-starters{ background: rgba(120,186,255,0.92); }
-.cat-mains{ background: rgba(165,235,190,0.92); }
-.cat-desserts{ background: rgba(255,196,230,0.92); }
