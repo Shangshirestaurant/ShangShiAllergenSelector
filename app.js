@@ -107,13 +107,12 @@ function updateMeta(n, sel){
   const af = document.getElementById('activeFilter');
   if (af) af.textContent = sel.length ? `SAFE without: ${sel.join(', ')}` : 'No filters active';
 
-  // Update the always-visible badge next to Filters
+  // Always-visible badge next to Filters
   const badge = document.getElementById('resultBadge');
   if (badge){
     badge.textContent = n;
     badge.setAttribute('aria-label', `${n} dishes shown`);
     badge.classList.remove('pulse');
-    // micro-pulse to draw attention
     requestAnimationFrame(()=>{
       badge.classList.add('pulse');
       setTimeout(()=>badge.classList.remove('pulse'), 220);

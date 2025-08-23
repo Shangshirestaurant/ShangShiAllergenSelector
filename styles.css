@@ -478,7 +478,36 @@ html { scroll-behavior: smooth; }
 }
 
 
-/* === Floating results badge (Apple-style) === */
+/* === Compact header + floating logo (v2) === */
+.header{
+  padding: calc(6px + env(safe-area-inset-top)) 14px 8px !important; /* smaller header */
+  position: sticky;
+  top: 0;
+}
+.header .subtitle{ margin-top: 0 !important; }
+
+/* Keep logo the same size but let it hover below the header */
+.header-logo{
+  position: absolute !important;
+  left: 50% !important;
+  bottom: -28px !important;            /* hangs below header */
+  transform: translateX(-50%) !important;
+  width: 80px !important;
+  height: auto !important;
+  z-index: 60 !important;
+  pointer-events: auto !important;     /* clickable if linked */
+  filter: drop-shadow(0 10px 26px rgba(0,0,0,.35)) !important;
+}
+
+/* Add clearance so grid doesn't sit under the floating logo */
+.main{ padding-top: calc(18px + 36px) !important; }
+
+@media (max-width:480px){
+  .header-logo{ bottom: -24px !important; }
+  .main{ padding-top: calc(18px + 32px) !important; }
+}
+
+/* === Floating results badge (Apple-style), sits next to Filters === */
 .dock-inner{
   display:flex;
   align-items:center;
@@ -491,16 +520,17 @@ html { scroll-behavior: smooth; }
   justify-content:center;
   min-width:28px;
   height:28px;
-  padding:0 8px;
-  font-weight:700;
+  padding:0 10px;
+  font-weight:800;
   font-size:13px;
   line-height:1;
   border-radius:999px;
-  color:#0e0e0e;
-  background: radial-gradient(120% 120% at 30% 10%, rgba(210,164,85,0.96), rgba(210,164,85,0.85) 60%, rgba(210,164,85,0.78));
-  border:1px solid rgba(255,255,255,0.25);
-  box-shadow: 0 10px 26px rgba(0,0,0,0.35), inset 0 0 0 0.5px rgba(0,0,0,0.25);
+  color:#101010;
+  background: radial-gradient(120% 120% at 30% 10%, rgba(210,164,85,0.98), rgba(210,164,85,0.88) 60%, rgba(210,164,85,0.78));
+  border:1px solid rgba(0,0,0,0.10);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.35), inset 0 0 0 0.5px rgba(255,255,255,0.35);
   backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
   user-select:none;
   z-index: 120;
   transform: translateZ(0);
@@ -508,11 +538,11 @@ html { scroll-behavior: smooth; }
 }
 .result-badge.pulse{
   transform: scale(1.06);
-  box-shadow: 0 14px 30px rgba(0,0,0,0.38), inset 0 0 0 0.5px rgba(0,0,0,0.25);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.38), inset 0 0 0 0.5px rgba(255,255,255,0.35);
 }
 body.light .result-badge{
   color: #101010;
-  background: radial-gradient(120% 120% at 30% 10%, rgba(251,225,150,0.96), rgba(224,193,110,0.88) 60%, rgba(212,164,85,0.85));
+  background: radial-gradient(120% 120% at 30% 10%, rgba(251,225,150,0.98), rgba(224,193,110,0.90) 60%, rgba(212,164,85,0.88));
   border-color: rgba(0,0,0,0.08);
 }
 @media (max-width:480px){
