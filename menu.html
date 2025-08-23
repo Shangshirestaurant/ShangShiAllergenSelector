@@ -12,10 +12,7 @@
   <header class="header">
     <img src="./logo.png" alt="Shang Shi logo" class="header-logo" />
     <p class="subtitle">Select allergen(s) to show only <strong>SAFE</strong> dishes.</p>
-    
-</header>
-
-
+  </header>
 
   <div class="meta-row"><span id="resultCount">0 dishes</span> <span id="activeFilter" class="active-filter">No filters active</span></div>
 
@@ -29,8 +26,14 @@
   <div class="filter-dock" aria-live="polite">
     <div class="dock-inner">
       
-
-<button class="filter-btn" id="filterToggle" aria-expanded="false" aria-controls="filterPanel">
+    <nav id="catTabs" class="cat-tabs" role="tablist" aria-label="Categories">
+      <button class="cat-tab active" data-cat="all" role="tab" aria-selected="true">All</button>
+      <button class="cat-tab" data-cat="dimsum" role="tab" aria-selected="false">Dim Sums</button>
+      <button class="cat-tab" data-cat="starters" role="tab" aria-selected="false">Starters</button>
+      <button class="cat-tab" data-cat="mains" role="tab" aria-selected="false">Mains</button>
+      <button class="cat-tab" data-cat="desserts" role="tab" aria-selected="false">Desserts</button>
+    </nav>
+    <button class="filter-btn" id="filterToggle" aria-expanded="false" aria-controls="filterPanel">
         <span class="dot"></span> Filters
       </button>
     </div>
@@ -42,10 +45,3 @@
   <script src="./app.js?v=final1" defer></script>
 </body>
 </html>
-<nav id="catTabs" class="cat-tabs" role="tablist" aria-label="Categories">
-    <button class="cat-tab active" data-cat="all" role="tab" aria-selected="true">All</button>
-    <button class="cat-tab" data-cat="dimsum" role="tab" aria-selected="false">Dim Sums</button>
-    <button class="cat-tab" data-cat="starters" role="tab" aria-selected="false">Starters</button>
-    <button class="cat-tab" data-cat="mains" role="tab" aria-selected="false">Mains</button>
-    <button class="cat-tab" data-cat="desserts" role="tab" aria-selected="false">Desserts</button>
-  </nav>
