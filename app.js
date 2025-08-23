@@ -62,8 +62,18 @@ function renderGrid(el, list, sel){
     // expose allergens only for debugging/optional usage
     card.dataset.allergens = JSON.stringify(item.allergens || []);
 
+    const labels = document.createElement('div');
+    labels.className = 'labels';
+    const cat = (typeof deriveCategory==='function') ? deriveCategory(item) : (item.category||'').toLowerCase();
+    const catKey = (cat||'').replace(/\s+/g,'') || 'mains';
+    const catPill = document.createElement('span');
+    catPill.className = 'pill pill-' + catKey;
+    catPill.textContent = (catKey==='dimsum'?'Dim Sum':catKey.charAt(0).toUpperCase()+catKey.slice(1));
+    labels.appendChild(catPill);
+
     const h = document.createElement('h3');
     h.textContent = item.name || '';
+    card.appendChild(labels);
     card.appendChild(h);
 
     if(item.description){
