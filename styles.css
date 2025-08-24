@@ -693,3 +693,29 @@ html { scroll-behavior: smooth; }
   -webkit-backdrop-filter: none !important;
   filter: none !important;
 }
+
+
+/* === Reset button (icon-only, Apple-like circular) === */
+.reset-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:40px; height:40px; border-radius:999px;
+  background: rgba(255,255,255,0.92); color:#111;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.reset-btn:hover{ transform: translateY(-1px); box-shadow:0 6px 14px rgba(0,0,0,0.24); }
+.reset-btn:active{ transform: translateY(0) scale(.98); }
+.reset-btn .reset-icon{ display:block; }
+body.light .reset-btn{ background:#ffffff; color:#111; box-shadow:0 2px 8px rgba(0,0,0,0.12); }
+@media (max-width:480px){
+  .reset-btn{ width:36px; height:36px; }
+}
+
+
+/* Reset icon spin on hover/tap */
+.reset-btn .reset-icon{ transition: transform .28s cubic-bezier(0.22,1,0.36,1); transform: rotate(0deg); }
+.reset-btn:hover .reset-icon,
+.reset-btn:active .reset-icon,
+.reset-btn.spin .reset-icon{ transform: rotate(90deg); }

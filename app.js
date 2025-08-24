@@ -22,6 +22,7 @@ const filterPanel = document.getElementById('filterPanel');
 const categoryPanel = document.getElementById('categoryPanel');
 const filterToggle = document.getElementById('filterToggle');
 const categoryToggle = document.getElementById('categoryToggle');
+const resetToggle = document.getElementById('resetToggle');
 
 // --- Data ---
 async function loadMenu(){
@@ -160,6 +161,17 @@ function renderGrid(){
   resultCountEl.textContent = `${filtered.length} dishes`;
 }
 
+
+// --- Reset ---
+function clearAll(){
+  activeAllergens.clear();
+  activeCategory = null;
+  if (chipsEl) [...chipsEl.querySelectorAll('.chip')].forEach(el => el.classList.remove('active'));
+  if (categoriesEl) [...categoriesEl.querySelectorAll('.chip')].forEach(el => el.classList.remove('active'));
+  renderGrid();
+  updateMeta();
+  updateDockIndicators();
+}
 // --- Dock behaviour ---
 function setupDock(){
   const togglePanel = (btn, panel) => {
@@ -177,6 +189,17 @@ function setupDock(){
   };
   if (filterToggle && filterPanel) filterToggle.addEventListener('click', () => togglePanel(filterToggle, filterPanel), {passive:true});
   if (categoryToggle && categoryPanel) categoryToggle.addEventListener('click', () => togglePanel(categoryToggle, categoryPanel), {passive:true});
+  if (resetToggle) resetToggle.addEventListener('click', () => {
+    // quick spin animation on tap/click
+    resetToggle.classList.add('spin');
+    setTimeout(() => resetToggle.classList.remove('spin'), 400);
+
+    clearAll();
+    if (filterPanel) filterPanel.classList.remove('open');
+    if (categoryPanel) categoryPanel.classList.remove('open');
+    if (filterToggle) filterToggle.setAttribute('aria-expanded','false');
+    if (categoryToggle) categoryToggle.setAttribute('aria-expanded','false');
+  }, {passive:true});
 }
 
 // --- Theme toggle ---
