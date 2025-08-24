@@ -1,173 +1,204 @@
-// Allergen legend (single source of truth)
+// ===== Shang Shi Menu — clean build with categories & subtle chips =====
+
+// --- Allergen Legend ---
 const LEGEND = {
-  "CE":"Celery","GL":"Gluten","CR":"Crustaceans","EG":"Eggs","FI":"Fish","MO":"Molluscs","Mi":"Milk","MU":"Mustard","NU":"Nuts",
-  "SE":"Sesame","SO":"Soya","GA":"Garlic","ON":"Onion","MR":"Mushrooms"
+  "CE":"Celery","GL":"Gluten","CR":"Crustaceans","EG":"Eggs","FI":"Fish","MO":"Molluscs","Mi":"Milk",
+  "MU":"Mustard","NU":"Nuts","SE":"Sesame","SO":"Soya","GA":"Garlic","ON":"Onion","MR":"Mushrooms","LU":"Lupin","PE":"Peanuts"
 };
 const KNOWN_CODES = Object.keys(LEGEND);
-const codeToLabel = c => LEGEND[c] || c;
 
-// -------- Data --------
+// --- State ---
+let menuData = [];
+let activeAllergens = new Set();
+let activeCategory = null;
+
+// --- Element refs ---
+const gridEl = document.getElementById('grid');
+const chipsEl = document.getElementById('chips');
+const categoriesEl = document.getElementById('categories');
+const resultCountEl = document.getElementById('resultCount');
+const activeFilterEl = document.getElementById('activeFilter');
+const filterPanel = document.getElementById('filterPanel');
+const categoryPanel = document.getElementById('categoryPanel');
+const filterToggle = document.getElementById('filterToggle');
+const categoryToggle = document.getElementById('categoryToggle');
+
+// --- Data ---
 async function loadMenu(){
-  try{
-    const r = await fetch('./menu.json', { cache: 'no-store' });
-    if(!r.ok) return [];
-    return await r.json();
-  }catch(e){
-    console.error('menu load failed', e);
-    return [];
+  const r = await fetch('./menu.json', { cache: 'no-store' });
+  if (!r.ok) return [];
+  return await r.json();
+}
+
+// --- Helpers ---
+function codeToLabel(code){ return LEGEND[code] || code; }
+function passesFilters(item){
+  const allergens = item.allergens || [];
+  const safeAllergen = !activeAllergens.size || [...activeAllergens].every(a => !allergens.includes(a));
+  const safeCategory = !activeCategory || item.category === activeCategory;
+  return safeAllergen && safeCategory;
+}
+function updateMeta(){
+  const parts = [];
+  if (activeAllergens.size) parts.push(`SAFE from: ${[...activeAllergens].join(', ')}`);
+  if (activeCategory) parts.push(`${activeCategory}`);
+  activeFilterEl.textContent = parts.length ? parts.join(' • ') : 'No filters active';
+}
+function updateDockIndicators(){
+  if (filterToggle){
+    filterToggle.dataset.active = activeAllergens.size ? 'true' : 'false';
+  }
+  if (categoryToggle){
+    categoryToggle.dataset.active = activeCategory ? 'true' : 'false';
   }
 }
 
-// -------- UI: chips --------
-function buildChips(container, onChange){
-  const frag = document.createDocumentFragment();
+// --- Chips ---
+function renderChips(){
+  // Allergen chips
+  chipsEl.innerHTML = '';
   KNOWN_CODES.forEach(code => {
     const btn = document.createElement('button');
     btn.className = 'chip';
-    btn.dataset.code = code;              // keep uppercase consistently
-    btn.innerHTML = `<b>${code}</b> ${codeToLabel(code)}`;
-    btn.addEventListener('click', () => { // single handler
-      btn.classList.toggle('active');
-      onChange();
-    }, {passive:true});
-    frag.appendChild(btn);
-  });
-  container.innerHTML = '';
-  container.appendChild(frag);
-}
-
-// ALWAYS derive from DOM
-function getActiveFilters(){
-  return Array.from(document.querySelectorAll('.chip.active'))
-    .map(ch => ch.dataset.code); // uppercase
-}
-
-// Pure data filtering — NO DOM side-effects
-function filterDishes(list, sel){
-  if(!sel || sel.length === 0) return list.slice();
-  return list.filter(item => {
-    const a = item.allergens || [];
-    return sel.every(code => !a.includes(code));
-  });
-}
-
-// -------- Render --------
-function renderGrid(el, list, sel){
-  el.innerHTML = '';
-  const frag = document.createDocumentFragment();
-
-  list.forEach(item => {
-    const card = document.createElement('article');
-    card.className = 'card';
-    // expose allergens only for debugging/optional usage
-    card.dataset.allergens = JSON.stringify(item.allergens || []);
-
-    const labels = document.createElement('div');
-    labels.className = 'labels';
-    // Category pill
-    const cat = (typeof deriveCategory==='function') ? deriveCategory(item) : (item.category||'').toLowerCase();
-    const catPill = document.createElement('span');
-    const catKey = (cat||'').replace(/\s+/g,'') || 'mains';
-    catPill.className = 'pill pill-' + catKey;
-    catPill.textContent = (catKey==='dimsum'?'Dim Sum':catKey.charAt(0).toUpperCase()+catKey.slice(1));
-    labels.appendChild(catPill);
-
-    const h = document.createElement('h3');
-    h.textContent = item.name || '';
-    card.appendChild(labels);
-    card.appendChild(h);
-
-    if(item.description){
-      const p = document.createElement('p');
-      p.className = 'desc';
-      p.textContent = item.description;
-      card.appendChild(p);
-    }
-
-    const badges = document.createElement('div');
-    badges.className = 'badges';
-    (item.allergens || []).forEach(code => {
-      const s = document.createElement('span');
-      s.className = 'badge';
-      s.title = codeToLabel(code);
-      s.textContent = code;
-      badges.appendChild(s);
-    });
-    card.appendChild(badges);
-
-    if(sel && sel.length){
-      const pass = sel.every(c => !(item.allergens || []).includes(c));
-      if(pass){
-        const safe = document.createElement('span');
-        safe.className = 'safe-pill';
-        safe.textContent = 'SAFE';
-        labels.appendChild(safe);
+    btn.setAttribute('data-code', code);
+    btn.innerHTML = `<b>${code}</b>`; // show only code in pill
+    btn.title = codeToLabel(code);
+    btn.addEventListener('click', () => {
+      if (activeAllergens.has(code)){
+        activeAllergens.delete(code);
+        btn.classList.remove('active');
+      } else {
+        activeAllergens.add(code);
+        btn.classList.add('active');
       }
-    }
-
-    frag.appendChild(card);
+      renderGrid();
+      updateMeta();
+      updateDockIndicators();
+    }, {passive:true});
+    chipsEl.appendChild(btn);
   });
 
-  el.appendChild(frag);
+  // Category chips
+  const cats = ["Starters","Mains","Dim Sums","Desserts"];
+  categoriesEl.innerHTML = '';
+  cats.forEach(cat => {
+    const btn = document.createElement('button');
+    const key = cat.toLowerCase().replace(/\s+/g,'');
+    btn.className = `chip category chip-${key}`;
+    btn.textContent = cat;
+    btn.addEventListener('click', () => {
+      if (activeCategory === cat){
+        activeCategory = null;
+        btn.classList.remove('active');
+      } else {
+        activeCategory = cat;
+        [...categoriesEl.children].forEach(n => n.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      renderGrid();
+      updateMeta();
+      updateDockIndicators();
+    }, {passive:true});
+    categoriesEl.appendChild(btn);
+  });
 }
 
-function updateMeta(n, sel){
-  document.getElementById('resultCount').textContent = `${n} dish${n===1?'':'es'}`;
-  document.getElementById('activeFilter').textContent = sel.length ? `SAFE without: ${sel.join(', ')}` : 'No filters active';
+// --- Cards ---
+function makeCard(item){
+  const card = document.createElement('article');
+  card.className = 'card';
+  card.setAttribute('data-category', item.category || '');
+  card.setAttribute('data-allergens', JSON.stringify(item.allergens || []));
+
+  const labels = document.createElement('div');
+  labels.className = 'labels';
+
+  const key = (item.category || '').toLowerCase().replace(/\s+/g,'');
+  const pill = document.createElement('span');
+  pill.className = `pill pill-${key || 'mains'}`;
+  pill.textContent = item.category || 'Dish';
+  labels.appendChild(pill);
+
+  // SAFE pill only when at least one allergen selected and dish is safe
+  if (activeAllergens.size){
+    const allergens = item.allergens || [];
+    const isSafe = [...activeAllergens].every(a => !allergens.includes(a));
+    if (isSafe){
+      const safe = document.createElement('span');
+      safe.className = 'safe-pill';
+      safe.textContent = 'SAFE';
+      labels.appendChild(safe);
+    }
+  }
+
+  const h3 = document.createElement('h3');
+  h3.textContent = item.name;
+
+  const desc = document.createElement('p');
+  desc.className = 'desc';
+  desc.textContent = item.description || '';
+
+  const badges = document.createElement('div');
+  badges.className = 'badges';
+  (item.allergens || []).forEach(code => {
+    const b = document.createElement('span');
+    b.className = 'badge';
+    b.textContent = code;            // codes only
+    b.title = codeToLabel(code);     // tooltip for full name
+    badges.appendChild(b);
+  });
+
+  card.append(labels, h3, desc, badges);
+  return card;
 }
 
-// -------- Filter panel --------
-function toggleFilterPanel(open){
-  const panel = document.getElementById('filterPanel');
-  const btn = document.getElementById('filterToggle');
-  if(!panel || !btn) return;
-  const willOpen = (open !== undefined) ? open : !panel.classList.contains('open');
-  panel.classList.toggle('open', willOpen);
-  btn.setAttribute('aria-expanded', String(willOpen));
+// --- Render grid ---
+function renderGrid(){
+  gridEl.innerHTML = '';
+  const filtered = menuData.filter(passesFilters);
+  filtered.forEach(item => gridEl.appendChild(makeCard(item)));
+  resultCountEl.textContent = `${filtered.length} dishes`;
 }
 
-// Boot small handlers
-document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('filterToggle');
-  if(btn) btn.addEventListener('click', () => toggleFilterPanel(), {passive:true});
-});
-
-// -------- App init --------
-(async function init(){
-  const chips = document.getElementById('chips');
-  const grid  = document.getElementById('grid');
-  const empty = document.getElementById('empty');
-
-  const dishes = await loadMenu();
-
-  const rerender = () => {
-    const sel  = getActiveFilters();      // ALWAYS fresh from DOM
-    const data = filterDishes(dishes, sel);
-    renderGrid(grid, data, sel);
-    updateMeta(data.length, sel);
-    empty.classList.toggle('hidden', data.length !== 0);
-    // DEBUG (leave while testing; remove later)
-    console.log('Active filters:', sel, 'Shown:', data.length);
+// --- Dock behaviour ---
+function setupDock(){
+  const togglePanel = (btn, panel) => {
+    const isOpen = panel.classList.toggle('open');
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    // close the other
+    if (panel === filterPanel && categoryPanel){
+      categoryPanel.classList.remove('open');
+      if (categoryToggle) categoryToggle.setAttribute('aria-expanded','false');
+    }
+    if (panel === categoryPanel && filterPanel){
+      filterPanel.classList.remove('open');
+      if (filterToggle) filterToggle.setAttribute('aria-expanded','false');
+    }
   };
+  if (filterToggle && filterPanel) filterToggle.addEventListener('click', () => togglePanel(filterToggle, filterPanel), {passive:true});
+  if (categoryToggle && categoryPanel) categoryToggle.addEventListener('click', () => togglePanel(categoryToggle, categoryPanel), {passive:true});
+}
 
-  buildChips(chips, rerender);
-  renderGrid(grid, dishes, []);
-  updateMeta(dishes.length, []);
-  empty.classList.add('hidden');
-})();
-
-// -------- Theme toggle (unchanged) --------
-document.addEventListener('DOMContentLoaded', () => {
+// --- Theme toggle ---
+(function setupTheme(){
   const btn = document.getElementById('themeToggle');
   if (!btn) return;
-  if (localStorage.getItem('theme') === 'light') {
-    document.body.classList.add('light');
-    btn.textContent = '☀️';
-  }
+  const cur = localStorage.getItem('theme');
+  if (cur === 'light'){ document.body.classList.add('light'); btn.textContent = '☀️'; }
   btn.addEventListener('click', () => {
     document.body.classList.toggle('light');
     const isLight = document.body.classList.contains('light');
     btn.textContent = isLight ? '☀️' : '🌙';
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
   }, {passive:true});
-});
+})();
+
+// --- Init ---
+(async function init(){
+  setupDock();
+  renderChips();
+  menuData = await loadMenu();
+  renderGrid();
+  updateMeta();
+  updateDockIndicators();
+})();

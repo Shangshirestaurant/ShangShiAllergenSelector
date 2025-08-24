@@ -652,3 +652,44 @@ html { scroll-behavior: smooth; }
 .filter-btn .dot {
   opacity: 0.9 !important;
 }
+
+
+/* === Subtle chip palette (elegant) === */
+
+/* Category chips (low-saturation gradients) */
+.chip-starters { background: linear-gradient(135deg, rgba(142,197,255,0.22), rgba(90,169,230,0.22)) !important; color: var(--text) !important; }
+.chip-mains    { background: linear-gradient(135deg, rgba(155,229,193,0.22), rgba(76,175,125,0.22)) !important; color: var(--text) !important; }
+.chip-dimsums  { background: linear-gradient(135deg, rgba(230,193,120,0.22), rgba(210,164,85,0.22)) !important; color: var(--text) !important; }
+.chip-desserts { background: linear-gradient(135deg, rgba(255,182,213,0.22), rgba(230,140,181,0.22)) !important; color: var(--text) !important; }
+
+/* Allergen chip soft tints via data-code */
+.chip[data-code="GL"]{ background: rgba(210,164,85,0.20) !important; color: var(--text) !important; }
+.chip[data-code="CR"]{ background: rgba(242,139,130,0.20) !important; color: var(--text) !important; }
+.chip[data-code="EG"]{ background: rgba(251,188,4,0.18) !important; color: var(--text) !important; }
+.chip[data-code="Mi"]{ background: rgba(255,224,178,0.20) !important; color: #121212 !important; }
+.chip[data-code="NU"]{ background: rgba(188,170,164,0.20) !important; color: var(--text) !important; }
+.chip[data-code="SO"]{ background: rgba(165,214,167,0.20) !important; color: var(--text) !important; }
+.chip[data-code="FI"]{ background: rgba(129,212,250,0.20) !important; color: var(--text) !important; }
+.chip[data-code="ON"]{ background: rgba(179,157,219,0.20) !important; color: var(--text) !important; }
+.chip[data-code="GA"]{ background: rgba(179,157,219,0.20) !important; color: var(--text) !important; }
+.chip[data-code="SE"]{ background: rgba(215,204,200,0.20) !important; color: var(--text) !important; }
+.chip[data-code="MU"]{ background: rgba(255,235,59,0.18) !important; color: #121212 !important; }
+.chip[data-code="CE"]{ background: rgba(166,210,160,0.18) !important; color: var(--text) !important; }
+.chip[data-code="MR"]{ background: rgba(160,205,200,0.18) !important; color: var(--text) !important; }
+.chip[data-code="LU"]{ background: rgba(210,197,240,0.18) !important; color: var(--text) !important; }
+.chip[data-code="PE"]{ background: rgba(255,205,210,0.18) !important; color: var(--text) !important; }
+
+/* Active chip still pops gently */
+.chip.active { box-shadow: 0 0 0 1px rgba(255,255,255,0.25) inset, 0 0 10px rgba(210,164,85,0.18) !important; }
+
+/* Dock button persistent highlight */
+#filterToggle[data-active="true"] .dot { background:#34c759 !important; }
+#categoryToggle[data-active="true"] .dot { background:#D2A455 !important; }
+
+
+/* === Hard-disable any blur within dish cards === */
+.card, .card * {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+}
