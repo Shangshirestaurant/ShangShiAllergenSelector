@@ -1,0 +1,695 @@
+:root{
+  --bg:#0B0F12;        /* deep blue-black */
+  --panel:#0D1419;     /* header / panels */
+  --card:#121A20;      /* tiles */
+  --text:#E7ECEA;      /* primary text */
+  --muted:#9AA6A2;     /* secondary text */
+  --heading:#DFE8E2;   /* soft mint-white headings */
+  --accent:#D2A455;    /* amber accent */
+  --accent2:#B5862E;   /* darker amber */
+  --chip:#1A2329;      /* chip bg */
+}
+
+
+html,body{margin:0;color:var(--text);background: radial-gradient(1100px 320px at 50% -160px, rgba(210,164,85,0.08), transparent),linear-gradient(var(--bg), var(--bg));font-family:-apple-system,system-ui,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
+
+/* Glass header */
+.header{position:sticky;top:0;z-index:30;background: rgba(13,20,25,0.75);backdrop-filter: blur(16px) saturate(140%);-webkit-backdrop-filter: blur(16px) saturate(140%);border-bottom:1px solid rgba(255,255,255,0.06);padding:calc(8px + env(safe-area-inset-top)) 14px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.header-logo{width:80px;height:auto;display:block;border:none;box-shadow:none;background:transparent}
+.subtitle{margin:0;color:var(--muted);font-size:12px}
+
+/* Meta */
+.meta-row{ display:flex; gap:10px; align-items:center; justify-content:center; color:rgba(255,255,255,.8); font-size:13px; margin:8px 0 4px; }
+.active-filter{color:var(--accent)}
+
+/* Grid & cards */
+.main{max-width:1100px;margin:0 auto;padding:18px 16px 120px}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{background:var(--card);color:var(--text);border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:18px;box-shadow:0 14px 36px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,0.03);position:relative;transition: transform 0.35s cubic-bezier(0.22,1,0.36,1),box-shadow 0.35s cubic-bezier(0.22,1,0.36,1);}
+.card h3{margin:0 0 6px 0;color:var(--heading);font-size:18px;line-height:1.25;font-weight:600}
+.desc{margin:0;color:var(--muted);opacity:.95}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.badge{background:rgba(255,255,255,0.08);color:var(--text);border:1px solid rgba(255,255,255,0.12);border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;letter-spacing:.25px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 2px 6px rgba(0,0,0,.15);transition:all .3s cubic-bezier(0.22,1,0.36,1);}
+
+/* Floating SAFE badge */
+
+.safe-badge svg{flex:0 0 auto}
+
+/* Bottom dock (white glass) */
+.filter-dock{
+  position: fixed; left:0; right:0; bottom: calc(env(safe-area-inset-bottom) + 12px);
+  z-index:50; display:flex; justify-content:center; pointer-events:none;
+}
+.dock-inner{
+  pointer-events:auto; display:flex; align-items:center; gap:10px; padding:8px 10px;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255,255,255,0.28); border-radius:20px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.35);
+}
+.filter-btn{background:rgba(255,255,255,0.10);color:var(--text);border:1px solid rgba(255,255,255,0.22);border-radius:999px;padding:10px 18px;font-size:14px;font-weight:500;display:inline-flex;align-items:center;gap:8px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 8px 22px rgba(0,0,0,0.35);transition:all .3s cubic-bezier(0.22,1,0.36,1);}
+.filter-btn .dot{ width:8px; height:8px; border-radius:50%; background:#c9a64b; opacity:.8 }
+
+/* Panel slides up (smooth 0.4s) */
+.filter-panel { position: fixed; left:0; right:0; bottom: calc(env(safe-area-inset-bottom) + 110px) !important; z-index:49; display:flex; justify-content:center; opacity:0; transform:translateY(8px); pointer-events:none; transition: opacity .4s ease, transform .4s ease; }
+.filter-panel.open{ opacity:1; transform:translateY(0); pointer-events:auto; }
+.filter-panel .chips{background:rgba(255,255,255,0.06);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:6px 8px;max-width:920px;margin:0 12px;gap:6px;display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:20px !important;}
+.filter-panel .chips::-webkit-scrollbar{ display:none; }
+
+/* Pills: default white w/ gold outline + gold text; active gold w/ white */
+.chip{padding:6px 10px;font-size:12px;border-radius:999px;background:rgba(255,255,255,0.08);color:var(--text);border:1px solid rgba(255,255,255,.10);box-shadow:0 0 5px rgba(0,0,0,.12);white-space:nowrap;}
+.chip b{ margin-right:6px }
+.chip.active{background:var(--accent);border-color:var(--accent2);color:#121212;box-shadow:0 0 8px rgba(210,164,85,.35)}
+
+.footer{color:#ccc;text-align:center;padding:24px 12px}
+.hidden{display:none}
+
+@media (max-width:480px){
+  .grid{grid-template-columns:1fr 1fr;gap:12px}
+  .card{background:var(--card);color:var(--text);border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:18px;box-shadow:0 14px 36px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,0.03);position:relative;transition: transform 0.35s cubic-bezier(0.22,1,0.36,1),box-shadow 0.35s cubic-bezier(0.22,1,0.36,1);}
+  .header-logo{width:72px}
+  .filter-btn{background:rgba(255,255,255,0.10);color:var(--text);border:1px solid rgba(255,255,255,0.22);border-radius:999px;padding:10px 18px;font-size:14px;font-weight:500;display:inline-flex;align-items:center;gap:8px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 8px 22px rgba(0,0,0,0.35);transition:all .3s cubic-bezier(0.22,1,0.36,1);}
+  .filter-panel { position: fixed; left:0; right:0; bottom: calc(env(safe-area-inset-bottom) + 110px) !important; z-index:49; display:flex; justify-content:center; opacity:0; transform:translateY(8px); pointer-events:none; transition: opacity .4s ease, transform .4s ease; }
+  .filter-panel .chips{background:rgba(255,255,255,0.06);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:6px 8px;max-width:920px;margin:0 12px;gap:6px;display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:20px !important;}
+}
+
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  width: 26px !important;
+  height: 26px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  background: rgba(64,186,108,0.18) !important;
+  border: 1px solid rgba(64,186,108,0.35) !important;
+  border-radius: 50% !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+
+  font-size: 0 !important;   
+  color: transparent !important;
+  overflow: hidden !important;
+  text-indent: -9999px !important;
+}
+
+
+
+/* === FIXED SAFE BADGE (one check only) === */
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  width: 26px !important;
+  height: 26px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: rgba(64,186,108,0.18) !important;
+  border: 1px solid rgba(64,186,108,0.35) !important;
+  border-radius: 50% !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25) !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  font-size: 0 !important;
+  color: transparent !important;
+  text-indent: -9999px !important;
+  overflow: hidden !important;
+}
+  content: "✓" !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #7ED9A0 !important;
+  line-height: 1 !important;
+}
+
+/* === MORE SPACE BETWEEN PRESETS & FILTER BUTTON === */
+.filter-panel { position: fixed; left:0; right:0; bottom: calc(env(safe-area-inset-bottom) + 110px) !important; z-index:49; display:flex; justify-content:center; opacity:0; transform:translateY(8px); pointer-events:none; transition: opacity .4s ease, transform .4s ease; }
+.filter-panel .chips {
+  margin-bottom: 20px !important;
+}
+
+/* === Apple-style Safe badge (inside card) === */
+.safe-badge {
+  position: absolute !important;
+  top: 8px !important;
+  right: 8px !important;
+  width: 22px !important;
+  height: 22px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  background: linear-gradient(145deg, #4cd964, #34c759) !important;
+  border: none !important;
+  border-radius: 50% !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25), 0 0 6px rgba(76,217,100,0.6) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  font-size: 0 !important;
+  color: transparent !important;
+  text-indent: -9999px !important; /* hide any text nodes */
+  overflow: hidden !important;
+}
+.safe-badge::before {
+  content: "✓" !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  line-height: 1 !important;
+}
+
+/* === Apple-inspired UI polish === */
+
+/* Cards: softer depth, rounder corners, gentle hover */
+.card {
+  border-radius: 24px !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.03) !important;
+  transition: transform 220ms cubic-bezier(0.22,1,0.36,1), box-shadow 220ms cubic-bezier(0.22,1,0.36,1) !important;
+}
+.card:hover {
+  transform: translateY(-2px) scale(1.01) !important;
+  box-shadow: 0 14px 36px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.03) !important;
+}
+
+/* Dock container: cleaner, translucent */
+.dock-inner {
+  background: rgba(255,255,255,0.72) !important;
+  border: none !important;
+  border-radius: 22px !important;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.28) !important;
+  padding: 8px 10px !important;
+}
+
+/* Filters button: Apple-style pill */
+.filter-btn {
+  background: rgba(255,255,255,0.90) !important;
+  color: #121212 !important;
+  border: none !important;
+  border-radius: 999px !important;
+  padding: 10px 20px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease !important;
+  -webkit-tap-highlight-color: transparent;
+}
+.filter-btn:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.22) !important;
+}
+.filter-btn:active {
+  transform: translateY(0) scale(.99) !important;
+}
+.filter-btn .dot {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: #D2A455 !important; /* amber by default */
+  opacity: 1 !important;
+}
+
+/* Active state when panel is open */
+#filterToggle[aria-expanded="true"] {
+  background: rgba(255,255,255,0.95) !important;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25) !important;
+}
+#filterToggle[aria-expanded="true"] .dot {
+  background: #34c759 !important; /* Apple green when active */
+}
+
+/* Filter panel chips: crisper glass */
+.filter-panel .chips {
+  background: rgba(255,255,255,0.10) !important;
+  border: 1px solid rgba(255,255,255,0.14) !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25) !important;
+  border-radius: 16px !important;
+}
+
+/* Keep Apple-style badge inside cards (already defined) but nudge for spacing */
+.safe-badge {
+  top: 8px !important;
+  right: 8px !important;
+}
+
+/* === Thicker presets bar & closer to Filters button === */
+.filter-panel {
+  bottom: calc(env(safe-area-inset-bottom) + 80px) !important; /* was ~110px */
+}
+.filter-panel .chips {
+  padding: 10px 12px !important;     /* thicker bar */
+  border-radius: 20px !important; 
+  gap: 8px !important;
+}
+.chip {
+  padding: 8px 12px !important;      /* bigger pills */
+  font-size: 14px !important;
+  border-radius: 999px !important;
+}
+@media (max-width:480px){
+  .filter-panel { bottom: calc(env(safe-area-inset-bottom) + 76px) !important; }
+  .filter-panel .chips { padding: 10px 10px !important; border-radius: 18px !important; }
+  .chip { padding: 8px 12px !important; font-size: 13.5px !important; }
+}
+
+/* === Remove grey dock box and move presets closer === */
+.dock-inner {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+.filter-panel {
+  bottom: calc(env(safe-area-inset-bottom) + 68px) !important; /* closer to Filters button */
+}
+
+
+/* === THEME VARIABLES === */
+:root {
+  --bg: #0c0f14;        /* default dark */
+  --card-bg: #1a1f24;
+  --text-color: #ffffff;
+  --accent: #4caf50;
+}
+
+body.light{
+  --bg:#f7f5ef;          /* off-white (warmer) */
+  --panel:#f2efe7;       /* subtle warm panel */
+  --card:#fff9ef;        /* ivory cards */
+  --text:#143d31;        /* deep green text */
+  --muted:#3e5a4b;       /* muted green */
+  --heading:#103228;     /* stronger heading green */
+  --accent:#2f6e4f;      /* accent green */
+  --accent2:#265a40;     /* darker accent */
+  --chip:#eef3ea;        /* chip bg in light */
+}
+
+/* Apply theme variables globally */
+html, body {
+  background-color: var(--bg);
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.card {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.theme-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  background: var(--card-bg);
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--text-color);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* === THEME TOGGLE: variables and light mode === */
+:root{
+  --bg:#0B0F12;
+  --panel:#0D1419;
+  --card:#121A20;
+  --text:#E7ECEA;
+  --muted:#667074;
+  --heading:#DFE8E2;
+  --accent:#34c759;   /* Apple green for accents in dark */
+  --accent2:#2aa84c;
+  --chip:#1A2329;
+}
+
+body.light{
+  --bg:#f7f5ef;          /* off-white (warmer) */
+  --panel:#f2efe7;       /* subtle warm panel */
+  --card:#fff9ef;        /* ivory cards */
+  --text:#143d31;        /* deep green text */
+  --muted:#3e5a4b;       /* muted green */
+  --heading:#103228;     /* stronger heading green */
+  --accent:#2f6e4f;      /* accent green */
+  --accent2:#265a40;     /* darker accent */
+  --chip:#eef3ea;        /* chip bg in light */
+}
+
+/* Apply variables */
+html,body{
+  background: radial-gradient(1100px 320px at 50% -160px, rgba(46,107,76,0.08), transparent), linear-gradient(var(--bg), var(--bg));
+  color: var(--text);
+}
+
+/* Components inherit */
+.card{ background: var(--card); color: var(--text); }
+.badge{ color: var(--text); }
+.subtitle{ color: var(--muted); }
+.active-filter{ color: var(--accent); }
+
+/* Filter dock + chips adapt to theme */
+.dock-inner{ background: rgba(255,255,255,0.85); }
+body.light .dock-inner{ background: rgba(0,0,0,0.06); }
+.filter-btn{ color: var(--text); }
+.filter-panel .chips{ background: rgba(255,255,255,0.06); border-color: rgba(0,0,0,0.08); }
+body.light .filter-panel .chips{ background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.06); }
+
+/* Safe badge keeps Apple style but contrast for light */
+body.light .safe-badge{
+  background: linear-gradient(145deg, #3ddc84, #34c759) !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 0 6px rgba(76,217,100,0.45) !important;
+}
+
+/* Toggle button */
+.theme-btn{
+  position: fixed;
+  top: max(10px, calc(env(safe-area-inset-top) + 8px));
+  right: 12px;
+  z-index: 1000;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 999px;
+  padding: 8px 10px;
+  font-size: 14px;
+  line-height: 1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  cursor: pointer;
+  user-select: none;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+}
+.theme-btn:hover{ transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,0.2); }
+.theme-btn:active{ transform: translateY(0) scale(.98); }
+
+body.light .card{
+  border:1px solid rgba(16,50,40,0.08) !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5) !important;
+}
+body.light .filter-btn{
+  background: rgba(255,255,255,0.95) !important;
+  color: #143d31 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12) !important;
+}
+body.light .dock-inner{
+  background: rgba(0,0,0,0.04) !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08) !important;
+}
+
+/* Light theme header adjustments */
+body.light .header {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04) !important;
+  color: #143d31 !important;
+}
+body.light .header .title,
+body.light .header .subtitle {
+  color: #143d31 !important;
+}
+
+/* === Progressive blur header (both themes) === */
+.header {
+  background: linear-gradient(
+    to bottom,
+    rgba(13, 20, 25, 0.80),
+    rgba(13, 20, 25, 0.55)
+  ) !important;
+  backdrop-filter: blur(20px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.28) !important;
+  transition: background .3s ease, backdrop-filter .3s ease;
+}
+body.light .header {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.75),
+    rgba(255, 255, 255, 0.55)
+  ) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06) !important;
+}
+
+/* Stronger subtitle contrast in light mode */
+body.light .subtitle {
+  color: #1b3b2f !important;
+  opacity: 0.85 !important;
+}
+
+/* === Color refinements (safe badge + preset chips) === */
+
+/* Softer, premium green for SAFE mark — dark theme */
+.safe-badge {
+  background: linear-gradient(145deg, #3ba776, #2f6e4f) !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.22), 0 0 4px rgba(59,167,118,0.35) !important;
+}
+
+/* Softer SAFE in light theme too (slightly lighter tones) */
+body.light .safe-badge {
+  background: linear-gradient(145deg, #47b584, #2f6e4f) !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12), 0 0 4px rgba(71,181,132,0.30) !important;
+}
+
+/* Preset chips: active state in GOLD instead of green */
+.chip.active {
+  background: #D2A455 !important;   /* golden */
+  border-color: #B5862E !important;
+  color: #121212 !important;
+  box-shadow: 0 0 8px rgba(210,164,85,0.25) !important;
+}
+
+/* Keep the Filters button dot golden even when open */
+#filterToggle[aria-expanded="true"] .dot {
+  background: #D2A455 !important;
+}
+
+/* === Smooth scrolling & iOS momentum === */
+html { scroll-behavior: smooth; }
+.main, .grid {
+  -webkit-overflow-scrolling: touch; /* iOS inertial scroll */
+}
+
+
+/* === Card label row & glassy pills === */
+.labels{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:8px;
+}
+/* Base pill */
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:4px 10px;
+  font-size:11px;
+  font-weight:700;
+  border-radius:999px;
+  line-height:1;
+  user-select:none;
+  color:#0f1214;
+  background: radial-gradient(120% 140% at 30% 10%, rgba(255,255,255,0.98), rgba(255,255,255,0.90) 60%, rgba(255,255,255,0.86));
+  border:1px solid rgba(0,0,0,0.10);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.18), inset 0 0 0 0.5px rgba(255,255,255,0.35);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+}
+/* Category tints */
+.pill-dimsum{ background: radial-gradient(120% 140% at 30% 10%, rgba(210,164,85,0.96), rgba(210,164,85,0.86)); }
+.pill-starters{ background: radial-gradient(120% 140% at 30% 10%, rgba(120,186,255,0.96), rgba(120,186,255,0.86)); }
+.pill-mains{ background: radial-gradient(120% 140% at 30% 10%, rgba(165,235,190,0.96), rgba(165,235,190,0.86)); }
+.pill-desserts{ background: radial-gradient(120% 140% at 30% 10%, rgba(255,196,230,0.96), rgba(255,196,230,0.86)); }
+
+/* SAFE indicator (non-overlay) */
+.safe-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:4px 10px;
+  font-size:11px;
+  font-weight:800;
+  border-radius:999px;
+  line-height:1;
+  color:#0b3d20;
+  background: radial-gradient(120% 140% at 30% 10%, rgba(76,217,100,0.95), rgba(52,199,89,0.90));
+  border:1px solid rgba(0,0,0,0.10);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(255,255,255,0.35) inset;
+}
+
+/* Disable old overlays */
+.cat-label{ display:none !important; }
+.safe-badge{ display:none !important; }
+
+/* Ensure badges (allergen chips) never overlap labels */
+.card .badges{ margin-top:10px; }
+
+
+/* === Dock buttons highlight when selections exist === */
+.filter-btn.has-active {
+  background: rgba(255,255,255,0.96) !important;
+  color: #121212 !important;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25) !important;
+  transform: translateY(-1px);
+}
+#filterToggle.has-active .dot { background: #34c759 !important; }   /* Apple green = active filters */
+#categoryToggle.has-active .dot { background: #D2A455 !important; } /* Gold = category chosen */
+.filter-btn.has-active:active { transform: translateY(0); }
+
+/* === Elegant allergen chip tints by code === */
+.chip[data-code="GL"] { background: #d2a455 !important; color:#121212 !important; }
+.chip[data-code="CR"] { background: #f28b82 !important; color:#ffffff !important; }
+.chip[data-code="EG"] { background: #fbbc04 !important; color:#121212 !important; }
+.chip[data-code="Mi"] { background: #ffe0b2 !important; color:#121212 !important; }
+.chip[data-code="NU"] { background: #bcaaa4 !important; color:#ffffff !important; }
+.chip[data-code="SO"] { background: #a5d6a7 !important; color:#121212 !important; }
+.chip[data-code="FI"] { background: #81d4fa !important; color:#121212 !important; }
+.chip[data-code="ON"], .chip[data-code="GA"] { background: #b39ddb !important; color:#ffffff !important; }
+.chip[data-code="SE"] { background: #d7ccc8 !important; color:#121212 !important; }
+.chip[data-code="MU"] { background: #ffeb3b !important; color:#121212 !important; }
+.chip[data-code="CE"] { background: #c8e6c9 !important; color:#121212 !important; }
+.chip[data-code="MR"] { background: #cfd8dc !important; color:#121212 !important; }
+.chip[data-code="LU"] { background: #c5e1a5 !important; color:#121212 !important; }
+.chip[data-code="PE"] { background: #ffccbc !important; color:#121212 !important; }
+
+
+/* === Elegant category chips (Apple-like gradients) === */
+.chip-starters { background: linear-gradient(135deg, #8ec5ff, #5aa9e6) !important; color:#fff !important; }
+.chip-mains    { background: linear-gradient(135deg, #9be5c1, #4caf7d) !important; color:#fff !important; }
+.chip-dimsums  { background: linear-gradient(135deg, #e6c178, #d2a455) !important; color:#1a1405 !important; }
+.chip-desserts { background: linear-gradient(135deg, #ffb6d5, #e68cb5) !important; color:#3a1324 !important; }
+
+/* === Allergen chip tints (subtle, readable) === */
+.chip[data-code="GL"] { background:#d2a455 !important; color:#121212 !important; }
+.chip[data-code="CR"] { background:#f28b82 !important; color:#ffffff !important; }
+.chip[data-code="EG"] { background:#fbbc04 !important; color:#121212 !important; }
+.chip[data-code="Mi"] { background:#ffe0b2 !important; color:#121212 !important; }
+.chip[data-code="NU"] { background:#bcaaa4 !important; color:#ffffff !important; }
+.chip[data-code="SO"] { background:#a5d6a7 !important; color:#121212 !important; }
+.chip[data-code="FI"] { background:#81d4fa !important; color:#121212 !important; }
+.chip[data-code="ON"],
+.chip[data-code="GA"] { background:#b39ddb !important; color:#ffffff !important; }
+.chip[data-code="SE"] { background:#d7ccc8 !important; color:#121212 !important; }
+.chip[data-code="MU"] { background:#ffeb3b !important; color:#121212 !important; }
+.chip[data-code="MO"] { background:#b2dfdb !important; color:#121212 !important; }
+.chip[data-code="CE"] { background:#c5e1a5 !important; color:#121212 !important; }
+.chip[data-code="LU"] { background:#cfd8dc !important; color:#121212 !important; }
+.chip[data-code="PE"] { background:#ffccbc !important; color:#121212 !important; }
+
+/* === Dock button persistent highlight when selections are active === */
+.filter-btn.active {
+  background: rgba(255,255,255,0.95) !important;
+  color: #121212 !important;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25) !important;
+}
+#filterToggle.active .dot { background:#34c759 !important; }   /* Apple green for active allergens */
+#categoryToggle.active .dot { background:#D2A455 !important; } /* gold for active category */
+
+
+/* === Subtle tint system for dock chips (Apple-like, low saturation) === */
+
+/* Category chips: gentle tinted fill + soft border */
+.chip-starters { 
+  background: rgba(138, 180, 248, 0.14) !important; /* cool blue */
+  border-color: rgba(138, 180, 248, 0.38) !important;
+}
+.chip-mains { 
+  background: rgba(129, 199, 132, 0.16) !important; /* fresh green */
+  border-color: rgba(129, 199, 132, 0.42) !important;
+}
+.chip-dimsums { 
+  background: rgba(210, 164, 85, 0.18) !important;  /* refined gold */
+  border-color: rgba(210, 164, 85, 0.46) !important;
+}
+.chip-desserts { 
+  background: rgba(255, 167, 194, 0.18) !important; /* rose */
+  border-color: rgba(255, 167, 194, 0.44) !important;
+}
+
+/* Allergen preset chips: soft pastels (codes only) */
+.chip[data-code="GL"] { background: rgba(210,164,85,0.18) !important; border-color: rgba(210,164,85,0.46) !important; }
+.chip[data-code="CR"] { background: rgba(242,139,130,0.18) !important; border-color: rgba(242,139,130,0.48) !important; }
+.chip[data-code="EG"] { background: rgba(251,188,4,0.16) !important;  border-color: rgba(251,188,4,0.42) !important; color:#121212 !important; }
+.chip[data-code="Mi"] { background: rgba(255,224,178,0.22) !important; border-color: rgba(255,224,178,0.48) !important; color:#121212 !important; }
+.chip[data-code="NU"] { background: rgba(188,170,164,0.18) !important; border-color: rgba(188,170,164,0.44) !important; }
+.chip[data-code="SO"] { background: rgba(165,214,167,0.18) !important; border-color: rgba(165,214,167,0.46) !important; color:#121212 !important; }
+.chip[data-code="FI"] { background: rgba(129,212,250,0.18) !important; border-color: rgba(129,212,250,0.46) !important; color:#121212 !important; }
+.chip[data-code="ON"] { background: rgba(179,157,219,0.18) !important; border-color: rgba(179,157,219,0.46) !important; }
+.chip[data-code="GA"] { background: rgba(179,157,219,0.18) !important; border-color: rgba(179,157,219,0.46) !important; }
+.chip[data-code="SE"] { background: rgba(215,204,200,0.18) !important; border-color: rgba(215,204,200,0.44) !important; color:#121212 !important; }
+.chip[data-code="MU"] { background: rgba(255,235,59,0.16) !important;  border-color: rgba(255,235,59,0.42) !important; color:#121212 !important; }
+.chip[data-code="CE"] { background: rgba(176, 200, 160, 0.18) !important; border-color: rgba(176,200,160,0.46) !important; }
+.chip[data-code="MR"] { background: rgba(200, 200, 200, 0.14) !important; border-color: rgba(200,200,200,0.36) !important; }
+.chip[data-code="LU"] { background: rgba(255, 204, 153, 0.18) !important; border-color: rgba(255,204,153,0.46) !important; color:#121212 !important; }
+.chip[data-code="PE"] { background: rgba(255, 183, 77, 0.18) !important; border-color: rgba(255,183,77,0.46) !important; color:#121212 !important; }
+
+/* Keep active selection obvious but classy */
+.chip.active {
+  background: rgba(210,164,85,0.32) !important; /* subtle gold wash */
+  border-color: rgba(210,164,85,0.70) !important;
+  color: #121212 !important;
+  box-shadow: 0 0 0 1px rgba(210,164,85,0.55), 0 4px 10px rgba(0,0,0,0.18) !important;
+}
+
+/* Persistent dock highlight when selections exist */
+.filter-btn[data-active="1"] {
+  box-shadow: 0 6px 16px rgba(0,0,0,0.22) !important;
+  transform: translateY(-1px);
+}
+#filterToggle[data-active="1"] .dot { background: #34c759 !important; }
+#categoryToggle[data-active="1"] .dot { background: #D2A455 !important; }
+
+/* Better dot baseline (subtle) */
+.filter-btn .dot {
+  opacity: 0.9 !important;
+}
+
+
+/* === Subtle chip palette (elegant) === */
+
+/* Category chips (low-saturation gradients) */
+.chip-starters { background: linear-gradient(135deg, rgba(142,197,255,0.22), rgba(90,169,230,0.22)) !important; color: var(--text) !important; }
+.chip-mains    { background: linear-gradient(135deg, rgba(155,229,193,0.22), rgba(76,175,125,0.22)) !important; color: var(--text) !important; }
+.chip-dimsums  { background: linear-gradient(135deg, rgba(230,193,120,0.22), rgba(210,164,85,0.22)) !important; color: var(--text) !important; }
+.chip-desserts { background: linear-gradient(135deg, rgba(255,182,213,0.22), rgba(230,140,181,0.22)) !important; color: var(--text) !important; }
+
+/* Allergen chip soft tints via data-code */
+.chip[data-code="GL"]{ background: rgba(210,164,85,0.20) !important; color: var(--text) !important; }
+.chip[data-code="CR"]{ background: rgba(242,139,130,0.20) !important; color: var(--text) !important; }
+.chip[data-code="EG"]{ background: rgba(251,188,4,0.18) !important; color: var(--text) !important; }
+.chip[data-code="Mi"]{ background: rgba(255,224,178,0.20) !important; color: #121212 !important; }
+.chip[data-code="NU"]{ background: rgba(188,170,164,0.20) !important; color: var(--text) !important; }
+.chip[data-code="SO"]{ background: rgba(165,214,167,0.20) !important; color: var(--text) !important; }
+.chip[data-code="FI"]{ background: rgba(129,212,250,0.20) !important; color: var(--text) !important; }
+.chip[data-code="ON"]{ background: rgba(179,157,219,0.20) !important; color: var(--text) !important; }
+.chip[data-code="GA"]{ background: rgba(179,157,219,0.20) !important; color: var(--text) !important; }
+.chip[data-code="SE"]{ background: rgba(215,204,200,0.20) !important; color: var(--text) !important; }
+.chip[data-code="MU"]{ background: rgba(255,235,59,0.18) !important; color: #121212 !important; }
+.chip[data-code="CE"]{ background: rgba(166,210,160,0.18) !important; color: var(--text) !important; }
+.chip[data-code="MR"]{ background: rgba(160,205,200,0.18) !important; color: var(--text) !important; }
+.chip[data-code="LU"]{ background: rgba(210,197,240,0.18) !important; color: var(--text) !important; }
+.chip[data-code="PE"]{ background: rgba(255,205,210,0.18) !important; color: var(--text) !important; }
+
+/* Active chip still pops gently */
+.chip.active { box-shadow: 0 0 0 1px rgba(255,255,255,0.25) inset, 0 0 10px rgba(210,164,85,0.18) !important; }
+
+/* Dock button persistent highlight */
+#filterToggle[data-active="true"] .dot { background:#34c759 !important; }
+#categoryToggle[data-active="true"] .dot { background:#D2A455 !important; }
+
+
+/* === Hard-disable any blur within dish cards === */
+.card, .card * {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+}

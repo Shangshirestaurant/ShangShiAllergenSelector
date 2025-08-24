@@ -1,0 +1,719 @@
+[
+  {
+    "name": "Steamed Vegetarian Dim Sum Platter",
+    "allergens": [
+      "CE",
+      "GL",
+      "Mi",
+      "MR"
+    ],
+    "description": "",
+    "category": "Starters"
+  },
+  {
+    "name": "Steamed Dim Sum Platter",
+    "allergens": [
+      "GL",
+      "CR",
+      "ON"
+    ],
+    "description": "",
+    "category": "Starters"
+  },
+  {
+    "name": "Deep Fried Dim Sum Assortment",
+    "allergens": [
+      "GL",
+      "MR",
+      "SE",
+      "CR",
+      "Mi",
+      "EG",
+      "ON"
+    ],
+    "description": "",
+    "category": "Starters"
+  },
+  {
+    "name": "Golden Fried Soft Shell Crab with Chilli",
+    "allergens": [
+      "EG",
+      "GL",
+      "CR",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Starters"
+  },
+  {
+    "name": "Home-made Salt and Pepper Crispy Tofu (v)",
+    "allergens": [
+      "GA",
+      "GL",
+      "EG",
+      "CE",
+      "SO"
+    ],
+    "description": "",
+    "category": "Starters"
+  },
+  {
+    "name": "Black Truffle Vegetable Spring Roll (v)",
+    "allergens": [
+      "GL",
+      "MR"
+    ],
+    "description": "",
+    "category": "Starters"
+  },
+  {
+    "name": "Aromatic Crispy Duck Salad",
+    "allergens": [
+      "GL",
+      "NU",
+      "MU",
+      "SO",
+      "ON"
+    ],
+    "description": "",
+    "category": "Starters"
+  },
+  {
+    "name": "Duck Soup",
+    "allergens": [
+      "GL",
+      "MR",
+      "SE",
+      "SO",
+      "ON",
+      "EG",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Starters"
+  },
+  {
+    "name": "Crispy Duck Salad",
+    "allergens": [
+      "GL",
+      "NU",
+      "MU",
+      "SO",
+      "ON"
+    ],
+    "description": "",
+    "category": "Starters"
+  },
+  {
+    "name": "Norwegian King Crab (Pan-fried with Chilli and Garlic)",
+    "allergens": [
+      "CR",
+      "GA",
+      "GL",
+      "SO",
+      "ON",
+      "EG",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Norwegian King Crab (Steamed with Chinese Rice Wine and Egg White)",
+    "allergens": [
+      "CR",
+      "EG",
+      "GL",
+      "ON",
+      "SO",
+      "GA",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Braised South African Kippin Abalone in Superior Oyster Sauce",
+    "allergens": [
+      "CR",
+      "GL",
+      "MR",
+      "SO",
+      "EG",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Legendary Peking Duck",
+    "allergens": [
+      "GL",
+      "Mi",
+      "EG"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Braised Fish Maw with Japanese Shitake Mushroom in Superior Oyster Sauce",
+    "allergens": [
+      "CR",
+      "GL",
+      "MR",
+      "SO",
+      "ON",
+      "EG",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Grilled Chilean Sea Bass in Honey",
+    "allergens": [
+      "GL",
+      "SO",
+      "FI",
+      "MR"
+    ],
+    "description": "Marinated in Honey",
+    "category": "Mains"
+  },
+  {
+    "name": "Deep Fried King Scallop with Minced Prawns in Teriyaki Sauce",
+    "allergens": [
+      "CR",
+      "EG",
+      "GA",
+      "GL",
+      "ON",
+      "SO",
+      "MR",
+      "EG",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Kung Pao Prawn with Cashew",
+    "allergens": [
+      "CR",
+      "GL",
+      "NU",
+      "ON",
+      "SO",
+      "MR"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Slow Cooked Japanese Wagyu with Black Truffle Sauce",
+    "allergens": [
+      "GL",
+      "ON",
+      "SO",
+      "MR",
+      "GA",
+      "CR"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Stir-fry Angus Tenderloin Beef with Black Pepper Sauce",
+    "allergens": [
+      "GA",
+      "GL",
+      "Mi",
+      "ON",
+      "SO",
+      "CR"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Sweet and Sour Iberico Pork with Pineapple",
+    "allergens": [
+      "GL",
+      "ON",
+      "MR",
+      "CR",
+      "MO"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Sizzling Taiwanese Three Cups Chicken",
+    "allergens": [
+      "GA",
+      "GL",
+      "ON",
+      "SO",
+      "SE",
+      "FI"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Braised Pork Belly",
+    "allergens": [
+      "GL",
+      "SO",
+      "CR",
+      "GA",
+      "Mi",
+      "EG",
+      "MO"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Stir Fry Lamian with Angus Beef",
+    "allergens": [
+      "EG",
+      "GL",
+      "MR",
+      "SO",
+      "ON",
+      "CR",
+      "Mi",
+      "FI"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Spicy Singapore Noodles with Seafood",
+    "allergens": [
+      "CR",
+      "EG",
+      "GL",
+      "MR",
+      "ON",
+      "SO",
+      "SE",
+      "Mi",
+      "EG"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Special Pork Rice",
+    "allergens": [
+      "GL",
+      "EG",
+      "CR",
+      "SO",
+      "GA",
+      "ON",
+      "SE",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Hot and Sour Soup with Seafood",
+    "allergens": [
+      "CR",
+      "MR",
+      "MU",
+      "ON",
+      "Mi",
+      "EG"
+    ],
+    "description": "",
+    "category": "Starters"
+  },
+  {
+    "name": "Mapo Tofu (with Minced Beef)",
+    "allergens": [
+      "MR",
+      "EG",
+      "ON",
+      "GA",
+      "SO",
+      "Mi"
+    ],
+    "description": "Can be vegetarian",
+    "category": "Mains"
+  },
+  {
+    "name": "Claypot Silken Egg Tofu with Vegetables (V)",
+    "allergens": [
+      "EG",
+      "MR",
+      "ON",
+      "SO",
+      "CR",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Stir-Fry Asparagus with Lily Bulbs, Water Chestnut, and Yellow Fungus (V)",
+    "allergens": [
+      "MR",
+      "GA",
+      "EG",
+      "Mi"
+    ],
+    "description": "It can be without Egg and Milk",
+    "category": "Mains"
+  },
+  {
+    "name": "Vegetable spring roll",
+    "allergens": [
+      "MR",
+      "GL"
+    ],
+    "description": "Canape",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Pumpkin ball",
+    "allergens": [
+      "MR",
+      "NU",
+      "GL"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Rack of Lamb with Chef's Special Sauce",
+    "allergens": [
+      "Mi",
+      "ON",
+      "GA",
+      "SO",
+      "EG"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Peach Melba",
+    "allergens": [
+      "EG",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Desserts"
+  },
+  {
+    "name": "Wasabi Blanch",
+    "allergens": [
+      "EG",
+      "Mi",
+      "NU"
+    ],
+    "description": "",
+    "category": "Desserts"
+  },
+  {
+    "name": "Venison Puff",
+    "allergens": [
+      "Mi",
+      "EG",
+      "SE"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Ham&Cheese Sandwich",
+    "allergens": [
+      "Mi",
+      "GL"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Char Siu",
+    "allergens": [
+      "SE",
+      "PE",
+      "SO",
+      "GA",
+      "ON"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Stir Fried Squid with Pepper, Chilli, and Garlic",
+    "allergens": [
+      "CR",
+      "EG",
+      "GA",
+      "ON",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Lobster with Ginger and Spring Onion",
+    "allergens": [
+      "CR",
+      "ON",
+      "EG",
+      "Mi",
+      "SE"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Salt and Pepper Estonian Quail",
+    "allergens": [
+      "EG",
+      "GA",
+      "ON",
+      "SO",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Special Pork Fried Rice with XO Sauce",
+    "allergens": [
+      "CR",
+      "EG",
+      "GA",
+      "ON",
+      "SE"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Five Spice Crispy Corn Fed Chicken Parcel with Thai Basil",
+    "allergens": [
+      "GA",
+      "Mi",
+      "EG"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "XO Sauce king crab dumpling (red)",
+    "allergens": [
+      "GA",
+      "SE",
+      "CR"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Legendary Peking Duck 3rd Course",
+    "allergens": [
+      "NU",
+      "SO",
+      "Mi",
+      "FI",
+      "ON",
+      "EG"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Matcha Financier",
+    "allergens": [
+      "NU"
+    ],
+    "description": "",
+    "category": "Desserts"
+  },
+  {
+    "name": "Tobiko scallop siew mai (yellow)",
+    "allergens": [
+      "CR"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Spinach dumpling (green)",
+    "allergens": [
+      "CR"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Chopped pepper lamb dumpling (pink)",
+    "allergens": [
+      "CR"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Sweet Corn Soup with Chicken",
+    "allergens": [
+      "EG",
+      "ON",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Starters"
+  },
+  {
+    "name": "Golden Egg Fried Rice",
+    "allergens": [
+      "EG",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Amuse Bouche",
+    "allergens": [
+      "SE",
+      "MR",
+      "GL",
+      "CR",
+      "GA"
+    ],
+    "description": "",
+    "category": "Starters"
+  },
+  {
+    "name": "Baked venison puff",
+    "allergens": [
+      "SE",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Crispy Pork Belly",
+    "allergens": [
+      "MU",
+      "EG",
+      "ON",
+      "GA",
+      "Mi"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Rice Pudding – Blackberry – Coconut",
+    "allergens": [],
+    "description": "",
+    "category": "Desserts"
+  },
+  {
+    "name": "Spicy Vegetables Dumpling",
+    "allergens": [
+      "MR",
+      "GL",
+      "CE"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Caviar Prawn Dumpling",
+    "allergens": [
+      "GL",
+      "CR"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Wagyu Beef Dumpling",
+    "allergens": [
+      "GL"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Octopus and Cabbage Dumpling",
+    "allergens": [
+      "GL",
+      "ON",
+      "CR"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Chicken and Foie Gras",
+    "allergens": [
+      "GL",
+      "MR"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "King Oyster Mushroom Dumpling",
+    "allergens": [
+      "GL",
+      "MR"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Morel Mushroom Dumpling",
+    "allergens": [
+      "GL",
+      "MR"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Black Truffle Edamame Dumpling",
+    "allergens": [
+      "GL",
+      "Mi",
+      "MR"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Lamb Dumpling",
+    "allergens": [
+      "CR",
+      "MR",
+      "GL"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  },
+  {
+    "name": "Prawn Toast",
+    "allergens": [
+      "CR",
+      "GL",
+      "SE"
+    ],
+    "description": "",
+    "category": "Dim Sums"
+  }
+]
