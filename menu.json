@@ -367,7 +367,7 @@
       "EG",
       "Mi"
     ],
-    "description": "It can be withou Egg and Milk",
+    "description": "It can be without Egg and Milk",
     "category": "Mains"
   },
   {
@@ -440,14 +440,16 @@
     "category": "Dim Sums"
   },
   {
-    "name": "Crispy Aromatic Duck Salad",
+    "name": "Char Siu",
     "allergens": [
-      "NU",
-      "ON",
-      "SO"
+      "SE",
+      "PE",
+      "SO",
+      "GA",
+      "ON"
     ],
     "description": "",
-    "category": "Starters"
+    "category": "Mains"
   },
   {
     "name": "Stir Fried Squid with Pepper, Chilli, and Garlic",
