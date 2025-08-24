@@ -548,3 +548,79 @@ html { scroll-behavior: smooth; }
   -webkit-backdrop-filter: none !important;
 }
 .badge, .pill, .safe-pill { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+
+
+/* === Elegant Category Chips === */
+.chip-starters { 
+  background: linear-gradient(135deg, #8ec5ff, #5aa9e6) !important;
+  color: #fff !important;
+}
+.chip-mains { 
+  background: linear-gradient(135deg, #9be5c1, #4caf7d) !important;
+  color: #fff !important;
+}
+.chip-dimsums { 
+  background: linear-gradient(135deg, #e6c178, #d2a455) !important;
+  color: #fff !important;
+}
+.chip-desserts { 
+  background: linear-gradient(135deg, #ffb6d5, #e68cb5) !important;
+  color: #fff !important;
+}
+
+/* === Allergen Chip Tints === */
+.chip[data-code="GL"] { background:#d2a455 !important; color:#121212 !important; }
+.chip[data-code="CR"] { background:#f28b82 !important; color:#fff !important; }
+.chip[data-code="EG"] { background:#fbbc04 !important; color:#121212 !important; }
+.chip[data-code="Mi"] { background:#ffe0b2 !important; color:#121212 !important; }
+.chip[data-code="NU"] { background:#bcaaa4 !important; color:#fff !important; }
+.chip[data-code="SO"] { background:#a5d6a7 !important; color:#121212 !important; }
+.chip[data-code="FI"] { background:#81d4fa !important; color:#121212 !important; }
+.chip[data-code="ON"],
+.chip[data-code="GA"] { background:#b39ddb !important; color:#fff !important; }
+.chip[data-code="SE"] { background:#d7ccc8 !important; color:#121212 !important; }
+.chip[data-code="MU"] { background:#ffeb3b !important; color:#121212 !important; }
+
+
+/* === Elegant Category Chips (dock) === */
+.chip-starters { 
+  background: linear-gradient(135deg, #8ec5ff, #5aa9e6) !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+.chip-mains { 
+  background: linear-gradient(135deg, #9be5c1, #4caf7d) !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+.chip-dimsums { 
+  background: linear-gradient(135deg, #e6c178, #d2a455) !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+.chip-desserts { 
+  background: linear-gradient(135deg, #ffb6d5, #e68cb5) !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+/* === Elegant Allergen Chips (dock) === */
+.chip[data-code="CE"] { background: #e0f2f1 !important; color:#0c3b33 !important; border:none !important; }
+.chip[data-code="GL"] { background: #f0e0c2 !important; color:#3b2a0c !important; border:none !important; } /* wheat/golden */
+.chip[data-code="CR"] { background: #fde0e0 !important; color:#5a1010 !important; border:none !important; } /* coral */
+.chip[data-code="EG"] { background: #fff3cd !important; color:#4a3b06 !important; border:none !important; } /* yolk */
+.chip[data-code="FI"], .chip[data-code="FI…"], .chip[data-code="FI..."] { background: #e1f5fe !important; color:#063b4a !important; border:none !important; } /* ocean */
+.chip[data-code="MO"] { background: #ede7f6 !important; color:#2f2957 !important; border:none !important; } /* soft violet */
+.chip[data-code="Mi"] { background: #fff3e0 !important; color:#4b2c10 !important; border:none !important; } /* cream */
+.chip[data-code="MU"] { background: #fff9c4 !important; color:#4a4006 !important; border:none !important; } /* mustard */
+.chip[data-code="NU"] { background: #efebe9 !important; color:#3b2f2b !important; border:none !important; } /* nutty */
+.chip[data-code="SE"] { background: #f5f0e6 !important; color:#3d3526 !important; border:none !important; } /* sesame */
+.chip[data-code="SO"] { background: #e8f5e9 !important; color:#1b3b2f !important; border:none !important; } /* soy/sage */
+.chip[data-code="GA"] { background: #f3e5f5 !important; color:#4a2b4f !important; border:none !important; } /* garlic/lavender */
+.chip[data-code="ON"] { background: #ede7f6 !important; color:#2f2957 !important; border:none !important; } /* onion/lavender */
+.chip[data-code="MR"] { background: #e8eaf6 !important; color:#222a5a !important; border:none !important; } /* mushrooms/indigo */
+.chip[data-code="LU"] { background: #e0f7fa !important; color:#00363a !important; border:none !important; } /* lupin/aqua */
+.chip[data-code="PE"] { background: #ffebee !important; color:#65191b !important; border:none !important; } /* peanuts/rose */
+
+/* Active state remains accented */
+.chip.active { box-shadow: 0 0 0 2px rgba(255,255,255,0.25) inset, 0 2px 8px rgba(0,0,0,0.18) !important; }

@@ -1,5 +1,5 @@
 
-// ===== Shang Shi Menu UI (rewritten clean build) =====
+// ===== Shang Shi Menu UI (with SAFE mark only if dish is safe) =====
 
 // --- Allergen Legend ---
 const LEGEND = {
@@ -78,25 +78,35 @@ function renderChips() {
   });
 }
 
+
 function makeCard(item){
   const card = document.createElement('article');
   card.className = 'card';
   card.setAttribute('data-category', item.category || '');
   card.setAttribute('data-allergens', JSON.stringify(item.allergens || []));
 
-  // Labels row (category + SAFE)
+  // Labels row (category + conditional SAFE)
   const labels = document.createElement('div');
   labels.className = 'labels';
-  const pill = document.createElement('span');
+
+  // Category pill
   const key = (item.category || '').toLowerCase().replace(/\s+/g,'');
-  pill.className = `pill pill-${key || 'mains'}`; // tint by category
+  const pill = document.createElement('span');
+  pill.className = `pill pill-${key || 'mains'}`;
   pill.textContent = item.category || 'Dish';
   labels.appendChild(pill);
 
-  const safe = document.createElement('span');
-  safe.className = 'safe-pill';
-  safe.textContent = 'SAFE';
-  labels.appendChild(safe);
+  // SAFE pill appears only when at least one allergen is selected AND dish passes SAFE check
+  if (activeAllergens.size) {
+    const allergens = item.allergens || [];
+    const isSafe = [...activeAllergens].every(a => !allergens.includes(a));
+    if (isSafe) {
+      const safe = document.createElement('span');
+      safe.className = 'safe-pill';
+      safe.textContent = 'SAFE';
+      labels.appendChild(safe);
+    }
+  }
 
   const h3 = document.createElement('h3');
   h3.textContent = item.name;
@@ -110,18 +120,17 @@ function makeCard(item){
   (item.allergens || []).forEach(code => {
     const b = document.createElement('span');
     b.className = 'badge';
-    b.textContent = codeToLabel(code);
+    b.textContent = code;   // show only code
+    b.title = codeToLabel(code); // tooltip shows full name
     badges.appendChild(b);
   });
 
   card.append(labels, h3, desc, badges);
   return card;
 }
-
 function codeToLabel(code){ return LEGEND[code] || code; }
 
 function passesFilters(item){
-  // SAFE logic: dish must NOT contain any selected allergen
   const allergens = item.allergens || [];
   const safeAllergen = !activeAllergens.size || [...activeAllergens].every(a => !allergens.includes(a));
   const safeCategory = !activeCategory || (item.category === activeCategory);
@@ -131,17 +140,7 @@ function passesFilters(item){
 function renderGrid(){
   gridEl.innerHTML = '';
   const filtered = menuData.filter(passesFilters);
-
   filtered.forEach(item => gridEl.appendChild(makeCard(item)));
-
-  // Update SAFE pill visibility per item after filters are applied
-  [...gridEl.querySelectorAll('.card')].forEach(card => {
-    const allergens = JSON.parse(card.getAttribute('data-allergens') || '[]');
-    const isSafe = !activeAllergens.size || [...activeAllergens].every(a => !allergens.includes(a));
-    const safePill = card.querySelector('.safe-pill');
-    if (safePill) safePill.style.display = isSafe ? 'inline-flex' : 'none';
-  });
-
   resultCountEl.textContent = `${filtered.length} dishes`;
 }
 
