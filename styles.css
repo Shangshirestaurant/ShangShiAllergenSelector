@@ -532,3 +532,19 @@ html { scroll-behavior: smooth; }
 
 /* Ensure badges (allergen chips) never overlap labels */
 .card .badges{ margin-top:10px; }
+
+
+/* === Category chips (Apple-like) === */
+.chip.category { font-weight:600; }
+.chip-starters { background: radial-gradient(120% 140% at 30% 10%, rgba(120,186,255,0.95), rgba(120,186,255,0.85)) !important; }
+.chip-mains { background: radial-gradient(120% 140% at 30% 10%, rgba(165,235,190,0.95), rgba(165,235,190,0.85)) !important; }
+.chip-dimsums { background: radial-gradient(120% 140% at 30% 10%, rgba(210,164,85,0.95), rgba(210,164,85,0.85)) !important; }
+.chip-desserts { background: radial-gradient(120% 140% at 30% 10%, rgba(255,196,230,0.95), rgba(255,196,230,0.85)) !important; }
+.chip.category.active { background: var(--accent) !important; color:#121212 !important; border-color: var(--accent2) !important; box-shadow: 0 0 8px rgba(52,199,89,0.25) !important; }
+
+/* === Remove all blur from dish cards and elements inside them === */
+.card, .card *:where(.badge, .pill, .safe-pill) {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.badge, .pill, .safe-pill { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
