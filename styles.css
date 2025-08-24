@@ -534,188 +534,38 @@ html { scroll-behavior: smooth; }
 .card .badges{ margin-top:10px; }
 
 
-/* === Dock buttons highlight when selections exist === */
-.filter-btn.has-active {
-  background: rgba(255,255,255,0.96) !important;
-  color: #121212 !important;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.25) !important;
-  transform: translateY(-1px);
-}
-#filterToggle.has-active .dot { background: #34c759 !important; }   /* Apple green = active filters */
-#categoryToggle.has-active .dot { background: #D2A455 !important; } /* Gold = category chosen */
-.filter-btn.has-active:active { transform: translateY(0); }
-
-/* === Elegant allergen chip tints by code === */
-.chip[data-code="GL"] { background: #d2a455 !important; color:#121212 !important; }
-.chip[data-code="CR"] { background: #f28b82 !important; color:#ffffff !important; }
-.chip[data-code="EG"] { background: #fbbc04 !important; color:#121212 !important; }
-.chip[data-code="Mi"] { background: #ffe0b2 !important; color:#121212 !important; }
-.chip[data-code="NU"] { background: #bcaaa4 !important; color:#ffffff !important; }
-.chip[data-code="SO"] { background: #a5d6a7 !important; color:#121212 !important; }
-.chip[data-code="FI"] { background: #81d4fa !important; color:#121212 !important; }
-.chip[data-code="ON"], .chip[data-code="GA"] { background: #b39ddb !important; color:#ffffff !important; }
-.chip[data-code="SE"] { background: #d7ccc8 !important; color:#121212 !important; }
-.chip[data-code="MU"] { background: #ffeb3b !important; color:#121212 !important; }
-.chip[data-code="CE"] { background: #c8e6c9 !important; color:#121212 !important; }
-.chip[data-code="MR"] { background: #cfd8dc !important; color:#121212 !important; }
-.chip[data-code="LU"] { background: #c5e1a5 !important; color:#121212 !important; }
-.chip[data-code="PE"] { background: #ffccbc !important; color:#121212 !important; }
-
-
-/* === Elegant category chips (Apple-like gradients) === */
-.chip-starters { background: linear-gradient(135deg, #8ec5ff, #5aa9e6) !important; color:#fff !important; }
-.chip-mains    { background: linear-gradient(135deg, #9be5c1, #4caf7d) !important; color:#fff !important; }
-.chip-dimsums  { background: linear-gradient(135deg, #e6c178, #d2a455) !important; color:#1a1405 !important; }
-.chip-desserts { background: linear-gradient(135deg, #ffb6d5, #e68cb5) !important; color:#3a1324 !important; }
-
-/* === Allergen chip tints (subtle, readable) === */
-.chip[data-code="GL"] { background:#d2a455 !important; color:#121212 !important; }
-.chip[data-code="CR"] { background:#f28b82 !important; color:#ffffff !important; }
-.chip[data-code="EG"] { background:#fbbc04 !important; color:#121212 !important; }
-.chip[data-code="Mi"] { background:#ffe0b2 !important; color:#121212 !important; }
-.chip[data-code="NU"] { background:#bcaaa4 !important; color:#ffffff !important; }
-.chip[data-code="SO"] { background:#a5d6a7 !important; color:#121212 !important; }
-.chip[data-code="FI"] { background:#81d4fa !important; color:#121212 !important; }
-.chip[data-code="ON"],
-.chip[data-code="GA"] { background:#b39ddb !important; color:#ffffff !important; }
-.chip[data-code="SE"] { background:#d7ccc8 !important; color:#121212 !important; }
-.chip[data-code="MU"] { background:#ffeb3b !important; color:#121212 !important; }
-.chip[data-code="MO"] { background:#b2dfdb !important; color:#121212 !important; }
-.chip[data-code="CE"] { background:#c5e1a5 !important; color:#121212 !important; }
-.chip[data-code="LU"] { background:#cfd8dc !important; color:#121212 !important; }
-.chip[data-code="PE"] { background:#ffccbc !important; color:#121212 !important; }
-
-/* === Dock button persistent highlight when selections are active === */
-.filter-btn.active {
+/* === Dock active state highlight === */
+.filter-btn[data-active="true"]{
   background: rgba(255,255,255,0.95) !important;
-  color: #121212 !important;
   box-shadow: 0 8px 18px rgba(0,0,0,0.25) !important;
 }
-#filterToggle.active .dot { background:#34c759 !important; }   /* Apple green for active allergens */
-#categoryToggle.active .dot { background:#D2A455 !important; } /* gold for active category */
+.filter-btn[data-active="true"] .dot{ background: #34c759 !important; }
+#categoryToggle .dot{ background: #D2A455 !important; }
+#categoryToggle[data-active="true"] .dot{ background: #D2A455 !important; }
 
-
-/* === Subtle tint system for dock chips (Apple-like, low saturation) === */
-
-/* Category chips: gentle tinted fill + soft border */
-.chip-starters { 
-  background: rgba(138, 180, 248, 0.14) !important; /* cool blue */
-  border-color: rgba(138, 180, 248, 0.38) !important;
-}
-.chip-mains { 
-  background: rgba(129, 199, 132, 0.16) !important; /* fresh green */
-  border-color: rgba(129, 199, 132, 0.42) !important;
-}
-.chip-dimsums { 
-  background: rgba(210, 164, 85, 0.18) !important;  /* refined gold */
-  border-color: rgba(210, 164, 85, 0.46) !important;
-}
-.chip-desserts { 
-  background: rgba(255, 167, 194, 0.18) !important; /* rose */
-  border-color: rgba(255, 167, 194, 0.44) !important;
-}
-
-/* Allergen preset chips: soft pastels (codes only) */
-.chip[data-code="GL"] { background: rgba(210,164,85,0.18) !important; border-color: rgba(210,164,85,0.46) !important; }
-.chip[data-code="CR"] { background: rgba(242,139,130,0.18) !important; border-color: rgba(242,139,130,0.48) !important; }
-.chip[data-code="EG"] { background: rgba(251,188,4,0.16) !important;  border-color: rgba(251,188,4,0.42) !important; color:#121212 !important; }
-.chip[data-code="Mi"] { background: rgba(255,224,178,0.22) !important; border-color: rgba(255,224,178,0.48) !important; color:#121212 !important; }
-.chip[data-code="NU"] { background: rgba(188,170,164,0.18) !important; border-color: rgba(188,170,164,0.44) !important; }
-.chip[data-code="SO"] { background: rgba(165,214,167,0.18) !important; border-color: rgba(165,214,167,0.46) !important; color:#121212 !important; }
-.chip[data-code="FI"] { background: rgba(129,212,250,0.18) !important; border-color: rgba(129,212,250,0.46) !important; color:#121212 !important; }
-.chip[data-code="ON"] { background: rgba(179,157,219,0.18) !important; border-color: rgba(179,157,219,0.46) !important; }
-.chip[data-code="GA"] { background: rgba(179,157,219,0.18) !important; border-color: rgba(179,157,219,0.46) !important; }
-.chip[data-code="SE"] { background: rgba(215,204,200,0.18) !important; border-color: rgba(215,204,200,0.44) !important; color:#121212 !important; }
-.chip[data-code="MU"] { background: rgba(255,235,59,0.16) !important;  border-color: rgba(255,235,59,0.42) !important; color:#121212 !important; }
-.chip[data-code="CE"] { background: rgba(176, 200, 160, 0.18) !important; border-color: rgba(176,200,160,0.46) !important; }
-.chip[data-code="MR"] { background: rgba(200, 200, 200, 0.14) !important; border-color: rgba(200,200,200,0.36) !important; }
-.chip[data-code="LU"] { background: rgba(255, 204, 153, 0.18) !important; border-color: rgba(255,204,153,0.46) !important; color:#121212 !important; }
-.chip[data-code="PE"] { background: rgba(255, 183, 77, 0.18) !important; border-color: rgba(255,183,77,0.46) !important; color:#121212 !important; }
-
-/* Keep active selection obvious but classy */
-.chip.active {
-  background: rgba(210,164,85,0.32) !important; /* subtle gold wash */
-  border-color: rgba(210,164,85,0.70) !important;
-  color: #121212 !important;
-  box-shadow: 0 0 0 1px rgba(210,164,85,0.55), 0 4px 10px rgba(0,0,0,0.18) !important;
-}
-
-/* Persistent dock highlight when selections exist */
-.filter-btn[data-active="1"] {
-  box-shadow: 0 6px 16px rgba(0,0,0,0.22) !important;
-  transform: translateY(-1px);
-}
-#filterToggle[data-active="1"] .dot { background: #34c759 !important; }
-#categoryToggle[data-active="1"] .dot { background: #D2A455 !important; }
-
-/* Better dot baseline (subtle) */
-.filter-btn .dot {
-  opacity: 0.9 !important;
-}
-
-
-/* === Subtle chip palette (elegant) === */
-
-/* Category chips (low-saturation gradients) */
-.chip-starters { background: linear-gradient(135deg, rgba(142,197,255,0.22), rgba(90,169,230,0.22)) !important; color: var(--text) !important; }
-.chip-mains    { background: linear-gradient(135deg, rgba(155,229,193,0.22), rgba(76,175,125,0.22)) !important; color: var(--text) !important; }
-.chip-dimsums  { background: linear-gradient(135deg, rgba(230,193,120,0.22), rgba(210,164,85,0.22)) !important; color: var(--text) !important; }
-.chip-desserts { background: linear-gradient(135deg, rgba(255,182,213,0.22), rgba(230,140,181,0.22)) !important; color: var(--text) !important; }
-
-/* Allergen chip soft tints via data-code */
-.chip[data-code="GL"]{ background: rgba(210,164,85,0.20) !important; color: var(--text) !important; }
-.chip[data-code="CR"]{ background: rgba(242,139,130,0.20) !important; color: var(--text) !important; }
-.chip[data-code="EG"]{ background: rgba(251,188,4,0.18) !important; color: var(--text) !important; }
-.chip[data-code="Mi"]{ background: rgba(255,224,178,0.20) !important; color: #121212 !important; }
-.chip[data-code="NU"]{ background: rgba(188,170,164,0.20) !important; color: var(--text) !important; }
-.chip[data-code="SO"]{ background: rgba(165,214,167,0.20) !important; color: var(--text) !important; }
-.chip[data-code="FI"]{ background: rgba(129,212,250,0.20) !important; color: var(--text) !important; }
-.chip[data-code="ON"]{ background: rgba(179,157,219,0.20) !important; color: var(--text) !important; }
-.chip[data-code="GA"]{ background: rgba(179,157,219,0.20) !important; color: var(--text) !important; }
-.chip[data-code="SE"]{ background: rgba(215,204,200,0.20) !important; color: var(--text) !important; }
-.chip[data-code="MU"]{ background: rgba(255,235,59,0.18) !important; color: #121212 !important; }
-.chip[data-code="CE"]{ background: rgba(166,210,160,0.18) !important; color: var(--text) !important; }
-.chip[data-code="MR"]{ background: rgba(160,205,200,0.18) !important; color: var(--text) !important; }
-.chip[data-code="LU"]{ background: rgba(210,197,240,0.18) !important; color: var(--text) !important; }
-.chip[data-code="PE"]{ background: rgba(255,205,210,0.18) !important; color: var(--text) !important; }
-
-/* Active chip still pops gently */
-.chip.active { box-shadow: 0 0 0 1px rgba(255,255,255,0.25) inset, 0 0 10px rgba(210,164,85,0.18) !important; }
-
-/* Dock button persistent highlight */
-#filterToggle[data-active="true"] .dot { background:#34c759 !important; }
-#categoryToggle[data-active="true"] .dot { background:#D2A455 !important; }
-
-
-/* === Hard-disable any blur within dish cards === */
-.card, .card * {
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  filter: none !important;
-}
-
-
-/* === Reset button (icon-only, Apple-like circular) === */
+/* === Reset (icon-only) button === */
 .reset-btn{
+  width: 40px; height: 40px; border-radius: 999px;
+  background: rgba(255,255,255,0.92);
+  color: #111;
+  border: 1px solid rgba(0,0,0,0.08);
   display:inline-flex; align-items:center; justify-content:center;
-  width:40px; height:40px; border-radius:999px;
-  background: rgba(255,255,255,0.92); color:#111;
-  border: 1px solid rgba(0,0,0,0.06);
   box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
   -webkit-tap-highlight-color: transparent;
 }
-.reset-btn:hover{ transform: translateY(-1px); box-shadow:0 6px 14px rgba(0,0,0,0.24); }
+.reset-btn:hover{ transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,0.25); }
 .reset-btn:active{ transform: translateY(0) scale(.98); }
-.reset-btn .reset-icon{ display:block; }
-body.light .reset-btn{ background:#ffffff; color:#111; box-shadow:0 2px 8px rgba(0,0,0,0.12); }
-@media (max-width:480px){
-  .reset-btn{ width:36px; height:36px; }
-}
+.reset-btn svg{ width:18px; height:18px; stroke: currentColor; fill:none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .4s cubic-bezier(.22,1,.36,1); }
+.reset-btn.spin svg{ transform: rotate(90deg); }
 
+/* === Category chip subtle tints === */
+.chip.category{ font-weight:600; }
+.chip-starters{ background: rgba(120,186,255,0.18) !important; border:1px solid rgba(120,186,255,0.32) !important; }
+.chip-mains{ background: rgba(165,235,190,0.18) !important; border:1px solid rgba(165,235,190,0.32) !important; }
+.chip-dimsums{ background: rgba(210,164,85,0.20) !important; border:1px solid rgba(210,164,85,0.34) !important; }
+.chip-desserts{ background: rgba(255,196,230,0.20) !important; border:1px solid rgba(255,196,230,0.34) !important; }
+.chip.category.active{ background: var(--accent) !important; color:#121212 !important; border-color: var(--accent2) !important; }
 
-/* Reset icon spin on hover/tap */
-.reset-btn .reset-icon{ transition: transform .28s cubic-bezier(0.22,1,0.36,1); transform: rotate(0deg); }
-.reset-btn:hover .reset-icon,
-.reset-btn:active .reset-icon,
-.reset-btn.spin .reset-icon{ transform: rotate(90deg); }
+/* === Hard-disable blur inside dish cards === */
+.card, .card *{ backdrop-filter: none !important; -webkit-backdrop-filter: none !important; filter: none !important; }
