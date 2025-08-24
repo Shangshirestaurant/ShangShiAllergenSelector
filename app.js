@@ -61,7 +61,7 @@ function renderChips(){
     const btn = document.createElement('button');
     btn.className = 'chip';
     btn.setAttribute('data-code', code);
-    btn.innerHTML = `<b>${code}</b>`; // show only code in pill
+    btn.innerHTML = `<b>${code}</b> ${codeToLabel(code)}`; // show code + full name in dock
     btn.title = codeToLabel(code);
     btn.addEventListener('click', () => {
       if (activeAllergens.has(code)){
