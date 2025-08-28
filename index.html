@@ -6,13 +6,40 @@
   <meta name="theme-color" content="#0C0F14">
   <title>Shang Shi — Intro</title>
   <style>
-    html,body{height:100%;margin:0;background:#0C0F14;color:#f5f5f5;
-      font-family:-apple-system,system-ui,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
-    .wrap{min-height:100%;display:grid;grid-template-rows:1fr auto;place-items:center;padding:24px}
-    .center{display:grid;place-items:center;gap:16px}
-    .logo{width:140px;height:auto;display:block;border:none;background:transparent;
-      box-shadow:0 0 12px rgba(212,175,55,0.5);border-radius:50%;cursor:pointer}
-    .foot{color:#d4af37;font-size:12px;padding:16px 0;text-align:center;width:100%}
+    html,body{
+      height:100%;
+      margin:0;
+      background: linear-gradient(to bottom, #0E2420, #0A1211, #07090A);
+      color:#f5f5f5;
+      font-family:-apple-system,system-ui,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+    /* teal radial vignette */
+    body::before{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(700px 700px at 50% 45%, rgba(14,36,32,0.35), transparent 70%);
+      pointer-events:none;
+    }
+    .wrap{ min-height:100%; display:grid; grid-template-rows:1fr auto; place-items:center; padding:24px; position:relative; z-index:1; }
+    .center{ display:grid; place-items:center; gap:16px; position:relative; }
+    /* gold glow pulse */
+    .center::before{
+      content:""; position:absolute; width:280px; height:280px; border-radius:50%;
+      background: radial-gradient(circle, rgba(212,175,55,0.45), rgba(212,175,55,0.0) 70%);
+      filter: blur(18px); z-index:0;
+      animation: halo 4s ease-in-out infinite;
+      transform-origin:center;
+    }
+    .logo{
+      width:140px; height:auto; display:block; border:none; background:transparent; position:relative; z-index:1;
+      animation: logo-breathe 4s ease-in-out infinite; cursor:pointer;
+    }
+    .foot{ color:#d4af37; font-size:12px; padding:16px 0; text-align:center; width:100%; position:relative; z-index:1; }
+    @keyframes halo{ 0%{transform:scale(.96);filter:blur(16px);opacity:.85} 50%{transform:scale(1.06);filter:blur(20px);opacity:1} 100%{transform:scale(.96);filter:blur(16px);opacity:.85} }
+    @keyframes logo-breathe{ 0%{transform:scale(1)} 50%{transform:scale(1.015)} 100%{transform:scale(1)} }
+    @media (prefers-reduced-motion: reduce){ .center::before, .logo{ animation:none !important; } }
   </style>
 </head>
 <body>
@@ -27,6 +54,5 @@
     document.getElementById('enterLogo').addEventListener('click', go, {passive:true});
     document.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') go(); });
   </script>
-<button id="themeToggle" class="theme-btn">🌙</button>
 </body>
 </html>
