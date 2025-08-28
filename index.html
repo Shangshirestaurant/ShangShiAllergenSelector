@@ -33,11 +33,12 @@
       transform-origin:center;
     }
     .logo{
-      width:140px; height:auto; display:block;
-      border-radius:50%; background:#ffffff; padding:16px;
+      width:140px; height:140px; display:block;
+      border-radius:50%; background:#ffffff;
       box-shadow: 0 6px 18px rgba(0,0,0,0.35);
       position:relative; z-index:1;
       animation: logo-breathe 4s ease-in-out infinite; cursor:pointer;
+      object-fit: cover;
     }
     .foot{ color:#d4af37; font-size:12px; padding:16px 0; text-align:center; width:100%; position:relative; z-index:1; }
     @keyframes halo{ 0%{transform:scale(.96);filter:blur(16px);opacity:.85} 50%{transform:scale(1.06);filter:blur(20px);opacity:1} 100%{transform:scale(.96);filter:blur(16px);opacity:.85} }
