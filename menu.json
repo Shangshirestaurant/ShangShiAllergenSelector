@@ -93,16 +93,15 @@
     "category": "Starters"
   },
   {
-    "name": "Crispy Duck Salad",
+    "name": "Baby Pok-Choi with Garlic",
     "allergens": [
-      "GL",
-      "NU",
-      "MU",
-      "SO",
+      "EG",
+      "Mi",
+      "GA",
       "ON"
     ],
     "description": "",
-    "category": "Starters"
+    "category": "Mains"
   },
   {
     "name": "Norwegian King Crab (Pan-fried with Chilli and Garlic)",
