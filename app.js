@@ -1,4 +1,14 @@
 
+// Map allergen codes to glass tint classes
+const allergenClassMap = {
+  "GL": "chip-gluten",       // Gluten
+  "Mi": "chip-dairy",        // Milk
+  "CR": "chip-crustacean",   // Crustaceans
+  "EG": "chip-egg",          // Eggs
+  "NU": "chip-nuts",         // Nuts
+  "SO": "chip-soy",          // Soy
+  "SE": "chip-sesame"        // Sesame
+};
 // ===== Shang Shi Menu (clean baseline) =====
 const LEGEND = {
   CE:"Celery", GL:"Gluten", CR:"Crustaceans", EG:"Eggs", FI:"Fish", MO:"Molluscs", Mi:"Milk",

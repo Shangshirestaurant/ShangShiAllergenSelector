@@ -23,7 +23,7 @@ html,body{margin:0;color:var(--text);background: radial-gradient(1100px 320px at
 .active-filter{color:var(--accent)}
 
 /* Grid & cards */
-.main{min-height:100vh;max-width:1100px;margin:0 auto;padding:18px 16px 120px}
+.main{max-width:1100px;margin:0 auto;padding:18px 16px 120px}
 .grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
 .card{background:var(--card);color:var(--text);border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:18px;box-shadow:0 14px 36px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,0.03);position:relative;transition: transform 0.35s cubic-bezier(0.22,1,0.36,1),box-shadow 0.35s cubic-bezier(0.22,1,0.36,1);}
 .card h3{margin:0 0 6px 0;color:var(--heading);font-size:18px;line-height:1.25;font-weight:600}
@@ -569,3 +569,12 @@ html { scroll-behavior: smooth; }
 
 /* === Hard-disable blur inside dish cards === */
 .card, .card *{ backdrop-filter: none !important; -webkit-backdrop-filter: none !important; filter: none !important; }
+
+/* === Glass colors per allergen === */
+.chip-gluten     { background: rgba(200,70,70,0.25);  border-color: rgba(200,70,70,0.45); }
+.chip-dairy      { background: rgba(70,120,200,0.25); border-color: rgba(70,120,200,0.45); }
+.chip-crustacean { background: rgba(200,100,160,0.25); border-color: rgba(200,100,160,0.45); }
+.chip-egg        { background: rgba(220,180,80,0.25); border-color: rgba(220,180,80,0.45); }
+.chip-nuts       { background: rgba(120,200,140,0.25); border-color: rgba(120,200,140,0.45); }
+.chip-soy        { background: rgba(90,180,180,0.25); border-color: rgba(90,180,180,0.45); }
+.chip-sesame     { background: rgba(180,160,90,0.25); border-color: rgba(180,160,90,0.45); }
