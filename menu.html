@@ -4,8 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0C0F14">
+  <!-- iOS standalone full-screen -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Shang Shi">
+  <link rel="apple-touch-icon" href="./apple-icon-180.png">
+  <link rel="manifest" href="./manifest.webmanifest">
+
   <title>Shang Shi Menu</title>
   <link rel="stylesheet" href="./styles.css?v=final1">
+
+  <!-- iOS startup images (splash screens) -->
+  <link rel="apple-touch-startup-image" href="splash-1170x2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="splash-1290x2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="splash-1242x2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="splash-828x1792.png"  media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="splash-2048x2732.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+
 </head>
 <body>
   <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">🌙</button>
@@ -49,5 +64,14 @@
   </div>
 
   <script src="./app.js?v=final1" defer></script>
+
+  <script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function(){
+      navigator.serviceWorker.register("./service-worker.js")
+        .catch(function(e){ console.log("SW registration failed:", e); });
+    });
+  }
+  </script>
 </body>
 </html>
