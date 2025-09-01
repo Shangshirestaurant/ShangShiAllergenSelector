@@ -366,7 +366,7 @@
       "EG",
       "Mi"
     ],
-    "description": "It can be withou Egg and Milk",
+    "description": "It can be without Egg and Milk",
     "category": "Mains"
   },
   {
@@ -414,7 +414,8 @@
     "allergens": [
       "EG",
       "Mi",
-      "NU"
+      "NU",
+      "GL"
     ],
     "description": "",
     "category": "Desserts"
@@ -424,7 +425,8 @@
     "allergens": [
       "Mi",
       "EG",
-      "SE"
+      "SE",
+      "GL"
     ],
     "description": "",
     "category": "Dim Sums"
@@ -443,7 +445,8 @@
     "allergens": [
       "NU",
       "ON",
-      "SO"
+      "SO",
+      "GL"
     ],
     "description": "",
     "category": "Starters"
@@ -524,7 +527,8 @@
       "Mi",
       "FI",
       "ON",
-      "EG"
+      "EG",
+      "GL"
     ],
     "description": "",
     "category": "Mains"
@@ -532,7 +536,8 @@
   {
     "name": "Matcha Financier",
     "allergens": [
-      "NU"
+      "NU",
+      "GL"
     ],
     "description": "",
     "category": "Desserts"
@@ -540,7 +545,8 @@
   {
     "name": "Tobiko scallop siew mai (yellow)",
     "allergens": [
-      "CR"
+      "CR",
+      "GL"
     ],
     "description": "",
     "category": "Dim Sums"
@@ -548,7 +554,8 @@
   {
     "name": "Spinach dumpling (green)",
     "allergens": [
-      "CR"
+      "CR",
+      "GL"
     ],
     "description": "",
     "category": "Dim Sums"
@@ -556,7 +563,8 @@
   {
     "name": "Chopped pepper lamb dumpling (pink)",
     "allergens": [
-      "CR"
+      "CR",
+      "GL"
     ],
     "description": "",
     "category": "Dim Sums"
@@ -688,7 +696,8 @@
     "allergens": [
       "GL",
       "Mi",
-      "MR"
+      "MR",
+      "GL"
     ],
     "description": "",
     "category": "Dim Sums"
