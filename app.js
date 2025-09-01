@@ -104,7 +104,7 @@ function buildCard(item) {
 
   // SAFE indicator if current selection is safe
   const A = item.allergens || [];
-  const safeNow = !selectedAllergens.size || [...selectedAllergens].every(x => !A.includes(x));
+  const safeNow = selectedAllergens.size > 0 && [...selectedAllergens].every(x => !A.includes(x));
   if (safeNow) {
     const s = document.createElement("span");
     s.className = "safe-pill";
