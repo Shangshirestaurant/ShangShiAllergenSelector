@@ -75,10 +75,65 @@
   </div>
 
   <script src="./app.js?v=final2" defer></script>
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
+  
+<script>
+(function(){
+  if (!("serviceWorker" in navigator)) return;
+
+  const ONE_DAY = 24 * 60 * 60 * 1000;
+  const lastUpdateKey = "shangshi-last-update";
+
+  const bar = document.createElement("div");
+  bar.style.cssText = "position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:9999;background:rgba(255,255,255,0.9);backdrop-filter:saturate(140%) blur(10px);border:1px solid rgba(0,0,0,0.08);color:#111;padding:10px 14px;border-radius:999px;box-shadow:0 8px 20px rgba(0,0,0,0.18);font:600 14px/1.2 -apple-system,system-ui,Inter,Roboto,sans-serif;display:none;";
+  bar.innerHTML = 'Update available — <button id="sw-refresh" style="margin-left:8px;border:none;border-radius:8px;padding:6px 10px;font-weight:700;cursor:pointer;">Refresh</button>';
+  document.body.appendChild(bar);
+
+  let newWorker;
+
+  function showBar(){ bar.style.display="inline-flex"; }
+  function hideBar(){ bar.style.display="none"; }
+
+  function setLastUpdate(){ localStorage.setItem(lastUpdateKey, Date.now().toString()); }
+  function getLastUpdate(){ return parseInt(localStorage.getItem(lastUpdateKey) || "0", 10); }
+
+  navigator.serviceWorker.register("./service-worker.js").then(reg => {
+    function checkNow(){ reg.update().catch(()=>{}); }
+    window.addEventListener("load", checkNow);
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") checkNow();
+    });
+
+    reg.addEventListener("updatefound", () => {
+      newWorker = reg.installing;
+      if (!newWorker) return;
+      newWorker.addEventListener("statechange", () => {
+        if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+          const age = Date.now() - getLastUpdate();
+          if (age > ONE_DAY) {
+            newWorker.postMessage({ type: "SKIP_WAITING" });
+          } else {
+            showBar();
+          }
+        }
+      });
+    });
+
+    if (reg.waiting) {
+      newWorker = reg.waiting;
+      showBar();
     }
-  </script>
+
+    bar.querySelector("#sw-refresh").addEventListener("click", () => {
+      if (newWorker) newWorker.postMessage({ type: "SKIP_WAITING" });
+    });
+
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      hideBar();
+      setLastUpdate();
+      window.location.reload();
+    });
+  });
+})();
+</script>
 </body>
 </html>
