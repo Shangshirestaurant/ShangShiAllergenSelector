@@ -58,5 +58,21 @@
     document.getElementById('enterLogo').addEventListener('click', go, {passive:true});
     document.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') go(); });
   </script>
+
+  <script>
+  (function(){
+    const BUILD="v-20250901-223929";
+    try {
+      const k="APP_BUILD_VERSION";
+      const prev=localStorage.getItem(k);
+      if(prev!==BUILD){
+        localStorage.setItem(k, BUILD);
+        if("caches" in window){ caches.keys().then(keys=>keys.forEach(k=>caches.delete(k))); }
+        if("serviceWorker" in navigator){ navigator.serviceWorker.getRegistration().then(r=>r&&r.update()); }
+      }
+    } catch(e){}
+  })();
+  </script>
+
 </body>
 </html>

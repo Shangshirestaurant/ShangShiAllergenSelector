@@ -1,3 +1,4 @@
+const APP_BUILD="v-20250901-223929";
 
 // ===== Shang Shi Menu (clean baseline) =====
 const LEGEND = {
