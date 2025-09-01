@@ -4,6 +4,21 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0C0F14">
+  <!-- iOS standalone full-screen -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Shang Shi">
+  <link rel="apple-touch-icon" href="./apple-icon-180.png">
+  <!-- PWA manifest -->
+  <link rel="manifest" href="./manifest.webmanifest">
+
+  <!-- iOS startup images (splash screens) -->
+  <link rel="apple-touch-startup-image" href="splash-1170x2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="splash-1290x2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="splash-1242x2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="splash-828x1792.png"  media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="splash-2048x2732.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+
   <title>Shang Shi — Intro</title>
   <style>
     html,body{
@@ -15,7 +30,6 @@
       position: relative;
       overflow: hidden;
     }
-    /* teal radial vignette */
     body::before{
       content:"";
       position:absolute; inset:0;
@@ -24,7 +38,6 @@
     }
     .wrap{ min-height:100%; display:grid; grid-template-rows:1fr auto; place-items:center; padding:24px; position:relative; z-index:1; }
     .center{ display:grid; place-items:center; gap:16px; position:relative; }
-    /* gold glow pulse */
     .center::before{
       content:""; position:absolute; width:280px; height:280px; border-radius:50%;
       background: radial-gradient(circle, rgba(212,175,55,0.45), rgba(212,175,55,0.0) 70%);
@@ -53,10 +66,16 @@
     </div>
     <footer class="foot">Shang Shi Allergen Selector 2025</footer>
   </div>
+
   <script>
     const go = () => location.href = "./menu.html";
-    document.getElementById('enterLogo').addEventListener('click', go, {passive:true});
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') go(); });
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById('enterLogo').addEventListener('click', go, {passive:true});
+      document.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') go(); });
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./service-worker.js").catch(()=>{});
+      }
+    });
   </script>
 </body>
 </html>
