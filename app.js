@@ -1,5 +1,23 @@
 
 // ===== Shang Shi Menu (clean baseline) =====
+// Glass tints for presets
+const allergenClassMap = {
+  "CE": "chip-ce",
+  "CR": "chip-cr",
+  "EG": "chip-eg",
+  "FI": "chip-fi",
+  "GA": "chip-ga",
+  "GL": "chip-gl",
+  "MO": "chip-mo",
+  "MR": "chip-mr",
+  "MU": "chip-mu",
+  "Mi": "chip-mi",
+  "NU": "chip-nu",
+  "ON": "chip-on",
+  "SE": "chip-se",
+  "SO": "chip-so",
+};
+
 const LEGEND = {
   CE:"Celery", GL:"Gluten", CR:"Crustaceans", EG:"Eggs", FI:"Fish", MO:"Molluscs", Mi:"Milk",
   MU:"Mustard", NU:"Nuts", SE:"Sesame", SO:"Soya", GA:"Garlic", ON:"Onion", MR:"Mushrooms"
@@ -181,3 +199,38 @@ function refresh(){ renderGrid(); updateMeta(); }
   if (els.categoryToggle && els.categoryPanel) els.categoryToggle.addEventListener('click', () => toggle(els.categoryToggle, els.categoryPanel), {passive:true});
   if (els.resetBtn) els.resetBtn.addEventListener('click', clearAll, {passive:true});
 })();
+function sanitizeAllergen(x){ if(x==null) return ""; let s=String(x).trim(); s=s.replace(/^[\[\\"']+|[\]\\"']+$/g,""); s=s.replace(/[,]/g,"").trim(); return s; }
+
+/*__CARD_CLICK_TO_MODAL__*/
+document.addEventListener("DOMContentLoaded", () => {
+  if(!document.getElementById("dishModal")){
+    const m=document.createElement("div");
+    m.id="dishModal"; m.className="modal hidden";
+    m.innerHTML='<div class="modal-content"><button class="modal-close" aria-label="Close">×</button><div class="modal-head"><h2 id="modalTitle"></h2><span id="modalCat" class="pill-category"></span></div><p id="modalDesc"></p><div id="modalAllergens" class="badges"></div></div>';
+    document.body.appendChild(m);
+  }
+  const grid=document.getElementById("grid")||document;
+  grid.addEventListener("click",(e)=>{
+    const card=e.target.closest&&e.target.closest(".card"); if(!card) return;
+    const nameNode=card.querySelector&&card.querySelector("h1,h2,h3,.title");
+    const name=nameNode?nameNode.textContent.trim():card.getAttribute("data-name")||"Dish";
+    let dish=null;
+    try{ if(typeof menuData!=="undefined" && Array.isArray(menuData)) dish=menuData.find(d=>d.name===name)||null; }catch{}
+    if(!dish){ dish={ name, description:(card.querySelector(".desc,.description")||{}).textContent||card.getAttribute("data-desc")||"", category:(card.querySelector(".pill,.pill-category,.label")||{}).textContent||card.getAttribute("data-category")||"", allergens:Array.from(card.querySelectorAll(".badge,.chip,.tag,.allergen,.allergens span")).map(n=>sanitizeAllergen(n.textContent.split("•")[0])) }; }
+    document.getElementById("modalTitle").textContent=dish.name;
+    document.getElementById("modalDesc").textContent=dish.description||"No description available.";
+    const cat=document.getElementById("modalCat"); if(dish.category){cat.textContent=dish.category; cat.style.display="inline-block";} else {cat.style.display="none";}
+    const wrap=document.getElementById("modalAllergens"); wrap.innerHTML="";
+    (dish.allergens||[]).forEach(code=>{ const chip=document.createElement("span"); chip.className="chip"; const cls=(allergenClassMap&&allergenClassMap[code])?allergenClassMap[code]:null; if(cls) chip.classList.add(cls); chip.textContent=code; wrap.appendChild(chip); });
+    document.getElementById("dishModal").classList.remove("hidden");
+  }, {passive:true});
+  document.addEventListener("click",(e)=>{ if(e.target.matches(".modal-close") || e.target.id==="dishModal"){ document.getElementById("dishModal").classList.add("hidden"); } }, {passive:true});
+});
+
+/*__TINT_PRESETS_OBSERVER__*/
+document.addEventListener("DOMContentLoaded", () => {
+  function tint(){ const p=document.getElementById("chips"); if(!p) return;
+    p.querySelectorAll(".chip").forEach(ch=>{ const raw=(ch.textContent||"").trim(); const code=sanitizeAllergen((raw.split(/\s+/)[0]||raw)); const cls=allergenClassMap[code]||allergenClassMap[(code||"").toUpperCase()]||null; if(cls) ch.classList.add(cls); });
+  }
+  tint(); const p=document.getElementById("chips"); if(p) new MutationObserver(tint).observe(p,{childList:true,subtree:true});
+});
