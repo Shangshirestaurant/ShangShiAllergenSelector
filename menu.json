@@ -139,7 +139,8 @@
       "MR",
       "SO",
       "EG",
-      "Mi"
+      "Mi",
+      "MO"
     ],
     "description": "",
     "category": "Mains"
@@ -406,7 +407,7 @@
       "EG",
       "Mi"
     ],
-    "description": "",
+    "description": "It its only Gluten Free, if we request to remove the Tuille",
     "category": "Desserts"
   },
   {
@@ -414,7 +415,8 @@
     "allergens": [
       "EG",
       "Mi",
-      "NU"
+      "NU",
+      "GL"
     ],
     "description": "",
     "category": "Desserts"
@@ -424,7 +426,8 @@
     "allergens": [
       "Mi",
       "EG",
-      "SE"
+      "SE",
+      "GL"
     ],
     "description": "",
     "category": "Dim Sums"
@@ -439,11 +442,9 @@
     "category": "Dim Sums"
   },
   {
-    "name": "Crispy Aromatic Duck Salad",
+    "name": "Chilli Oil",
     "allergens": [
-      "NU",
-      "ON",
-      "SO"
+      "CR"
     ],
     "description": "",
     "category": "Starters"
@@ -504,7 +505,7 @@
       "EG"
     ],
     "description": "",
-    "category": "Mains"
+    "category": "Starters"
   },
   {
     "name": "XO Sauce king crab dumpling (red)",
@@ -540,7 +541,8 @@
   {
     "name": "Tobiko scallop siew mai (yellow)",
     "allergens": [
-      "CR"
+      "CR",
+      "GL"
     ],
     "description": "",
     "category": "Dim Sums"
@@ -548,7 +550,8 @@
   {
     "name": "Spinach dumpling (green)",
     "allergens": [
-      "CR"
+      "CR",
+      "GL"
     ],
     "description": "",
     "category": "Dim Sums"
@@ -556,7 +559,8 @@
   {
     "name": "Chopped pepper lamb dumpling (pink)",
     "allergens": [
-      "CR"
+      "CR",
+      "GL"
     ],
     "description": "",
     "category": "Dim Sums"
@@ -596,7 +600,8 @@
     "name": "Baked venison puff",
     "allergens": [
       "SE",
-      "Mi"
+      "Mi",
+      "GL"
     ],
     "description": "",
     "category": "Dim Sums"
