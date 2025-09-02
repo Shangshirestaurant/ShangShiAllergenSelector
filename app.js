@@ -1,4 +1,22 @@
 const APP_BUILD="v-20250901-223929";
+// Glass tints for presets
+const allergenClassMap = {
+  "CE": "chip-ce",
+  "CR": "chip-cr",
+  "EG": "chip-eg",
+  "FI": "chip-fi",
+  "GA": "chip-ga",
+  "GL": "chip-gl",
+  "MO": "chip-mo",
+  "MR": "chip-mr",
+  "MU": "chip-mu",
+  "Mi": "chip-mi",
+  "NU": "chip-nu",
+  "ON": "chip-on",
+  "SE": "chip-se",
+  "SO": "chip-so",
+};
+
 
 // ===== Shang Shi Menu (clean baseline) =====
 const LEGEND = {
@@ -182,128 +200,36 @@ function refresh(){ renderGrid(); updateMeta(); }
   if (els.categoryToggle && els.categoryPanel) els.categoryToggle.addEventListener('click', () => toggle(els.categoryToggle, els.categoryPanel), {passive:true});
   if (els.resetBtn) els.resetBtn.addEventListener('click', clearAll, {passive:true});
 })();
+function sanitizeAllergen(x){ if(x==null) return ""; let s=String(x).trim(); s=s.replace(/^[\[\\"']+|[\]\\"']+$/g,""); s=s.replace(/[,]/g,"").trim(); return s; }
 
-
-/*__CARD_DELEGATE_V2__*/
 document.addEventListener("DOMContentLoaded", () => {
-  // Ensure modal exists
-  if (!document.getElementById("dishModal")) {
-    const m = document.createElement("div");
-    m.id = "dishModal";
-    m.className = "modal hidden";
-    m.innerHTML = '<div class="modal-content"><button class="modal-close" aria-label="Close">×</button><div class="modal-head"><h2 id="modalTitle"></h2><span id="modalCat" class="pill-category"></span></div><p id="modalDesc"></p><div id="modalAllergens" class="badges"></div></div>';
+  if(!document.getElementById("dishModal")){
+    const m=document.createElement("div");
+    m.id="dishModal"; m.className="modal hidden";
+    m.innerHTML='<div class="modal-content"><button class="modal-close" aria-label="Close">×</button><div class="modal-head"><h2 id="modalTitle"></h2><span id="modalCat" class="pill-category"></span></div><p id="modalDesc"></p><div id="modalAllergens" class="badges"></div></div>';
     document.body.appendChild(m);
   }
-
-  const modal = document.getElementById("dishModal");
-  const titleEl = document.getElementById("modalTitle");
-  const descEl  = document.getElementById("modalDesc");
-  const catEl   = document.getElementById("modalCat");
-  const tagsEl  = document.getElementById("modalAllergens");
-
-  function openModal(dish){
-    if (!dish) return;
-    titleEl.textContent = dish.name || "Dish";
-    descEl.textContent  = dish.description || "No description available.";
-    if (dish.category) { catEl.textContent = dish.category; catEl.style.display = "inline-block"; } else { catEl.style.display = "none"; }
-    tagsEl.innerHTML = "";
-    (dish.allergens || []).forEach(code => {
-      const chip = document.createElement("span");
-      chip.className = "chip";
-      const cls = (typeof allergenClassMap !== "undefined") ? (allergenClassMap[code] || null) : null;
-      if (cls) chip.classList.add(cls);
-      chip.textContent = code;
-      tagsEl.appendChild(chip);
-    });
-    modal.classList.remove("hidden");
-  }
-
-  // Helpers to parse card DOM if data not available in JS
-  function text(el){ return (el && el.textContent || "").trim(); }
-  function query(el, sel){ return el ? el.querySelector(sel) : null; }
-  function queryAllText(el, sels){
-    const out = new Set();
-    sels.split(",").forEach(sel => {
-      el.querySelectorAll(sel.trim()).forEach(n => {
-        const t = text(n);
-        if (t) out.add(t);
-      });
-    });
-    return Array.from(out);
-  }
-  function extractDishFromCard(card){
-    const name = text(query(card, "h1, h2, h3, .title, [data-name]")) || card.getAttribute("data-name") || "Dish";
-    const description = text(query(card, ".desc, .description, [data-desc]")) || card.getAttribute("data-desc") || "";
-    const category = text(query(card, ".pill, .pill-category, .label, [data-category]")) || card.getAttribute("data-category") || "";
-    // Collect allergens from common badge containers
-    let allergensRaw = queryAllText(card, ".badge, .chip, .tag, .allergen, .allergens span");
-    // Try to normalize tokens like "GL • Gluten" to "GL"
-    const codes = [];
-    const seen = new Set();
-    for (const t of allergensRaw){
-      const code = t.split("•")[0].trim().replace(/[\[\]\(\)\"']/g,"").split(/\s+/)[0].toUpperCase();
-      if (code && code.length <= 3 && !seen.has(code)){
-        seen.add(code); codes.push(code)
-      }
-    }
-    // Fallback: try data-allergens attribute
-    if (!codes.length){
-      const data = card.getAttribute("data-allergens") || "";
-      data.split(",").forEach(s => {
-        const c = s.trim().toUpperCase();
-        if (c) codes.push(c);
-      });
-    }
-    return { name, description, category, allergens: codes };
-  }
-
-  const grid = document.getElementById("grid") || document;
-  grid.addEventListener("click", (e) => {
-    const card = e.target.closest && e.target.closest(".card");
-    if (!card) return;
-    let dish = null;
-
-    try {
-      if (typeof menuData !== "undefined" && Array.isArray(menuData)) {
-        const nameNode = card.querySelector && card.querySelector("h1, h2, h3, .title");
-        const name = nameNode ? nameNode.textContent.trim() : card.getAttribute("data-name");
-        if (name) dish = menuData.find(d => d.name === name) || null;
-      }
-    } catch(_) {}
-
-    if (!dish) dish = extractDishFromCard(card);
-    openModal(dish);
+  const grid=document.getElementById("grid")||document;
+  grid.addEventListener("click",(e)=>{
+    const card=e.target.closest&&e.target.closest(".card"); if(!card) return;
+    const nameNode=card.querySelector&&card.querySelector("h1,h2,h3,.title"); const name=nameNode?nameNode.textContent.trim():card.getAttribute("data-name")||"Dish";
+    let dish=null;
+    try{ if(typeof menuData!=="undefined" && Array.isArray(menuData)) dish=menuData.find(d=>d.name===name)||null; }catch{}
+    if(!dish){ dish={ name, description:(card.querySelector(".desc,.description")||{}).textContent||card.getAttribute("data-desc")||"", category:(card.querySelector(".pill,.pill-category,.label")||{}).textContent||card.getAttribute("data-category")||"", allergens:Array.from(card.querySelectorAll(".badge,.chip,.tag,.allergen,.allergens span")).map(n=>sanitizeAllergen(n.textContent.split("•")[0])) }; }
+    document.getElementById("modalTitle").textContent=dish.name;
+    document.getElementById("modalDesc").textContent=dish.description||"No description available.";
+    const cat=document.getElementById("modalCat"); if(dish.category){cat.textContent=dish.category; cat.style.display="inline-block";} else {cat.style.display="none";}
+    const wrap=document.getElementById("modalAllergens"); wrap.innerHTML="";
+    (dish.allergens||[]).forEach(code=>{ const chip=document.createElement("span"); chip.className="chip"; const cls=(allergenClassMap&&allergenClassMap[code])?allergenClassMap[code]:null; if(cls) chip.classList.add(cls); chip.textContent=code; wrap.appendChild(chip); });
+    document.getElementById("dishModal").classList.remove("hidden");
   }, {passive:true});
-
-  // Close actions
-  document.addEventListener("click", (e)=>{
-    if (e.target.matches(".modal-close") || e.target.id === "dishModal") {
-      modal.classList.add("hidden");
-    }
-  }, {passive:true});
+  document.addEventListener("click",(e)=>{ if(e.target.matches(".modal-close") || e.target.id==="dishModal"){ document.getElementById("dishModal").classList.add("hidden"); } }, {passive:true});
 });
 
-
-/*__TINT_PRESET_CHIPS__*/
+/*__TINT_PRESETS__*/
 document.addEventListener("DOMContentLoaded", () => {
-  function sanitizeAllergen(x){
-    if (x == null) return "";
-    let s = String(x).trim();
-    s = s.replace(/^[\[\\"']+|[\]\\"']+$/g, "");
-    s = s.replace(/[,]/g, "").trim();
-    return s;
+  function tint(){ const p=document.getElementById("chips"); if(!p) return;
+    p.querySelectorAll(".chip").forEach(ch=>{ const raw=(ch.textContent||"").trim(); const code=sanitizeAllergen((raw.split(/\s+/)[0]||raw)); const cls=allergenClassMap[code]||allergenClassMap[(code||"").toUpperCase()]||null; if(cls) ch.classList.add(cls); });
   }
-  function tintPresets(){
-    const panel = document.getElementById("chips");
-    if (!panel) return;
-    panel.querySelectorAll(".chip").forEach(ch => {
-      const raw = (ch.textContent || "").trim();
-      const code = sanitizeAllergen((raw.split(/\s+/)[0] || raw)).toUpperCase();
-      let key = (typeof allergenClassMap !== "undefined") ? Object.keys(allergenClassMap).find(k => k.toUpperCase() == code) : null;
-      if (key) ch.classList.add(allergenClassMap[key]);
-    });
-  }
-  tintPresets();
-  const panel = document.getElementById("chips");
-  if (panel) new MutationObserver(tintPresets).observe(panel, {childList:true, subtree:true});
+  tint(); const p=document.getElementById("chips"); if(p) new MutationObserver(tint).observe(p,{childList:true,subtree:true});
 });
