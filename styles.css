@@ -654,3 +654,12 @@ body.light .pill-category{
   border-color: rgba(0,0,0,0.10);
   color: var(--text-light);
 }
+
+/* === Glass-colored allergen presets (floating menu) === */
+.chip-gluten     { background: rgba(200,70,70,0.25);  border-color: rgba(200,70,70,0.45); }
+.chip-dairy      { background: rgba(70,120,200,0.25); border-color: rgba(70,120,200,0.45); }
+.chip-crustacean { background: rgba(200,100,160,0.25); border-color: rgba(200,100,160,0.45); }
+.chip-egg        { background: rgba(220,180,80,0.25);  border-color: rgba(220,180,80,0.45); }
+.chip-nuts       { background: rgba(120,200,140,0.25); border-color: rgba(120,200,140,0.45); }
+.chip-soy        { background: rgba(90,180,180,0.25);  border-color: rgba(90,180,180,0.45); }
+.chip-sesame     { background: rgba(180,160,90,0.25);  border-color: rgba(180,160,90,0.45); }

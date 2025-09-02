@@ -1,3 +1,15 @@
+
+// Glass tint classes for allergen chips
+const allergenClassMap = {
+  GL: "chip-gluten",
+  Mi: "chip-dairy",
+  CR: "chip-crustacean",
+  EG: "chip-egg",
+  NU: "chip-nuts",
+  SO: "chip-soy",
+  SE: "chip-sesame"
+};
+
 const APP_BUILD="v-20250901-223929";
 
 // ===== Shang Shi Menu (clean baseline) =====
@@ -182,3 +194,91 @@ function refresh(){ renderGrid(); updateMeta(); }
   if (els.categoryToggle && els.categoryPanel) els.categoryToggle.addEventListener('click', () => toggle(els.categoryToggle, els.categoryPanel), {passive:true});
   if (els.resetBtn) els.resetBtn.addEventListener('click', clearAll, {passive:true});
 })();
+
+function sanitizeAllergen(x){
+  if (x == null) return "";
+  let s = String(x).trim();
+  s = s.replace(/^[\[\\"']+|[\]\\"']+$/g, ""); // strip [] and quotes
+  s = s.replace(/[,]/g, "").trim();
+  return s;
+}
+
+/*__CARD_DELEGATE__*/
+document.addEventListener("DOMContentLoaded", () => {
+  // Inject modal once
+  if (!document.getElementById("dishModal")) {
+    const m = document.createElement("div");
+    m.id = "dishModal";
+    m.className = "modal hidden";
+    m.innerHTML = '<div class="modal-content"><button class="modal-close" aria-label="Close">×</button><div class="modal-head"><h2 id="modalTitle"></h2><span id="modalCat" class="pill-category"></span></div><p id="modalDesc"></p><div id="modalAllergens" class="badges"></div></div>';
+    document.body.appendChild(m);
+  }
+  const grid = document.getElementById("grid") || document;
+  grid.addEventListener("click", (e) => {
+    const card = e.target.closest && e.target.closest(".card");
+    if (!card) return;
+    const nameEl = card.querySelector && card.querySelector("h3");
+    const name = nameEl ? nameEl.textContent : (card.getAttribute("data-name") || "Dish");
+
+    let dish = null;
+    try {
+      if (typeof menuData !== "undefined" && Array.isArray(menuData)) {
+        dish = menuData.find(d => d.name === name) || null;
+      }
+    } catch(_) {}
+
+    if (!dish) {
+      dish = {
+        name,
+        description: card.getAttribute("data-desc") || "",
+        category: card.getAttribute("data-category") || "",
+        allergens: (card.getAttribute("data-allergens") || "").split(",").map(sanitizeAllergen).filter(Boolean)
+      };
+    }
+
+    const modal = document.getElementById("dishModal");
+    const title = document.getElementById("modalTitle");
+    const desc  = document.getElementById("modalDesc");
+    const cat   = document.getElementById("modalCat");
+    const tags  = document.getElementById("modalAllergens");
+
+    title.textContent = dish.name;
+    desc.textContent  = dish.description || "No description available.";
+    if (dish.category) { cat.textContent = dish.category; cat.style.display = "inline-block"; } else { cat.style.display = "none"; }
+
+    tags.innerHTML = "";
+    (dish.allergens || []).forEach(codeRaw => {
+      const code = sanitizeAllergen(codeRaw);
+      const chip = document.createElement("span");
+      chip.className = "chip";
+      const cls = allergenClassMap[code] || null;
+      if (cls) chip.classList.add(cls);
+      chip.textContent = code;
+      tags.appendChild(chip);
+    });
+    modal.classList.remove("hidden");
+  }, {passive:true});
+
+  document.addEventListener("click", (e)=>{
+    if (e.target.matches(".modal-close") || e.target.id === "dishModal") {
+      document.getElementById("dishModal").classList.add("hidden");
+    }
+  }, {passive:true});
+});
+
+/*__TINT_PRESET_CHIPS__*/
+document.addEventListener("DOMContentLoaded", () => {
+  function tintPresets(){
+    const panel = document.getElementById("chips");
+    if (!panel) return;
+    panel.querySelectorAll(".chip").forEach(ch => {
+      const raw = (ch.textContent || "").trim();
+      const code = sanitizeAllergen((raw.split(/\s+/)[0] || raw)).toUpperCase();
+      let key = Object.keys(allergenClassMap).find(k => k.toUpperCase() == code);
+      if (key) ch.classList.add(allergenClassMap[key]);
+    });
+  }
+  tintPresets();
+  const panel = document.getElementById("chips");
+  if (panel) new MutationObserver(tintPresets).observe(panel, {childList:true, subtree:true});
+});
