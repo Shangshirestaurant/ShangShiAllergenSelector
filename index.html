@@ -45,6 +45,10 @@
     @keyframes logo-breathe{ 0%{transform:scale(1)} 50%{transform:scale(1.015)} 100%{transform:scale(1)} }
     @media (prefers-reduced-motion: reduce){ .center::before, .logo{ animation:none !important; } }
   </style>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="./apple-icon-180.png">
 </head>
 <body>
   <div class="wrap">
@@ -59,20 +63,14 @@
     document.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') go(); });
   </script>
 
-  <script>
-  (function(){
-    const BUILD="v-20250901-223929";
-    try {
-      const k="APP_BUILD_VERSION";
-      const prev=localStorage.getItem(k);
-      if(prev!==BUILD){
-        localStorage.setItem(k, BUILD);
-        if("caches" in window){ caches.keys().then(keys=>keys.forEach(k=>caches.delete(k))); }
-        if("serviceWorker" in navigator){ navigator.serviceWorker.getRegistration().then(r=>r&&r.update()); }
-      }
-    } catch(e){}
-  })();
-  </script>
+<script>
+(function(){
+  if (!('serviceWorker' in navigator)) return;
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+  });
+})();
+</script>
 
 </body>
 </html>
