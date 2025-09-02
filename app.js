@@ -1,15 +1,3 @@
-
-// Glass tint classes for allergen chips
-const allergenClassMap = {
-  GL: "chip-gluten",
-  Mi: "chip-dairy",
-  CR: "chip-crustacean",
-  EG: "chip-egg",
-  NU: "chip-nuts",
-  SO: "chip-soy",
-  SE: "chip-sesame"
-};
-
 const APP_BUILD="v-20250901-223929";
 
 // ===== Shang Shi Menu (clean baseline) =====
@@ -195,17 +183,10 @@ function refresh(){ renderGrid(); updateMeta(); }
   if (els.resetBtn) els.resetBtn.addEventListener('click', clearAll, {passive:true});
 })();
 
-function sanitizeAllergen(x){
-  if (x == null) return "";
-  let s = String(x).trim();
-  s = s.replace(/^[\[\\"']+|[\]\\"']+$/g, ""); // strip [] and quotes
-  s = s.replace(/[,]/g, "").trim();
-  return s;
-}
 
-/*__CARD_DELEGATE__*/
+/*__CARD_DELEGATE_V2__*/
 document.addEventListener("DOMContentLoaded", () => {
-  // Inject modal once
+  // Ensure modal exists
   if (!document.getElementById("dishModal")) {
     const m = document.createElement("div");
     m.id = "dishModal";
@@ -213,68 +194,112 @@ document.addEventListener("DOMContentLoaded", () => {
     m.innerHTML = '<div class="modal-content"><button class="modal-close" aria-label="Close">×</button><div class="modal-head"><h2 id="modalTitle"></h2><span id="modalCat" class="pill-category"></span></div><p id="modalDesc"></p><div id="modalAllergens" class="badges"></div></div>';
     document.body.appendChild(m);
   }
+
+  const modal = document.getElementById("dishModal");
+  const titleEl = document.getElementById("modalTitle");
+  const descEl  = document.getElementById("modalDesc");
+  const catEl   = document.getElementById("modalCat");
+  const tagsEl  = document.getElementById("modalAllergens");
+
+  function openModal(dish){
+    if (!dish) return;
+    titleEl.textContent = dish.name || "Dish";
+    descEl.textContent  = dish.description || "No description available.";
+    if (dish.category) { catEl.textContent = dish.category; catEl.style.display = "inline-block"; } else { catEl.style.display = "none"; }
+    tagsEl.innerHTML = "";
+    (dish.allergens || []).forEach(code => {
+      const chip = document.createElement("span");
+      chip.className = "chip";
+      const cls = (typeof allergenClassMap !== "undefined") ? (allergenClassMap[code] || null) : null;
+      if (cls) chip.classList.add(cls);
+      chip.textContent = code;
+      tagsEl.appendChild(chip);
+    });
+    modal.classList.remove("hidden");
+  }
+
+  // Helpers to parse card DOM if data not available in JS
+  function text(el){ return (el && el.textContent || "").trim(); }
+  function query(el, sel){ return el ? el.querySelector(sel) : null; }
+  function queryAllText(el, sels){
+    const out = new Set();
+    sels.split(",").forEach(sel => {
+      el.querySelectorAll(sel.trim()).forEach(n => {
+        const t = text(n);
+        if (t) out.add(t);
+      });
+    });
+    return Array.from(out);
+  }
+  function extractDishFromCard(card){
+    const name = text(query(card, "h1, h2, h3, .title, [data-name]")) || card.getAttribute("data-name") || "Dish";
+    const description = text(query(card, ".desc, .description, [data-desc]")) || card.getAttribute("data-desc") || "";
+    const category = text(query(card, ".pill, .pill-category, .label, [data-category]")) || card.getAttribute("data-category") || "";
+    // Collect allergens from common badge containers
+    let allergensRaw = queryAllText(card, ".badge, .chip, .tag, .allergen, .allergens span");
+    // Try to normalize tokens like "GL • Gluten" to "GL"
+    const codes = [];
+    const seen = new Set();
+    for (const t of allergensRaw){
+      const code = t.split("•")[0].trim().replace(/[\[\]\(\)\"']/g,"").split(/\s+/)[0].toUpperCase();
+      if (code && code.length <= 3 && !seen.has(code)){
+        seen.add(code); codes.push(code)
+      }
+    }
+    // Fallback: try data-allergens attribute
+    if (!codes.length){
+      const data = card.getAttribute("data-allergens") || "";
+      data.split(",").forEach(s => {
+        const c = s.trim().toUpperCase();
+        if (c) codes.push(c);
+      });
+    }
+    return { name, description, category, allergens: codes };
+  }
+
   const grid = document.getElementById("grid") || document;
   grid.addEventListener("click", (e) => {
     const card = e.target.closest && e.target.closest(".card");
     if (!card) return;
-    const nameEl = card.querySelector && card.querySelector("h3");
-    const name = nameEl ? nameEl.textContent : (card.getAttribute("data-name") || "Dish");
-
     let dish = null;
+
     try {
       if (typeof menuData !== "undefined" && Array.isArray(menuData)) {
-        dish = menuData.find(d => d.name === name) || null;
+        const nameNode = card.querySelector && card.querySelector("h1, h2, h3, .title");
+        const name = nameNode ? nameNode.textContent.trim() : card.getAttribute("data-name");
+        if (name) dish = menuData.find(d => d.name === name) || null;
       }
     } catch(_) {}
 
-    if (!dish) {
-      dish = {
-        name,
-        description: card.getAttribute("data-desc") || "",
-        category: card.getAttribute("data-category") || "",
-        allergens: (card.getAttribute("data-allergens") || "").split(",").map(sanitizeAllergen).filter(Boolean)
-      };
-    }
-
-    const modal = document.getElementById("dishModal");
-    const title = document.getElementById("modalTitle");
-    const desc  = document.getElementById("modalDesc");
-    const cat   = document.getElementById("modalCat");
-    const tags  = document.getElementById("modalAllergens");
-
-    title.textContent = dish.name;
-    desc.textContent  = dish.description || "No description available.";
-    if (dish.category) { cat.textContent = dish.category; cat.style.display = "inline-block"; } else { cat.style.display = "none"; }
-
-    tags.innerHTML = "";
-    (dish.allergens || []).forEach(codeRaw => {
-      const code = sanitizeAllergen(codeRaw);
-      const chip = document.createElement("span");
-      chip.className = "chip";
-      const cls = allergenClassMap[code] || null;
-      if (cls) chip.classList.add(cls);
-      chip.textContent = code;
-      tags.appendChild(chip);
-    });
-    modal.classList.remove("hidden");
+    if (!dish) dish = extractDishFromCard(card);
+    openModal(dish);
   }, {passive:true});
 
+  // Close actions
   document.addEventListener("click", (e)=>{
     if (e.target.matches(".modal-close") || e.target.id === "dishModal") {
-      document.getElementById("dishModal").classList.add("hidden");
+      modal.classList.add("hidden");
     }
   }, {passive:true});
 });
 
+
 /*__TINT_PRESET_CHIPS__*/
 document.addEventListener("DOMContentLoaded", () => {
+  function sanitizeAllergen(x){
+    if (x == null) return "";
+    let s = String(x).trim();
+    s = s.replace(/^[\[\\"']+|[\]\\"']+$/g, "");
+    s = s.replace(/[,]/g, "").trim();
+    return s;
+  }
   function tintPresets(){
     const panel = document.getElementById("chips");
     if (!panel) return;
     panel.querySelectorAll(".chip").forEach(ch => {
       const raw = (ch.textContent || "").trim();
       const code = sanitizeAllergen((raw.split(/\s+/)[0] || raw)).toUpperCase();
-      let key = Object.keys(allergenClassMap).find(k => k.toUpperCase() == code);
+      let key = (typeof allergenClassMap !== "undefined") ? Object.keys(allergenClassMap).find(k => k.toUpperCase() == code) : null;
       if (key) ch.classList.add(allergenClassMap[key]);
     });
   }
