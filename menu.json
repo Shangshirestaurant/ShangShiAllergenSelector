@@ -367,7 +367,7 @@
       "EG",
       "Mi"
     ],
-    "description": "It can be withou Egg and Milk",
+    "description": "It can be without Egg and Milk",
     "category": "Mains"
   },
   {
@@ -433,10 +433,13 @@
     "category": "Dim Sums"
   },
   {
-    "name": "Ham&Cheese Sandwich",
+    "name": "Roasted Half Duck with Truffle Sauce",
     "allergens": [
       "Mi",
-      "GL"
+      "GL",
+      "GA",
+      "SO",
+      "CR"
     ],
     "description": "",
     "category": "Dim Sums"
