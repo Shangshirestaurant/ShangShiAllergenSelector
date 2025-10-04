@@ -649,3 +649,6 @@ html { scroll-behavior: smooth; }
 
 /* Code styling normalization */
 .hint code{ font-family:inherit !important; letter-spacing:0 !important; background:none !important; }
+
+.add-btn{width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:linear-gradient(145deg,#D2A455,#B5862E);color:#111;font-weight:800;font-size:20px;line-height:1;border:none;box-shadow:0 4px 12px rgba(0,0,0,.25),0 0 10px rgba(210,164,85,.30);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;}
+.add-btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.28),0 0 12px rgba(210,164,85,.36);} .add-btn:active{transform:translateY(0) scale(.98);}
