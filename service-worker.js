@@ -1,5 +1,5 @@
 // Minimal PWA service worker: network-first for HTML/JSON, SWR for assets
-const CACHE_VERSION = "v1";
+const CACHE_VERSION = "v1759609688";
 const RUNTIME_CACHE = `shangshi-runtime-${CACHE_VERSION}`;
 
 self.addEventListener("install", (event) => {
