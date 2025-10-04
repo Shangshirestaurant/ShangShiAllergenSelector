@@ -23,8 +23,8 @@ html,body{margin:0;color:var(--text);background: radial-gradient(1100px 320px at
 .active-filter{color:var(--accent)}
 
 /* Grid & cards */
-.main{min-height:100vh;max-width:1320px;margin:0 auto;padding:18px 16px 120px}
-.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.main{min-height:100vh;max-width:1100px;margin:0 auto;padding:18px 16px 120px}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
 .card{background:var(--card);color:var(--text);border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:18px;box-shadow:0 14px 36px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,0.03);position:relative;transition: transform 0.35s cubic-bezier(0.22,1,0.36,1),box-shadow 0.35s cubic-bezier(0.22,1,0.36,1);}
 .card h3{margin:0 0 6px 0;color:var(--heading);font-size:18px;line-height:1.25;font-weight:600}
 .desc{margin:0;color:var(--muted);opacity:.95}
@@ -598,100 +598,70 @@ html { scroll-behavior: smooth; }
 .modal .chip{backdrop-filter:blur(12px) saturate(160%);-webkit-backdrop-filter:blur(12px) saturate(160%);border-radius:999px;padding:6px 10px;font-size:12px;border:1px solid rgba(255,255,255,.25);color:#fff}
 
 
-/* Extra category tints */
-.pill-specials{ background: radial-gradient(120% 140% at 30% 10%, rgba(255,220,150,0.96), rgba(255,220,150,0.86)); }
-.pill-seasonal{ background: radial-gradient(120% 140% at 30% 10%, rgba(170,220,255,0.96), rgba(170,220,255,0.86)); }
-
-.chip-specials{ background: rgba(255,220,150,0.20) !important; border:1px solid rgba(255,220,150,0.34) !important; }
-.chip-seasonal{ background: rgba(170,220,255,0.20) !important; border:1px solid rgba(170,220,255,0.34) !important; }
-
-
-/* === Add Dish form === */
-.form-grid{ display:grid; gap:10px; margin:10px 0 6px; }
-.form-grid label{ display:grid; gap:6px; font-size:13px; color:#e7ecea; }
-.modal-content input, .modal-content textarea{
-  width:100%; border-radius:12px; border:1px solid rgba(255,255,255,0.25);
-  background: rgba(0,0,0,0.2); color:#fff; padding:10px 12px; font-size:14px;
-}
-.modal-content textarea{ resize:vertical; }
-.allergen-fieldset{ border:1px dashed rgba(255,255,255,0.25); border-radius:12px; padding:8px 10px; }
-.allergen-fieldset legend{ font-size:12px; color:#cfd8d5; padding:0 6px; }
-.allergen-list{ display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:6px; margin-top:6px; }
-.allergen-list label{ display:flex; align-items:center; gap:8px; font-size:13px; color:#dfe8e2; }
-.form-actions{ display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
-.hint{ font-size:12px; color:#c9d4cf; margin-top:10px; }
-
-
-/* === Responsive Add Dish Modal + Gold "+" Dock Button === */
-
-/* Modal container allows vertical scroll on mobile keyboards */
+/* === FINAL MODAL OVERHAUL (stable across Safari/Mac/iPhone) === */
 .modal{
-  padding: 18px;
+  position: fixed !important;
+  inset: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 18px !important;
+  /* Brand gold glow + dim */
+  background: radial-gradient(900px 600px at 50% 35%, rgba(210,164,85,0.18), rgba(0,0,0,0.55) 70%) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  z-index: 9999 !important;
 }
 
-/* Floating card that adapts to viewport */
+.modal.hidden{ display: none !important; }
+
 .modal-content{
-  width: min(96vw, 520px);
-  max-height: min(86vh, 760px);
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 18px 18px 14px;
-  border-radius: 24px;
-  backdrop-filter: blur(10px) saturate(140%);
-  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  position: relative !important;
+  width: min(94vw, 520px) !important;
+  max-height: calc(100dvh - 60px) !important; /* dvh handles iOS chrome/keyboard */
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  background: linear-gradient(180deg, rgba(26,26,26,0.66), rgba(26,26,26,0.58)) !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+  border-radius: 24px !important;
+  padding: 20px 22px !important;
+  color: #fff !important;
+  box-shadow: 0 18px 60px rgba(0,0,0,0.45) !important;
+  backdrop-filter: blur(16px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(150%) !important;
+  transform-origin: center !important;
+  animation: modalPop .28s cubic-bezier(0.22,1,0.36,1) forwards !important;
 }
 
-/* Keep close button visible and tappable */
+@keyframes modalPop{
+  from { opacity: 0; transform: scale(0.975); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
 .modal-close{
-  position: sticky;
-  top: 0;
-  margin-left: auto;
-  z-index: 2;
+  position: absolute !important;
+  top: 10px !important;
+  right: 12px !important;
+  background: rgba(255,255,255,0.12) !important;
+  border: 1px solid rgba(255,255,255,0.25) !important;
+  border-radius: 999px !important;
+  width: 28px !important; height: 28px !important;
+  display: inline-flex !important; align-items: center !important; justify-content: center !important;
+  font-size: 18px !important; line-height: 1 !important; color:#fff !important;
+  cursor: pointer !important;
 }
 
-/* Tablet */
-@media (max-width: 1024px){
-  .modal-content{
-    width: min(92vw, 520px);
-    max-height: 88vh;
-    padding: 16px;
-    border-radius: 22px;
-  }
-}
-
-/* iPhone / small screens */
 @media (max-width: 600px){
-  .modal-content{
-    width: 94vw;
-    max-height: 88vh;
-    padding: 14px;
-    border-radius: 20px;
-    background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.10));
+  .modal{
+    align-items: flex-start !important;
+    padding-top: 6vh !important;
   }
-  .form-actions{ gap:8px; }
-  .form-actions .filter-btn{ padding: 8px 12px; font-size: 13px; }
-  .form-grid label{ font-size: 12.5px; }
-  .modal .chip{ font-size: 11.5px; }
-}
-
-/* Gold "+" icon button on dock (far right) */
-.add-btn{
-  width: 40px; height: 40px;
-  display:inline-flex; align-items:center; justify-content:center;
-  border-radius: 999px;
-  background: linear-gradient(145deg, #D2A455, #B5862E);
-  color: #111;
-  font-weight: 800; font-size: 20px; line-height: 1;
-  border: none;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25), 0 0 10px rgba(210,164,85,0.30);
-  cursor: pointer;
-  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-.add-btn:hover{ transform: translateY(-1px); box-shadow: 0 8px 18px rgba(0,0,0,0.28), 0 0 12px rgba(210,164,85,0.36); }
-.add-btn:active{ transform: translateY(0) scale(.98); }
-
-/* Tighten dock on very small screens */
-@media (max-width: 480px){
-  .dock-inner{ gap:8px; }
+  .modal-content{
+    width: 94vw !important;
+    max-height: calc(100dvh - 12vh) !important;
+    padding: 16px !important;
+    border-radius: 20px !important;
+    backdrop-filter: blur(12px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(140%) !important;
+  }
 }

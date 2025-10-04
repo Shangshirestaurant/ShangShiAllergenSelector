@@ -22,38 +22,6 @@
     <footer class="footer">SAFE = dish does <strong>not</strong> contain selected allergen(s).</footer>
   </main>
 
-  <!-- Add Dish Modal -->
-  <div id="addDishModal" class="modal hidden" aria-hidden="true">
-    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="addDishTitle">
-      <button class="modal-close" id="addDishClose" aria-label="Close">×</button>
-      <div class="modal-head">
-        <h3 id="addDishTitle" style="margin:0;">Add a New Dish</h3>
-      </div>
-      <div class="form-grid">
-        <label>Dish name
-          <input id="dishName" type="text" placeholder="e.g., Charcoal Wagyu Dumpling" required>
-        </label>
-        <label>Category
-          <input id="dishCategory" list="categoryList" placeholder="e.g., Specials" required>
-          <datalist id="categoryList"></datalist>
-        </label>
-        <label>Description
-          <textarea id="dishDesc" rows="3" placeholder="Optional short note"></textarea>
-        </label>
-        <fieldset class="allergen-fieldset">
-          <legend>Allergens (select all that apply)</legend>
-          <div id="allergenChecklist" class="allergen-list"></div>
-        </fieldset>
-      </div>
-      <div class="form-actions">
-        <button id="saveDishBtn" class="filter-btn"><span class="dot"></span> Save to Page</button>
-        <button id="downloadJsonBtn" class="filter-btn" style="background:rgba(255,255,255,0.92)"><span class="dot"></span> Download JSON</button>
-      </div>
-      <p class="hint">This adds the dish only in your browser memory. Click <em>Download JSON</em> to save the updated <code>menu.json</code> and replace it in your project.</p>
-    </div>
-  </div>
-
-
   <!-- Bottom dock -->
   <div class="filter-dock" aria-live="polite">
     
@@ -70,7 +38,6 @@
         <path d="M4.5 8.5v-4m0 0h4m-4 0l5 5m10 3.5a7.5 7.5 0 1 1-7.5-7.5" />
       </svg>
     </button>
-      <button class="add-btn" id="addDishBtn" aria-controls="addDishModal" aria-label="Add Dish" title="Add Dish">+</button>
     
     </div>
     </div>
