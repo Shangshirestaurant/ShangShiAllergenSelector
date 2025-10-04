@@ -447,7 +447,8 @@
   {
     "name": "Chilli Oil",
     "allergens": [
-      "CR"
+      "CR",
+      "GL"
     ],
     "description": "",
     "category": "Starters"
@@ -515,7 +516,8 @@
     "allergens": [
       "GA",
       "SE",
-      "CR"
+      "CR",
+      "GL"
     ],
     "description": "",
     "category": "Dim Sums"
@@ -528,7 +530,8 @@
       "Mi",
       "FI",
       "ON",
-      "EG"
+      "EG",
+      "GL"
     ],
     "description": "",
     "category": "Mains"
