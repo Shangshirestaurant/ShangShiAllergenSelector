@@ -27,6 +27,11 @@ let data = [];
 let selectedAllergens = new Set();
 let selectedCategory = null;
 
+// Extra editable categories (placeholders).
+// Rename these or add more; they will appear even if no dishes use them yet.
+const EXTRA_CATEGORIES = ["Specials", "Seasonal"];
+
+
 const els = {
   grid: document.getElementById('grid'),
   chips: document.getElementById('chips'),
@@ -63,7 +68,7 @@ function renderAllergenChips(){
 
 function renderCategoryChips(){
   els.cat.innerHTML = '';
-  const categories = Array.from(new Set(data.map(d => d.category))).filter(Boolean);
+  const categories = Array.from(new Set([...EXTRA_CATEGORIES, ...data.map(d => d.category)])).filter(Boolean);
   categories.forEach(cat => {
     const key = cat.toLowerCase().replace(/\s+/g,'');
     const btn = document.createElement('button');
@@ -236,28 +241,29 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// ===== Add Dish Modal & JSON export =====
-function currentCategories(){
-  const fromData = Array.from(new Set(data.map(d=>d.category))).filter(Boolean);
-  return Array.from(new Set([...(EXTRA_CATEGORIES||[]), ...fromData]));
+
+// ===== Add Dish: dock button modal + JSON export =====
+function getCurrentCategories(){
+  const set = new Set();
+  (data || []).forEach(d => { if (d.category) set.add(d.category); });
+  return Array.from(set);
 }
 
 function openAddDish(){
-  // Populate datalist with categories
+  // Populate categories datalist
   const list = document.getElementById('categoryList');
   if(list){
     list.innerHTML = '';
-    currentCategories().forEach(c => {
+    getCurrentCategories().forEach(c => {
       const opt = document.createElement('option'); opt.value = c; list.appendChild(opt);
     });
   }
-  // Build allergen checklist once per open
+  // Build allergen checklist (once)
   const wrap = document.getElementById('allergenChecklist');
-  if(wrap && !wrap.dataset.ready){
-    Object.keys(LEGEND).forEach(code => {
-      const id = 'al-'+code;
+  if (wrap && !wrap.dataset.ready){
+    Object.keys(LEGEND || {}).forEach(code => {
       const lab = document.createElement('label');
-      lab.innerHTML = `<input type="checkbox" name="allergen" value="${code}" id="${id}"> <span>${code}</span>`;
+      lab.innerHTML = '<input type="checkbox" name="allergen" value="'+code+'"> <span>'+code+'</span>';
       wrap.appendChild(lab);
     });
     wrap.dataset.ready = '1';
@@ -280,8 +286,9 @@ function saveDishToMemory(){
   if(!name){ alert('Dish name is required.'); return; }
   const obj = { name, allergens, description, category };
   data.push(obj);
-  renderCategoryChips();
-  refresh();
+  // Rebuild categories & grid
+  if (typeof renderCategoryChips === 'function') renderCategoryChips();
+  if (typeof refresh === 'function') refresh();
   closeAddDish();
 }
 
@@ -292,7 +299,7 @@ function downloadMenuJson(){
     const a = document.createElement('a');
     a.href = url; a.download = 'menu.json';
     document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url), 5000);
+    setTimeout(()=>URL.revokeObjectURL(url), 2500);
   }catch(e){ console.error(e); alert('Could not generate file.'); }
 }
 
