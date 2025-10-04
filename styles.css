@@ -620,3 +620,78 @@ html { scroll-behavior: smooth; }
 .allergen-list label{ display:flex; align-items:center; gap:8px; font-size:13px; color:#dfe8e2; }
 .form-actions{ display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
 .hint{ font-size:12px; color:#c9d4cf; margin-top:10px; }
+
+
+/* === Responsive Add Dish Modal + Gold "+" Dock Button === */
+
+/* Modal container allows vertical scroll on mobile keyboards */
+.modal{
+  padding: 18px;
+}
+
+/* Floating card that adapts to viewport */
+.modal-content{
+  width: min(96vw, 520px);
+  max-height: min(86vh, 760px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 18px 18px 14px;
+  border-radius: 24px;
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+}
+
+/* Keep close button visible and tappable */
+.modal-close{
+  position: sticky;
+  top: 0;
+  margin-left: auto;
+  z-index: 2;
+}
+
+/* Tablet */
+@media (max-width: 1024px){
+  .modal-content{
+    width: min(92vw, 520px);
+    max-height: 88vh;
+    padding: 16px;
+    border-radius: 22px;
+  }
+}
+
+/* iPhone / small screens */
+@media (max-width: 600px){
+  .modal-content{
+    width: 94vw;
+    max-height: 88vh;
+    padding: 14px;
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.10));
+  }
+  .form-actions{ gap:8px; }
+  .form-actions .filter-btn{ padding: 8px 12px; font-size: 13px; }
+  .form-grid label{ font-size: 12.5px; }
+  .modal .chip{ font-size: 11.5px; }
+}
+
+/* Gold "+" icon button on dock (far right) */
+.add-btn{
+  width: 40px; height: 40px;
+  display:inline-flex; align-items:center; justify-content:center;
+  border-radius: 999px;
+  background: linear-gradient(145deg, #D2A455, #B5862E);
+  color: #111;
+  font-weight: 800; font-size: 20px; line-height: 1;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25), 0 0 10px rgba(210,164,85,0.30);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.add-btn:hover{ transform: translateY(-1px); box-shadow: 0 8px 18px rgba(0,0,0,0.28), 0 0 12px rgba(210,164,85,0.36); }
+.add-btn:active{ transform: translateY(0) scale(.98); }
+
+/* Tighten dock on very small screens */
+@media (max-width: 480px){
+  .dock-inner{ gap:8px; }
+}
