@@ -299,3 +299,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('downloadJsonBtn').addEventListener('click', downloadMenuJson, {passive:true});
   }
 });
+
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ const m=document.getElementById('addDishModal'); if(m && !m.classList.contains('hidden')){ m.classList.add('hidden'); document.body.classList.remove('no-scroll'); } }}, {passive:true});
