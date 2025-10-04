@@ -265,9 +265,9 @@ function openAddDish(){
   const n = document.getElementById('dishName'); if(n) n.value = '';
   const c = document.getElementById('dishCategory'); if(c) c.value = '';
   const d = document.getElementById('dishDesc'); if(d) d.value = '';
-  document.getElementById('addDishModal').classList.remove('hidden');
+  document.getElementById('addDishModal').classList.remove('hidden'); document.body.classList.add('no-scroll');
 }
-function closeAddDish(){ document.getElementById('addDishModal').classList.add('hidden'); }
+function closeAddDish(){ document.getElementById('addDishModal').classList.add('hidden'); document.body.classList.remove('no-scroll'); }
 function saveDishToMemory(){
   const name = document.getElementById('dishName').value.trim();
   const category = document.getElementById('dishCategory').value.trim() || 'Uncategorized';
