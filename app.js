@@ -26,7 +26,6 @@ const LEGEND = {
 let data = [];
 let selectedAllergens = new Set();
 let selectedCategory = null;
-const EXTRA_CATEGORIES = ["Specials","Seasonal"];
 
 const els = {
   grid: document.getElementById('grid'),
@@ -64,7 +63,7 @@ function renderAllergenChips(){
 
 function renderCategoryChips(){
   els.cat.innerHTML = '';
-  const categories = Array.from(new Set([...(EXTRA_CATEGORIES||[]), ...data.map(d => d.category)])).filter(Boolean);
+  const categories = Array.from(new Set(data.map(d => d.category))).filter(Boolean);
   categories.forEach(cat => {
     const key = cat.toLowerCase().replace(/\s+/g,'');
     const btn = document.createElement('button');
@@ -235,69 +234,3 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   tint(); const p=document.getElementById("chips"); if(p) new MutationObserver(tint).observe(p,{childList:true,subtree:true});
 });
-
-
-// ===== Add Dish: dock button modal + JSON export =====
-function getCurrentCategories(){
-  const set = new Set();
-  (data || []).forEach(d => { if (d.category) set.add(d.category); });
-  return Array.from(set);
-}
-function openAddDish(){
-  const list = document.getElementById('categoryList');
-  if(list){
-    list.innerHTML = '';
-    getCurrentCategories().forEach(c => {
-      const opt = document.createElement('option'); opt.value = c; list.appendChild(opt);
-    });
-  }
-  const wrap = document.getElementById('allergenChecklist');
-  if (wrap && !wrap.dataset.ready){
-    Object.keys(LEGEND || {}).forEach(code => {
-      const lab = document.createElement('label');
-      lab.innerHTML = '<input type="checkbox" name="allergen" value="'+code+'"> <span>'+code+'</span>';
-      wrap.appendChild(lab);
-    });
-    wrap.dataset.ready = '1';
-  } else if (wrap){
-    wrap.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
-  }
-  const n = document.getElementById('dishName'); if(n) n.value = '';
-  const c = document.getElementById('dishCategory'); if(c) c.value = '';
-  const d = document.getElementById('dishDesc'); if(d) d.value = '';
-  document.getElementById('addDishModal').classList.remove('hidden'); document.body.classList.add('no-scroll');
-}
-function closeAddDish(){ document.getElementById('addDishModal').classList.add('hidden'); document.body.classList.remove('no-scroll'); }
-function saveDishToMemory(){
-  const name = document.getElementById('dishName').value.trim();
-  const category = document.getElementById('dishCategory').value.trim() || 'Uncategorized';
-  const description = document.getElementById('dishDesc').value.trim();
-  const allergens = Array.from(document.querySelectorAll('#allergenChecklist input[name=allergen]:checked')).map(x=>x.value);
-  if(!name){ alert('Dish name is required.'); return; }
-  data.push({ name, allergens, description, category });
-  if (typeof renderCategoryChips === 'function') renderCategoryChips();
-  if (typeof refresh === 'function') refresh();
-  closeAddDish();
-}
-function downloadMenuJson(){
-  try{
-    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = 'menu.json';
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url), 2000);
-  }catch(e){ console.error(e); alert('Could not generate file.'); }
-}
-document.addEventListener('DOMContentLoaded', () => {
-  const addBtn = document.getElementById('addDishBtn');
-  const modal = document.getElementById('addDishModal');
-  if(addBtn && modal){
-    addBtn.addEventListener('click', openAddDish, {passive:true});
-    document.getElementById('addDishClose').addEventListener('click', closeAddDish, {passive:true});
-    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeAddDish(); }, {passive:true});
-    document.getElementById('saveDishBtn').addEventListener('click', saveDishToMemory, {passive:true});
-    document.getElementById('downloadJsonBtn').addEventListener('click', downloadMenuJson, {passive:true});
-  }
-});
-
-document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ const m=document.getElementById('addDishModal'); if(m && !m.classList.contains('hidden')){ m.classList.add('hidden'); document.body.classList.remove('no-scroll'); } }}, {passive:true});

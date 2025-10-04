@@ -598,185 +598,54 @@ html { scroll-behavior: smooth; }
 .modal .chip{backdrop-filter:blur(12px) saturate(160%);-webkit-backdrop-filter:blur(12px) saturate(160%);border-radius:999px;padding:6px 10px;font-size:12px;border:1px solid rgba(255,255,255,.25);color:#fff}
 
 
-/* === FINAL MODAL OVERHAUL (stable across Safari/Mac/iPhone) === */
-.modal{
-  position: fixed !important;
-  inset: 0 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 18px !important;
-  /* Brand gold glow + dim */
-  background: radial-gradient(900px 600px at 50% 35%, rgba(210,164,85,0.18), rgba(0,0,0,0.55) 70%) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
-  z-index: 9999 !important;
+/* === Modal polish: spacing, inputs, allergens, buttons (enforced) === */
+.form-grid{
+  display:grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  column-gap:16px !important;
+  row-gap:12px !important;
+  margin: 6px 0 8px !important;
 }
+@media (max-width:760px){ .form-grid{ grid-template-columns:1fr !important; } }
+.field{ display:grid !important; gap:6px !important; min-width:0 !important; }
+.field.wide{ grid-column: 1 / -1 !important; }
+.field .lbl{ font-size:13px !important; font-weight:600 !important; color:#eaeaea !important; opacity:.95 !important; }
 
-.modal.hidden{ display: none !important; }
-
-.modal-content{
-  position: relative !important;
-  width: min(94vw, 520px) !important;
-  max-height: calc(100dvh - 60px) !important; /* dvh handles iOS chrome/keyboard */
-  overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch !important;
-  background: linear-gradient(180deg, rgba(26,26,26,0.66), rgba(26,26,26,0.58)) !important;
-  border: 1px solid rgba(255,255,255,0.18) !important;
-  border-radius: 24px !important;
-  padding: 20px 22px !important;
-  color: #fff !important;
-  box-shadow: 0 18px 60px rgba(0,0,0,0.45) !important;
-  backdrop-filter: blur(16px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(150%) !important;
-  transform-origin: center !important;
-  animation: modalPop .28s cubic-bezier(0.22,1,0.36,1) forwards !important;
+.modal-content input, .modal-content textarea{
+  box-sizing:border-box !important;
+  width:100% !important;
+  border-radius:12px !important;
+  border:1px solid rgba(255,255,255,.22) !important;
+  background: rgba(255,255,255,.10) !important;
+  color:#fff !important;
+  padding:11px 12px !important;
+  font-size:14px !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12) !important;
 }
+.modal-content textarea{ min-height:92px !important; }
 
-@keyframes modalPop{
-  from { opacity: 0; transform: scale(0.975); }
-  to   { opacity: 1; transform: scale(1); }
+.modal-head h3{ margin:0 0 6px !important; font-size:22px !important; font-weight:600 !important; letter-spacing:.2px !important; }
+
+/* Quiet allergen card (override dashed) */
+.allergen-fieldset{
+  border:1px solid rgba(255,255,255,.18) !important;
+  border-radius:16px !important;
+  padding:10px 12px !important;
+  background: rgba(255,255,255,.06) !important;
 }
-
-.modal-close{
-  position: absolute !important;
-  top: 10px !important;
-  right: 12px !important;
-  background: rgba(255,255,255,0.12) !important;
-  border: 1px solid rgba(255,255,255,0.25) !important;
-  border-radius: 999px !important;
-  width: 28px !important; height: 28px !important;
-  display: inline-flex !important; align-items: center !important; justify-content: center !important;
-  font-size: 18px !important; line-height: 1 !important; color:#fff !important;
-  cursor: pointer !important;
+.allergen-fieldset legend{ font-size:12.5px !important; color:#eaeaea !important; opacity:.9 !important; padding:0 6px !important; }
+.allergen-list{
+  display:grid !important;
+  gap:8px !important;
+  grid-template-columns:repeat(4, minmax(56px,1fr)) !important;
 }
+@media (max-width:540px){ .allergen-list{ grid-template-columns:repeat(3,1fr) !important; } }
+@media (max-width:420px){ .allergen-list{ grid-template-columns:repeat(2,1fr) !important; } }
+.allergen-list label{ display:flex !important; align-items:center !important; gap:8px !important; font-size:13px !important; color:#fff !important; }
 
-@media (max-width: 600px){
-  .modal{
-    align-items: flex-start !important;
-    padding-top: 6vh !important;
-  }
-  .modal-content{
-    width: 94vw !important;
-    max-height: calc(100dvh - 12vh) !important;
-    padding: 16px !important;
-    border-radius: 20px !important;
-    backdrop-filter: blur(12px) saturate(140%) !important;
-    -webkit-backdrop-filter: blur(12px) saturate(140%) !important;
-  }
-}
+/* Buttons smaller */
+.form-actions{ display:flex !important; gap:10px !important; justify-content:center !important; margin-top:10px !important; flex-wrap:wrap !important; }
+.form-actions .filter-btn{ border-radius:999px !important; padding:9px 14px !important; font-weight:600 !important; }
 
-/* Gold "+" icon button on dock */
-.add-btn{
-  width: 40px; height: 40px;
-  display:inline-flex; align-items:center; justify-content:center;
-  border-radius: 999px;
-  background: linear-gradient(145deg, #D2A455, #B5862E);
-  color: #111;
-  font-weight: 800; font-size: 20px; line-height: 1;
-  border: none;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25), 0 0 10px rgba(210,164,85,0.30);
-  cursor: pointer;
-  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-.add-btn:hover{ transform: translateY(-1px); box-shadow: 0 8px 18px rgba(0,0,0,0.28), 0 0 12px rgba(210,164,85,0.36); }
-.add-btn:active{ transform: translateY(0) scale(.98); }
-
-
-/* === Apple-style Floating Add Dish Modal (polished sheet) === */
-body.no-scroll{ overflow:hidden !important; touch-action:none !important; }
-
-.modal{
-  /* soft dim with subtle vignette */
-  background:
-    radial-gradient(1000px 700px at 50% 38%, rgba(210,164,85,0.16), rgba(0,0,0,0.55) 70%) !important;
-  backdrop-filter: blur(10px) saturate(120%) !important;
-  -webkit-backdrop-filter: blur(10px) saturate(120%) !important;
-  display:flex !important; align-items:center !important; justify-content:center !important;
-  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(18px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)) !important;
-}
-
-.modal-content{
-  width: min(92vw, 540px) !important;
-  max-height: calc(100dvh - 80px) !important;
-  overflow-y:auto !important; -webkit-overflow-scrolling: touch !important;
-  border-radius: 26px !important;
-  /* Frosted glass look */
-  background: linear-gradient(180deg, rgba(255,255,255,0.20), rgba(255,255,255,0.10)) !important;
-  border: 1px solid rgba(255,255,255,0.24) !important;
-  box-shadow:
-    0 18px 48px rgba(0,0,0,0.40),
-    inset 0 0 0 .5px rgba(255,255,255,0.40) !important;
-  animation: sheetIn .26s cubic-bezier(.22,1,.36,1) forwards !important;
-  transform-origin:center !important;
-  padding: 18px 18px 16px !important;
-}
-
-@keyframes sheetIn { from{ opacity:0; transform: translateY(8px) scale(.985); } to{ opacity:1; transform: translateY(0) scale(1); } }
-
-/* Modal header: centered title, floating close */
-.modal-head{ display:flex; align-items:center; justify-content:center; margin-bottom:12px !important; }
-.modal-head h3{ font-weight:700; letter-spacing:.2px; color:#fff; text-shadow: 0 1px 1px rgba(0,0,0,.18); }
-
-.modal-close{
-  position:absolute !important; top:10px !important; left:12px !important;
-  width:30px !important; height:30px !important;
-  background: rgba(255,255,255,0.12) !important;
-  border: 1px solid rgba(255,255,255,0.28) !important;
-  border-radius: 999px !important;
-  color:#fff !important; font-size:18px !important; line-height:1 !important;
-  display:flex !important; align-items:center !important; justify-content:center !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important;
-}
-
-/* Inputs: iOS field chrome */
-.modal-content input, .modal-content textarea {
-  background: rgba(255,255,255,0.08) !important;
-  border: 1px solid rgba(255,255,255,0.22) !important;
-  border-radius: 14px !important;
-  padding: 12px 14px !important; color:#fff !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12) !important;
-}
-.modal-content input::placeholder, .modal-content textarea::placeholder{ color: rgba(255,255,255,0.65) !important; }
-.modal-content input:focus, .modal-content textarea:focus{
-  outline: none !important;
-  box-shadow: 0 0 0 2px rgba(52,199,89,0.45), inset 0 1px 0 rgba(255,255,255,0.14) !important;
-  border-color: rgba(52,199,89,0.55) !important;
-}
-
-/* Allergen checklist: tidy grid & accent color */
-.allergen-fieldset{ border:1px dashed rgba(255,255,255,0.26) !important; border-radius:16px !important; }
-.allergen-list{ grid-template-columns: repeat(4, minmax(60px,1fr)) !important; }
-@media (max-width: 520px){ .allergen-list{ grid-template-columns: repeat(3, minmax(60px,1fr)) !important; } }
-@media (max-width: 420px){ .allergen-list{ grid-template-columns: repeat(2, minmax(60px,1fr)) !important; } }
-.modal-content input[type="checkbox"]{ accent-color: #34c759 !important; }
-
-/* Buttons inside modal: pill style spacing */
-.form-actions .filter-btn{ border-radius: 999px !important; padding: 10px 16px !important; }
-
-/* Mobile sheet behavior */
-@media (max-width: 640px){
-  .modal{ align-items:flex-start !important; padding-top: max(6vh, 20px) !important; }
-  .modal-content{ width: 94vw !important; border-radius: 22px !important; padding: 16px !important; }
-}
-
-
-/* === Apple-like modal tidy layout (final polish) === */
-.modal-head h3{ margin:0; font-size:22px; font-weight:800; letter-spacing:.2px; color:#fff; text-shadow:none; }
-.form-grid{ display:grid; grid-template-columns: 1fr 1fr; column-gap:14px; row-gap:12px; margin: 6px 0 8px; }
-@media (max-width:760px){ .form-grid{ grid-template-columns: 1fr; } }
-.field{ display:grid; gap:6px; }
-.field.wide{ grid-column: 1 / -1; }
-.field .lbl{ font-size:13px; color:#eaeaea; opacity:.92; }
-.modal-content input, .modal-content textarea{ width:100%; border-radius:12px; border:1px solid rgba(255,255,255,0.22); background: rgba(255,255,255,0.10); color:#fff; padding:11px 12px; font-size:14px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12); }
-.modal-content textarea{ min-height: 84px; }
-.allergen-fieldset{ border:1px solid rgba(255,255,255,0.18); border-radius:16px; padding:10px 12px; background: rgba(255,255,255,0.06); }
-.allergen-fieldset legend{ font-size:12.5px; color:#eaeaea; padding:0 6px; }
-.allergen-list{ display:grid; grid-template-columns: repeat(4, minmax(56px,1fr)); gap:8px; }
-@media (max-width:540px){ .allergen-list{ grid-template-columns: repeat(3, minmax(56px,1fr)); } }
-@media (max-width:420px){ .allergen-list{ grid-template-columns: repeat(2, minmax(56px,1fr)); } }
-.allergen-list label{ display:flex; align-items:center; gap:8px; font-size:13px; color:#fff; }
-.form-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
-.form-actions .filter-btn{ border-radius:999px; padding:10px 16px; font-weight:600; }
-.modal-content{ border-radius:24px !important; background: linear-gradient(180deg, rgba(32,32,32,0.60), rgba(32,32,32,0.48)) !important; border:1px solid rgba(255,255,255,0.20) !important; }
+/* Code styling normalization */
+.hint code{ font-family:inherit !important; letter-spacing:0 !important; background:none !important; }
