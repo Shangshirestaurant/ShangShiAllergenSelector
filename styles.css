@@ -23,8 +23,8 @@ html,body{margin:0;color:var(--text);background: radial-gradient(1100px 320px at
 .active-filter{color:var(--accent)}
 
 /* Grid & cards */
-.main{min-height:100vh;max-width:1100px;margin:0 auto;padding:18px 16px 120px}
-.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.main{min-height:100vh;max-width:1320px;margin:0 auto;padding:18px 16px 120px}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
 .card{background:var(--card);color:var(--text);border:1px solid rgba(255,255,255,0.06);border-radius:18px;padding:18px;box-shadow:0 14px 36px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,0.03);position:relative;transition: transform 0.35s cubic-bezier(0.22,1,0.36,1),box-shadow 0.35s cubic-bezier(0.22,1,0.36,1);}
 .card h3{margin:0 0 6px 0;color:var(--heading);font-size:18px;line-height:1.25;font-weight:600}
 .desc{margin:0;color:var(--muted);opacity:.95}
@@ -598,57 +598,106 @@ html { scroll-behavior: smooth; }
 .modal .chip{backdrop-filter:blur(12px) saturate(160%);-webkit-backdrop-filter:blur(12px) saturate(160%);border-radius:999px;padding:6px 10px;font-size:12px;border:1px solid rgba(255,255,255,.25);color:#fff}
 
 
-/* === Modal polish: spacing, inputs, allergens, buttons (enforced) === */
-.form-grid{
-  display:grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  column-gap:16px !important;
-  row-gap:12px !important;
-  margin: 6px 0 8px !important;
-}
-@media (max-width:760px){ .form-grid{ grid-template-columns:1fr !important; } }
-.field{ display:grid !important; gap:6px !important; min-width:0 !important; }
-.field.wide{ grid-column: 1 / -1 !important; }
-.field .lbl{ font-size:13px !important; font-weight:600 !important; color:#eaeaea !important; opacity:.95 !important; }
+/* Extra category tints */
+.pill-specials{ background: radial-gradient(120% 140% at 30% 10%, rgba(255,220,150,0.96), rgba(255,220,150,0.86)); }
+.pill-seasonal{ background: radial-gradient(120% 140% at 30% 10%, rgba(170,220,255,0.96), rgba(170,220,255,0.86)); }
 
-.modal-content input, .modal-content textarea{
-  box-sizing:border-box !important;
-  width:100% !important;
-  border-radius:12px !important;
-  border:1px solid rgba(255,255,255,.22) !important;
-  background: rgba(255,255,255,.10) !important;
-  color:#fff !important;
-  padding:11px 12px !important;
-  font-size:14px !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.12) !important;
-}
-.modal-content textarea{ min-height:92px !important; }
+.chip-specials{ background: rgba(255,220,150,0.20) !important; border:1px solid rgba(255,220,150,0.34) !important; }
+.chip-seasonal{ background: rgba(170,220,255,0.20) !important; border:1px solid rgba(170,220,255,0.34) !important; }
 
-.modal-head h3{ margin:0 0 6px !important; font-size:22px !important; font-weight:600 !important; letter-spacing:.2px !important; }
 
-/* Quiet allergen card (override dashed) */
-.allergen-fieldset{
-  border:1px solid rgba(255,255,255,.18) !important;
-  border-radius:16px !important;
-  padding:10px 12px !important;
-  background: rgba(255,255,255,.06) !important;
+/* === Hotfix: keep text-field styles off checkboxes, fix allergen grid === */
+.modal-content input:not([type="checkbox"]),
+.modal-content textarea{
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.22);
+  background: rgba(255,255,255,.10);
+  color: #fff;
+  padding: 11px 12px;
+  font-size: 14px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
 }
-.allergen-fieldset legend{ font-size:12.5px !important; color:#eaeaea !important; opacity:.9 !important; padding:0 6px !important; }
+
+.modal-content input[type="checkbox"]{
+  width: 18px;
+  height: 18px;
+  accent-color: #34c759;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.allergen-fieldset{ overflow: hidden; }
+
 .allergen-list{
-  display:grid !important;
-  gap:8px !important;
-  grid-template-columns:repeat(4, minmax(56px,1fr)) !important;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(4, minmax(56px, 1fr));
 }
-@media (max-width:540px){ .allergen-list{ grid-template-columns:repeat(3,1fr) !important; } }
-@media (max-width:420px){ .allergen-list{ grid-template-columns:repeat(2,1fr) !important; } }
-.allergen-list label{ display:flex !important; align-items:center !important; gap:8px !important; font-size:13px !important; color:#fff !important; }
 
-/* Buttons smaller */
-.form-actions{ display:flex !important; gap:10px !important; justify-content:center !important; margin-top:10px !important; flex-wrap:wrap !important; }
-.form-actions .filter-btn{ border-radius:999px !important; padding:9px 14px !important; font-weight:600 !important; }
+.allergen-list label{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #fff;
+  white-space: nowrap;
+}
 
-/* Code styling normalization */
-.hint code{ font-family:inherit !important; letter-spacing:0 !important; background:none !important; }
+@media (max-width: 600px){
+  .allergen-list{ grid-template-columns: repeat(3, minmax(70px, 1fr)); }
+}
+@media (max-width: 380px){
+  .allergen-list{ grid-template-columns: repeat(2, minmax(90px, 1fr)); }
+}
 
-.add-btn{width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:linear-gradient(145deg,#D2A455,#B5862E);color:#111;font-weight:800;font-size:20px;line-height:1;border:none;box-shadow:0 4px 12px rgba(0,0,0,.25),0 0 10px rgba(210,164,85,.30);cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;}
-.add-btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.28),0 0 12px rgba(210,164,85,.36);} .add-btn:active{transform:translateY(0) scale(.98);}
+
+/* === Mobile optical balance: tighter title, buttons, spacing === */
+@media (max-width: 600px){
+  .modal-content{
+    padding: 14px 14px 12px !important;
+    border-radius: 20px !important;
+    max-height: calc(100dvh - 12vh) !important;
+  }
+  .modal-head h3{
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    letter-spacing: .1px !important;
+    margin-bottom: 6px !important;
+  }
+  .field .lbl{
+    font-size: 12.5px !important;
+    opacity: .95 !important;
+  }
+  .modal-content input:not([type="checkbox"]),
+  .modal-content textarea{
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+    border-radius: 12px !important;
+  }
+  .modal-content textarea{ min-height: 88px !important; }
+  .modal-close{
+    width: 28px !important; height: 28px !important;
+    font-size: 16px !important;
+    top: 8px !important; right: 10px !important;
+  }
+  .form-actions .filter-btn{
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+    border-radius: 999px !important;
+  }
+  .hint{
+    font-size: 12.5px !important;
+    line-height: 1.45 !important;
+  }
+}
+@media (max-width: 600px){
+  .allergen-list{ grid-template-columns: repeat(3, minmax(70px, 1fr)) !important; }
+}
+@media (max-width: 380px){
+  .allergen-list{ grid-template-columns: repeat(2, minmax(90px, 1fr)) !important; }
+}
