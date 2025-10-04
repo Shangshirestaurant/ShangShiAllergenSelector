@@ -27,6 +27,11 @@ let data = [];
 let selectedAllergens = new Set();
 let selectedCategory = null;
 
+// Extra editable categories (placeholders).
+// Rename these or add more; they will appear even if no dishes use them yet.
+const EXTRA_CATEGORIES = ["Specials", "Seasonal"];
+
+
 const els = {
   grid: document.getElementById('grid'),
   chips: document.getElementById('chips'),
@@ -63,7 +68,7 @@ function renderAllergenChips(){
 
 function renderCategoryChips(){
   els.cat.innerHTML = '';
-  const categories = Array.from(new Set(data.map(d => d.category))).filter(Boolean);
+  const categories = Array.from(new Set([...EXTRA_CATEGORIES, ...data.map(d => d.category)])).filter(Boolean);
   categories.forEach(cat => {
     const key = cat.toLowerCase().replace(/\s+/g,'');
     const btn = document.createElement('button');
