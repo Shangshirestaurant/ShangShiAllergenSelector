@@ -29,7 +29,7 @@ let selectedCategory = null;
 
 // Extra editable categories (placeholders).
 // Rename these or add more; they will appear even if no dishes use them yet.
-const EXTRA_CATEGORIES = ["Specials", "Seasonal"];
+const EXTRA_CATEGORIES = ["Sauces", "Seasonal"];
 
 
 const els = {
