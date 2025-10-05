@@ -6,7 +6,7 @@
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#0C0F14" name="theme-color"/>
 <title>Shang Shi Menu</title>
-<link href="./styles.css?v=1759690032" rel="stylesheet"/>
+<link href="./styles.css?v=fs2-1759673818" rel="stylesheet"/>
 </head>
 <body>
 <button aria-label="Toggle theme" class="theme-btn" id="themeToggle">🌙</button>
@@ -23,7 +23,7 @@
 <!-- Add Dish Modal -->
 <div aria-hidden="true" class="modal hidden" id="addDishModal">
 <div aria-labelledby="addDishTitle" aria-modal="true" class="modal-content" role="dialog">
-<button aria-label="Close" class="modal-close" id="addDishClose">×</button>
+<button aria-label="Close" class="modal-close" id="addDishClose"><svg aria-hidden="true" fill="none" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg></button>
 <div class="modal-head"><h3 id="addDishTitle">Add a New Dish</h3></div>
 <div class="form-grid">
 <label class="field half field-name"><span class="lbl">Dish name</span>
@@ -40,10 +40,7 @@
 <div class="allergen-list" id="allergenChecklist"></div>
 </fieldset>
 </div>
-<div class="form-actions">
-<button class="filter-btn" id="saveDishBtn"><span class="dot"></span> Save to Page</button>
-<button class="filter-btn" id="downloadJsonBtn" style="background:rgba(255,255,255,0.95)"><span class="dot"></span> Download JSON</button>
-</div>
+<div class="form-actions"><button class="btn btn-primary" id="saveDishBtn"><svg aria-hidden="true" fill="none" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg> Save dish</button><button class="btn btn-ghost" id="downloadJsonBtn"><svg aria-hidden="true" fill="none" viewBox="0 0 24 24"><path d="M12 5v10m0 0l4-4m-4 4l-4-4M4 19h16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg> Download JSON</button></div>
 <p class="hint">This adds the dish only in your browser memory. Click <em>Download JSON</em> to save the updated <code>menu.json</code> and replace it in your project.</p>
 </div>
 </div>
@@ -56,12 +53,11 @@
 <button aria-controls="categoryPanel" aria-expanded="false" class="filter-btn" id="categoryToggle">
 <span class="dot"></span> Categories
       </button>
-<button aria-label="Add new dish" class="add-btn" id="addDishBtn">
-<svg aria-hidden="true" fill="none" viewbox="0 0 24 24">
-<path d="M12 5v14M5 12h14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path>
+<button aria-label="Reset filters" class="reset-btn" id="resetBtn">
+<svg aria-hidden="true" viewbox="0 0 24 24">
+<path d="M4.5 8.5v-4m0 0h4m-4 0l5 5m10 3.5a7.5 7.5 0 1 1-7.5-7.5"></path>
 </svg>
 </button>
-<button aria-label="Reset filters" class="reset-btn reset-btn" id="resetBtn"><svg aria-hidden="true" fill="none" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.343-5.657" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path><path d="M20 6v4h-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg></button>
 </div>
 </div>
 <div class="filter-panel" id="filterPanel">
@@ -70,6 +66,6 @@
 <div class="filter-panel" id="categoryPanel">
 <div aria-label="Category filters" class="chips" id="categories" role="group"></div>
 </div>
-<script defer="" src="./app.js?v=1759690032"></script>
+<script defer="" src="./app.js?v=fs2-1759673818"></script>
 </body>
 </html>
