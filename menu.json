@@ -73,7 +73,8 @@
       "NU",
       "MU",
       "SO",
-      "ON"
+      "ON",
+      "HO"
     ],
     "description": "",
     "category": "Starters"
@@ -218,7 +219,8 @@
       "SO",
       "MR",
       "GA",
-      "CR"
+      "CR",
+      "HO"
     ],
     "description": "",
     "category": "Mains"
@@ -440,7 +442,8 @@
       "GL",
       "GA",
       "SO",
-      "CR"
+      "CR",
+      "HO"
     ],
     "description": "",
     "category": "Mains"
@@ -449,10 +452,22 @@
     "name": "Chilli Oil",
     "allergens": [
       "CR",
-      "GL"
+      "GL",
+      "GA",
+      "ON",
+      "SO"
     ],
     "description": "",
-    "category": "Starters"
+    "category": "Sauces"
+  },
+  {
+    "name": "Chilli Sauce",
+    "allergens": [
+      "GA",
+      "ON"
+    ],
+    "description": "",
+    "category": "Sauces"
   },
   {
     "name": "Stir Fried Squid with Pepper, Chilli, and Garlic",
