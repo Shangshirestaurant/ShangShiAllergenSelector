@@ -585,6 +585,7 @@ html { scroll-behavior: smooth; }
 .chip-on{background:rgba(160,120,90,0.25);border-color:rgba(160,120,90,0.45);}
 .chip-se{background:rgba(180,160,90,0.25);border-color:rgba(180,160,90,0.45);}
 .chip-so{background:rgba(90,180,180,0.25);border-color:rgba(90,180,180,0.45);}
+.chip-ho{background:rgba(90,180,180,0.25);border-color:rgba(90,180,180,0.45);}
 
 
 /* === Glassy Dish Modal === */
