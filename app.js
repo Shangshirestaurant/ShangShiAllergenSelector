@@ -21,7 +21,7 @@ const allergenClassMap = {
 
 const LEGEND = {
   CE:"Celery", GL:"Gluten", CR:"Crustaceans", EG:"Eggs", FI:"Fish", MO:"Molluscs", Mi:"Milk",
-  MU:"Mustard", NU:"Nuts", SE:"Sesame", SO:"Soya", GA:"Garlic", ON:"Onion", MR:"Mushrooms"
+  MU:"Mustard", NU:"Nuts", SE:"Sesame", SO:"Soya", GA:"Garlic", ON:"Onion", MR:"Mushrooms", HO:"Honey"
 };
 
 let data = [];
@@ -47,7 +47,7 @@ async function loadMenu(){ const r = await fetch('./menu.json', {cache:'no-store
 // Build chips
 function renderAllergenChips(){
   els.chips.innerHTML = '';
-  const codes = Object.keys(LEGEND);
+  const codes = Array.from(Object.keys(LEGEND)).filter(c => data.some(d => (d.allergens||[]).includes(c)));
   codes.forEach(code => {
     const btn = document.createElement('button');
     btn.className = 'chip';

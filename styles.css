@@ -597,5 +597,5 @@ html { scroll-behavior: smooth; }
 .badges{display:flex;flex-wrap:wrap;gap:8px}
 .modal .chip{backdrop-filter:blur(12px) saturate(160%);-webkit-backdrop-filter:blur(12px) saturate(160%);border-radius:999px;padding:6px 10px;font-size:12px;border:1px solid rgba(255,255,255,.25);color:#fff}
 
-/* Honey chip (works with data-code attr too) */
-.chip[data-code="HO"]{ background: rgba(245,193,108,0.16); border-color:#F5C16C; color:#FFE3B3; }
+/* Honey tint */
+.chip-ho{background:rgba(245,193,108,0.25);border-color:rgba(245,193,108,0.45);}
