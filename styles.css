@@ -547,29 +547,17 @@ html { scroll-behavior: smooth; }
 .reset-btn{
   width: 40px; height: 40px; border-radius: 999px;
   background: rgba(255,255,255,0.92);
-  color: var(--accent);
-  border: 1px solid rgba(210,164,85,0.25);
+  color: #111;
+  border: 1px solid rgba(0,0,0,0.08);
   display:inline-flex; align-items:center; justify-content:center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.18);
   transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
   -webkit-tap-highlight-color: transparent;
 }
-.reset-btn:hover{
-  transform: translateY(-1px);
-  /* soft golden halo */
-  box-shadow: 0 8px 20px rgba(0,0,0,0.25), 0 0 10px 2px rgba(210,164,85,0.45);
-}
+.reset-btn:hover{ transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,0.25); }
 .reset-btn:active{ transform: translateY(0) scale(.98); }
-.reset-btn svg{
-  width:18px; height:18px;
-  stroke: currentColor; fill: none;
-  stroke-linecap: round; stroke-linejoin: round;
-  transition: transform .6s cubic-bezier(.22,1,.36,1);
-}
-/* spin on hover */
-.reset-btn:hover svg{ transform: rotate(220deg); }
-/* legacy spin class compatibility */
-.reset-btn.spin svg{ transform: rotate(220deg); }
+.reset-btn svg{ width:18px; height:18px; stroke: currentColor; fill:none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .4s cubic-bezier(.22,1,.36,1); }
+.reset-btn.spin svg{ transform: rotate(90deg); }
 
 /* === Category chip subtle tints === */
 .chip.category{ font-weight:600; }
