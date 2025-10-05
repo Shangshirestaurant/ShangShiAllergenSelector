@@ -136,7 +136,13 @@ function inCategory(item){ return !selectedCategory || item.category === selecte
 
 function renderGrid(){
   els.grid.innerHTML = '';
-  const items = data.filter(d => isSafe(d) && inCategory(d));
+  const orderIndex = (c) => {
+    const i = CATEGORY_ORDER.indexOf(c || '');
+    return i === -1 ? 999 : i;
+  };
+  const items = data
+    .filter(d => isSafe(d) && inCategory(d))
+    .sort((a,b) => orderIndex(a.category) - orderIndex(b.category) || String(a.name).localeCompare(String(b.name)));
   items.forEach(d => els.grid.appendChild(card(d)));
   els.result.textContent = `${items.length} dishes`;
 }
