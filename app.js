@@ -27,6 +27,8 @@ const LEGEND = {
 let data = [];
 let selectedAllergens = new Set();
 let selectedCategory = null;
+const EXTRA_CATEGORIES = ["Sauces","Specials"];
+const CATEGORY_ORDER = ["Starters","Mains","Desserts","Sauces"];
 
 const els = {
   grid: document.getElementById('grid'),
@@ -63,8 +65,10 @@ function renderAllergenChips(){
 }
 
 function renderCategoryChips(){
+  const _catIndex = (c)=>{const i=CATEGORY_ORDER.indexOf(c||"");return i===-1?999:i;};
   els.cat.innerHTML = '';
-  const categories = Array.from(new Set(data.map(d => d.category))).filter(Boolean);
+  let categories = Array.from(new Set([...(EXTRA_CATEGORIES||[]), ...data.map(d => d.category)])).filter(Boolean);
+  categories = categories.sort((a,b)=>_catIndex(a)-_catIndex(b) || String(a).localeCompare(String(b)));
   categories.forEach(cat => {
     const key = cat.toLowerCase().replace(/\s+/g,'');
     const btn = document.createElement('button');
@@ -234,4 +238,67 @@ document.addEventListener("DOMContentLoaded", () => {
     p.querySelectorAll(".chip").forEach(ch=>{ const raw=(ch.textContent||"").trim(); const code=sanitizeAllergen((raw.split(/\s+/)[0]||raw)); const cls=allergenClassMap[code]||allergenClassMap[(code||"").toUpperCase()]||null; if(cls) ch.classList.add(cls); });
   }
   tint(); const p=document.getElementById("chips"); if(p) new MutationObserver(tint).observe(p,{childList:true,subtree:true});
+});
+
+
+// ===== Add Dish: modal + JSON export =====
+function getCurrentCategories(){
+  const s=new Set(); (data||[]).forEach(d=>{ if(d.category) s.add(d.category); }); return Array.from(s);
+}
+function openAddDish(){
+  const list=document.getElementById('categoryList');
+  if(list){ list.innerHTML=''; const cs=getCurrentCategories().concat(EXTRA_CATEGORIES||[]);
+    Array.from(new Set(cs)).forEach(c=>{ const o=document.createElement('option'); o.value=c; list.appendChild(o); });
+  }
+  const wrap=document.getElementById('allergenChecklist');
+  if(wrap && !wrap.dataset.ready){
+    Object.keys(LEGEND||{}).forEach(code=>{ const lab=document.createElement('label'); lab.innerHTML='<input type="checkbox" name="allergen" value="'+code+'"> <span>'+code+'</span>'; wrap.appendChild(lab); });
+    wrap.dataset.ready='1';
+  } else if (wrap){
+    wrap.querySelectorAll('input[type=checkbox]').forEach(cb=>cb.checked=false);
+  }
+  ['dishName','dishCategory','dishDesc'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('addDishModal').classList.remove('hidden'); document.body.classList.add('no-scroll');
+}
+function closeAddDish(){ document.getElementById('addDishModal').classList.add('hidden'); document.body.classList.remove('no-scroll'); }
+function saveDishToMemory(){
+  const name=(document.getElementById('dishName')?.value||'').trim();
+  const category=(document.getElementById('dishCategory')?.value||'').trim()||'Uncategorized';
+  const description=(document.getElementById('dishDesc')?.value||'').trim();
+  const allergens=Array.from(document.querySelectorAll('#allergenChecklist input[name=allergen]:checked')).map(x=>x.value);
+  if(!name){ alert('Dish name is required.'); return; }
+  data.push({ name, allergens, description, category });
+  if (typeof renderCategoryChips==='function') renderCategoryChips();
+  if (typeof refresh==='function') refresh();
+  closeAddDish();
+}
+function ensurePendingDishCommitted(){
+  const modal=document.getElementById('addDishModal'); if(!modal || modal.classList.contains('hidden')) return;
+  const name=(document.getElementById('dishName')?.value||'').trim(); if(!name) return;
+  const category=(document.getElementById('dishCategory')?.value||'').trim()||'Uncategorized';
+  const description=(document.getElementById('dishDesc')?.value||'').trim();
+  const allergens=Array.from(document.querySelectorAll('#allergenChecklist input[name=allergen]:checked')).map(x=>x.value);
+  const exists=(data||[]).some(d=> (d.name||'').trim().toLowerCase()===name.toLowerCase() && (d.category||'')===category);
+  if(!exists){ data.push({ name, allergens, description, category }); if (typeof renderCategoryChips==='function') renderCategoryChips(); if (typeof refresh==='function') refresh(); }
+}
+function downloadMenuJson(){
+  ensurePendingDishCommitted();
+  try{
+    const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download='menu.json'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+  }catch(e){ console.error(e); alert('Could not generate file.'); }
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const addBtn=document.getElementById('addDishBtn');
+  const modal=document.getElementById('addDishModal');
+  if(addBtn && modal){
+    addBtn.addEventListener('click', openAddDish, {passive:true});
+    document.getElementById('addDishClose').addEventListener('click', closeAddDish, {passive:true});
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeAddDish(); }, {passive:true});
+    const saveBtn=document.getElementById('saveDishBtn'); if(saveBtn) saveBtn.addEventListener('click', saveDishToMemory, {passive:true});
+    const dlBtn=document.getElementById('downloadJsonBtn'); if(dlBtn) dlBtn.addEventListener('click', downloadMenuJson, {passive:true});
+  }
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ const m=document.getElementById('addDishModal'); if(m && !m.classList.contains('hidden')) closeAddDish(); }}, {passive:true});
 });
