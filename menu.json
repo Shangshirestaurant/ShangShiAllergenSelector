@@ -35,19 +35,6 @@
     "category": "Starters"
   },
   {
-    "name": "Honey Glazed Iberico Char Siu",
-    "allergens": [
-      "GL",
-      "SO",
-      "SE",
-      "GA",
-      "HO",
-      "NU"
-    ],
-    "description": "",
-    "category": "Mains"
-  },
-  {
     "name": "Golden Fried Soft Shell Crab with Chilli",
     "allergens": [
       "EG",
@@ -86,8 +73,7 @@
       "NU",
       "MU",
       "SO",
-      "ON",
-      "HO"
+      "ON"
     ],
     "description": "",
     "category": "Starters"
@@ -232,9 +218,7 @@
       "SO",
       "MR",
       "GA",
-      "CR",
-      "HO",
-      "SE"
+      "CR"
     ],
     "description": "",
     "category": "Mains"
@@ -286,8 +270,7 @@
       "GA",
       "Mi",
       "EG",
-      "MO",
-      "SE"
+      "MO"
     ],
     "description": "",
     "category": "Mains"
@@ -457,47 +440,19 @@
       "GL",
       "GA",
       "SO",
-      "CR",
-      "HO",
-      "SE"
+      "CR"
     ],
-    "description": "Truffle Sauce (Check Allergens)",
+    "description": "",
     "category": "Mains"
   },
   {
     "name": "Chilli Oil",
     "allergens": [
       "CR",
-      "GL",
-      "GA",
-      "ON",
-      "SO"
+      "GL"
     ],
     "description": "",
-    "category": "Sauces"
-  },
-  {
-    "name": "Truffle Sauce",
-    "allergens": [
-      "GL",
-      "GA",
-      "ON",
-      "CR",
-      "HO",
-      "SO",
-      "SE"
-    ],
-    "description": "Slow Cooked Wagyu, Roasted Duck",
-    "category": "Sauces"
-  },
-  {
-    "name": "Chilli Sauce",
-    "allergens": [
-      "GA",
-      "ON"
-    ],
-    "description": "",
-    "category": "Sauces"
+    "category": "Starters"
   },
   {
     "name": "Stir Fried Squid with Pepper, Chilli, and Garlic",
