@@ -543,21 +543,39 @@ html { scroll-behavior: smooth; }
 #categoryToggle .dot{ background: #D2A455 !important; }
 #categoryToggle[data-active="true"] .dot{ background: #D2A455 !important; }
 
-/* === Reset (icon-only) button === */
+/* === Reset (icon-only) button — glassy style to match new dock === */
 .reset-btn{
   width: 40px; height: 40px; border-radius: 999px;
-  background: rgba(255,255,255,0.92);
-  color: #111;
-  border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.10);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.18);
   display:inline-flex; align-items:center; justify-content:center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
   -webkit-tap-highlight-color: transparent;
 }
-.reset-btn:hover{ transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,0.25); }
+.reset-btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.40), 0 0 0 1px rgba(210,164,85,0.18);
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.24);
+}
 .reset-btn:active{ transform: translateY(0) scale(.98); }
-.reset-btn svg{ width:18px; height:18px; stroke: currentColor; fill:none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .4s cubic-bezier(.22,1,.36,1); }
+.reset-btn svg{ width:18px; height:18px; stroke: currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; transition: transform .4s cubic-bezier(.22,1,.36,1); }
 .reset-btn.spin svg{ transform: rotate(90deg); }
+/* Light theme tweaks */
+body.light .reset-btn{
+  background: rgba(0,0,0,0.06);
+  border-color: rgba(0,0,0,0.10);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18), inset 0 0 0 1px rgba(255,255,255,0.30);
+}
+body.light .reset-btn:hover{
+  background: rgba(0,0,0,0.08);
+  border-color: rgba(0,0,0,0.16);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+}
 
 /* === Category chip subtle tints === */
 .chip.category{ font-weight:600; }
