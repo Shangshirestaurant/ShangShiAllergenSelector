@@ -175,7 +175,8 @@
       "GL",
       "SO",
       "FI",
-      "MR"
+      "MR",
+      "HO"
     ],
     "description": "Marinated in Honey",
     "category": "Mains"
@@ -625,7 +626,7 @@
     "category": "Mains"
   },
   {
-    "name": "Rice Pudding – Blackberry – Coconut",
+    "name": "Rice Pudding \u2013 Blackberry \u2013 Coconut",
     "allergens": [],
     "description": "",
     "category": "Desserts"
