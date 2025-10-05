@@ -184,7 +184,14 @@ function clearAll(){
   els.categoryToggle && els.categoryToggle.setAttribute('aria-expanded','false');
 }
 
-function refresh(){ renderGrid(); updateMeta(); }
+function refresh(){ renderGrid(); updateMeta(); updateResetState(); }
+
+function updateResetState(){
+  try{
+    const active = (selectedAllergens && selectedAllergens.size>0) || !!selectedCategory;
+    if (els && els.resetBtn){ els.resetBtn.classList.toggle('active', !!active); }
+  }catch(e){ /* no-op */ }
+}
 
 // Theme toggle kept minimal
 (function theme(){
