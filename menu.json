@@ -35,6 +35,19 @@
     "category": "Starters"
   },
   {
+    "name": "Honey Glazed Iberico Char Siu",
+    "allergens": [
+      "GL",
+      "SO",
+      "SE",
+      "GA",
+      "HO",
+      "NU"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
     "name": "Golden Fried Soft Shell Crab with Chilli",
     "allergens": [
       "EG",
@@ -220,7 +233,8 @@
       "MR",
       "GA",
       "CR",
-      "HO"
+      "HO",
+      "SE"
     ],
     "description": "",
     "category": "Mains"
@@ -272,7 +286,8 @@
       "GA",
       "Mi",
       "EG",
-      "MO"
+      "MO",
+      "SE"
     ],
     "description": "",
     "category": "Mains"
@@ -443,9 +458,10 @@
       "GA",
       "SO",
       "CR",
-      "HO"
+      "HO",
+      "SE"
     ],
-    "description": "",
+    "description": "Truffle Sauce (Check Allergens)",
     "category": "Mains"
   },
   {
@@ -458,6 +474,20 @@
       "SO"
     ],
     "description": "",
+    "category": "Sauces"
+  },
+  {
+    "name": "Truffle Sauce",
+    "allergens": [
+      "GL",
+      "GA",
+      "ON",
+      "CR",
+      "HO",
+      "SO",
+      "SE"
+    ],
+    "description": "Slow Cooked Wagyu, Roasted Duck",
     "category": "Sauces"
   },
   {
