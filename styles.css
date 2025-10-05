@@ -642,3 +642,25 @@ body:not(.light) .reset-btn{
 .allergen-list label{ display:flex; align-items:center; gap:10px; font-size:13px; color:#fff; white-space:nowrap; }
 @media (max-width: 600px){ .allergen-list{ grid-template-columns: repeat(3, minmax(70px, 1fr)); } }
 @media (max-width: 380px){ .allergen-list{ grid-template-columns: repeat(2, minmax(90px, 1fr)); } }
+
+
+/* === Reset pulse animation === */
+.reset-btn{ position: relative; overflow: visible; }
+.reset-btn.active::after{
+  content:"";
+  position:absolute; inset:-2px;
+  border-radius:999px;
+  background: radial-gradient(circle at center, rgba(210,164,85,0.35), rgba(210,164,85,0.0) 70%);
+  filter: blur(2px);
+  opacity: 0;
+  animation: resetPulse 1.8s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes resetPulse{
+  0%{ transform: scale(0.92); opacity: 0; }
+  45%{ transform: scale(1.06); opacity: .55; }
+  100%{ transform: scale(1.10); opacity: 0; }
+}
+/* subtle hover nudge for icon */
+.reset-btn:hover svg{ transform: rotate(12deg); transition: transform .25s ease; }
+.reset-btn.spin svg{ transform: rotate(360deg); transition: transform .6s cubic-bezier(.22,1,.36,1); }
