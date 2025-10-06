@@ -724,3 +724,71 @@ html { scroll-behavior: smooth; }
 @keyframes resetPulse{ 0%{ transform: scale(0.92); opacity: 0; } 45%{ transform: scale(1.06); opacity: .55; } 100%{ transform: scale(1.10); opacity: 0; } }
 .reset-btn.spin svg{ transform: rotate(360deg); transition: transform .6s cubic-bezier(.22,1,.36,1); }
 
+
+/* === Light theme modal glass fix — v1 === */
+/* Bright frosted glass for light theme modals */
+body.light .modal {
+  background: radial-gradient(1200px 600px at 50% 10%, rgba(255,255,255,0.55), rgba(255,255,255,0.78));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+body.light .modal-content {
+  background: rgba(255,255,255,0.72);
+  color: #143d31;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.10), inset 0 0 0 1px rgba(255,255,255,0.4);
+}
+
+/* Labels & help text */
+body.light .modal-content .lbl,
+body.light .modal-content legend,
+body.light .modal-content label {
+  color: #143d31;
+  opacity: 0.92;
+}
+
+/* Inputs & textareas */
+body.light .modal-content input:not([type="checkbox"]),
+body.light .modal-content textarea {
+  background: rgba(255,255,255,0.70);
+  border: 1px solid rgba(0,0,0,0.10);
+  color: #143d31;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+body.light .modal-content input::placeholder,
+body.light .modal-content textarea::placeholder {
+  color: rgba(20,61,49,0.55);
+}
+
+body.light .modal-content input:focus,
+body.light .modal-content textarea:focus {
+  border-color: rgba(46,107,76,0.45);
+  box-shadow: 0 0 0 3px rgba(46,107,76,0.14), 0 10px 20px rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.80);
+}
+
+/* Allergen checklist text */
+body.light .modal-content .allergen-list label {
+  color: #143d31;
+}
+
+/* Close button & ghost buttons */
+body.light .modal-close {
+  background: rgba(0,0,0,0.04);
+  border: 1px solid rgba(0,0,0,0.08);
+  color: #143d31;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.6);
+}
+
+body.light .btn-ghost {
+  background: rgba(0,0,0,0.06);
+  color: #143d31;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+body.light .hint {
+  color: rgba(20,61,49,0.65);
+}
+
