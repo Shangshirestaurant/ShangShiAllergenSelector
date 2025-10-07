@@ -67,6 +67,51 @@
     "category": "Starters"
   },
   {
+    "name": "Truffle Sauce",
+    "allergens": [
+      "GL",
+      "GA",
+      "ON",
+      "CR",
+      "HO",
+      "SO"
+    ],
+    "description": "Slow Cooked Wagyu; Roasted Duck",
+    "category": "Sauces"
+  },
+  {
+    "name": "Chilli Sauce",
+    "allergens": [
+      "CE",
+      "GA"
+    ],
+    "description": "",
+    "category": "Sauces"
+  },
+  {
+    "name": "Duck Sauce",
+    "allergens": [
+      "CR",
+      "SO",
+      "SE",
+      "GL"
+    ],
+    "description": "Used for Peking Duck",
+    "category": "Sauces"
+  },
+  {
+    "name": "Duck Salad Dressing",
+    "allergens": [
+      "HO",
+      "SO",
+      "SE",
+      "GL",
+      "CR"
+    ],
+    "description": "Used for Crispy Duck Salad",
+    "category": "Sauces"
+  },
+  {
     "name": "Aromatic Crispy Duck Salad",
     "allergens": [
       "GL",
@@ -75,7 +120,7 @@
       "SO",
       "ON"
     ],
-    "description": "",
+    "description": "May Contain Shelfish on the sauce(check Sauce category)",
     "category": "Starters"
   },
   {
@@ -113,6 +158,32 @@
       "ON",
       "EG",
       "Mi"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Braised Pork Belly",
+    "allergens": [
+      "CR",
+      "SE",
+      "GL",
+      "SO",
+      "NU",
+      "CE",
+      "MU"
+    ],
+    "description": "",
+    "category": "Mains"
+  },
+  {
+    "name": "Honey Glazed Iberico Char Siu",
+    "allergens": [
+      "HO",
+      "SE",
+      "GL",
+      "SO",
+      "NU"
     ],
     "description": "",
     "category": "Mains"
