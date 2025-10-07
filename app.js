@@ -27,8 +27,8 @@ const LEGEND = {
 let data = [];
 let selectedAllergens = new Set();
 let selectedCategory = null;
-const EXTRA_CATEGORIES = ["Sauces","Specials"];
-const CATEGORY_ORDER = ["Starters","Mains","Desserts","Sauces"];
+const EXTRA_CATEGORIES = ["Sauces","Sides"];
+const CATEGORY_ORDER = ["Starters","Mains","Desserts","Sauces","Sides"];
 
 const els = {
   grid: document.getElementById('grid'),
