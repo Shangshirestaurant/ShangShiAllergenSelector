@@ -163,20 +163,6 @@
     "category": "Mains"
   },
   {
-    "name": "Braised Pork Belly",
-    "allergens": [
-      "CR",
-      "SE",
-      "GL",
-      "SO",
-      "NU",
-      "CE",
-      "MU"
-    ],
-    "description": "",
-    "category": "Mains"
-  },
-  {
     "name": "Honey Glazed Iberico Char Siu",
     "allergens": [
       "HO",
@@ -291,7 +277,7 @@
       "GA",
       "CR"
     ],
-    "description": "",
+    "description": "Check the Sauces Category",
     "category": "Mains"
   },
   {
@@ -373,21 +359,6 @@
       "SE",
       "Mi",
       "EG"
-    ],
-    "description": "",
-    "category": "Mains"
-  },
-  {
-    "name": "Special Pork Rice",
-    "allergens": [
-      "GL",
-      "EG",
-      "CR",
-      "SO",
-      "GA",
-      "ON",
-      "SE",
-      "Mi"
     ],
     "description": "",
     "category": "Mains"
@@ -513,7 +484,7 @@
       "SO",
       "CR"
     ],
-    "description": "",
+    "description": "Check the Sauces Category",
     "category": "Mains"
   },
   {
@@ -523,7 +494,7 @@
       "GL"
     ],
     "description": "",
-    "category": "Starters"
+    "category": "Sauces"
   },
   {
     "name": "Stir Fried Squid with Pepper, Chilli, and Garlic",
@@ -564,11 +535,14 @@
   {
     "name": "Special Pork Fried Rice with XO Sauce",
     "allergens": [
-      "CR",
+      "GL",
       "EG",
+      "CR",
+      "SO",
       "GA",
       "ON",
-      "SE"
+      "SE",
+      "Mi"
     ],
     "description": "",
     "category": "Mains"
