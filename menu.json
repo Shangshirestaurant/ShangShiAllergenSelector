@@ -146,7 +146,7 @@
       "ON"
     ],
     "description": "",
-    "category": "Mains"
+    "category": "Sides"
   },
   {
     "name": "Norwegian King Crab (Pan-fried with Chilli and Garlic)",
@@ -333,7 +333,7 @@
     "category": "Mains"
   },
   {
-    "name": "Stir Fry Lamian with Angus Beef",
+    "name": "Stir Fry Lamian Noodles with Angus Beef",
     "allergens": [
       "EG",
       "GL",
@@ -345,7 +345,7 @@
       "FI"
     ],
     "description": "",
-    "category": "Mains"
+    "category": "Sides"
   },
   {
     "name": "Spicy Singapore Noodles with Seafood",
@@ -361,7 +361,7 @@
       "EG"
     ],
     "description": "",
-    "category": "Mains"
+    "category": "Sides"
   },
   {
     "name": "Hot and Sour Soup with Seafood",
@@ -411,7 +411,7 @@
       "Mi"
     ],
     "description": "It can be without Egg and Milk",
-    "category": "Mains"
+    "category": "Sides"
   },
   {
     "name": "Vegetable spring roll",
@@ -545,7 +545,7 @@
       "Mi"
     ],
     "description": "",
-    "category": "Mains"
+    "category": "Sides"
   },
   {
     "name": "Five Spice Crispy Corn Fed Chicken Parcel with Thai Basil",
@@ -634,7 +634,7 @@
       "Mi"
     ],
     "description": "",
-    "category": "Mains"
+    "category": "Sides"
   },
   {
     "name": "Amuse Bouche",
