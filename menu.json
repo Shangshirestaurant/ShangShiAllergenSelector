@@ -403,7 +403,7 @@
     "category": "Mains"
   },
   {
-    "name": "Stir-Fry Asparagus with Lily Bulbs, Water Chestnut, and Yellow Fungus (V)",
+    "name": "Stir-Fry Asparagus with Lotus Root, Water Chestnut, and Yellow Fungus (V)",
     "allergens": [
       "MR",
       "GA",
@@ -583,9 +583,17 @@
     "category": "Mains"
   },
   {
-    "name": "Matcha Financier",
+    "name": "Genmaicha Ganache",
     "allergens": [
-      "NU"
+      "MI"
+    ],
+    "description": "",
+    "category": "Desserts"
+  },
+   {
+    "name": "Mango Pate de Fruit ",
+    "allergens": [
+      ""
     ],
     "description": "",
     "category": "Desserts"
