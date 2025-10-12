@@ -27,8 +27,8 @@ const LEGEND = {
 let data = [];
 let selectedAllergens = new Set();
 let selectedCategory = null;
-const EXTRA_CATEGORIES = ["Sauces","Sides"];
-const CATEGORY_ORDER = ["Starters","Mains","Desserts","Sauces","Sides"];
+const EXTRA_CATEGORIES = ["Sauces","Specials"];
+const CATEGORY_ORDER = ["Starters","Mains","Desserts","Sauces"];
 
 const els = {
   grid: document.getElementById('grid'),
@@ -317,12 +317,117 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-/* === v4.3 — UNSAFE toggle (invert filter) logic === */
+/* v4.2 — Filter Indicator Logic */
 (function(){
+  const body = document.body;
+  function getChipsRoot(){
+    return document.getElementById('chips');
+  }
+  function computeActive(){
+    const root = getChipsRoot();
+    if (!root) return false;
+    const chips = root.querySelectorAll('.chip');
+    return Array.from(chips).some(c => c.classList.contains('active') || c.getAttribute('aria-pressed') === 'true');
+  }
+  function update(){ body.classList.toggle('filters-active', computeActive()); }
+  // Initial
+  update();
+  // Clicks on chips
+  document.addEventListener('click', (e)=>{
+    const t = e.target.closest && e.target.closest('#chips .chip');
+    if (t) setTimeout(update, 50);
+  });
+  // Observe dynamic changes to chips list or attributes
+  const root = getChipsRoot();
+  if (root) {
+    const mo = new MutationObserver(update);
+    mo.observe(root, { childList:true, subtree:true, attributes:true, attributeFilter:['class','aria-pressed'] });
+  }
+})();
+
+/* v4.2.2 dark-default theme controller */
+(function(){
+  const KEY='shangshi-theme';
+  const body=document.body;
+  let mode=localStorage.getItem(KEY);
+  if(!mode){ mode='dark'; localStorage.setItem(KEY,'dark'); }
+  if(mode==='light') body.classList.add('light'); else body.classList.remove('light');
+  const btn=document.getElementById('themeToggle');
+  const setIcon=()=>{ if(btn) btn.textContent = body.classList.contains('light') ? '🌙' : '☀️'; };
+  setIcon();
+  if(btn){
+    btn.addEventListener('click',()=>{
+      body.classList.toggle('light');
+      localStorage.setItem(KEY, body.classList.contains('light') ? 'light' : 'dark');
+      setIcon();
+    });
+  }
+})();
+
+console.log('%c Shang Shi Zen Edition v4.2.2 — Frosted Dock ', 'background:#0c0f14;color:#D2A455;padding:4px 8px;border-radius:6px');
+
+/* v4.2.3 dark-default theme controller */
+(function(){
+  const KEY='shangshi-theme'; const body=document.body;
+  let mode=localStorage.getItem(KEY) || 'dark';
+  if (mode==='light') body.classList.add('light'); else body.classList.remove('light');
+  const btn=document.getElementById('themeToggle');
+  const setIcon=()=>{ if(btn) btn.textContent = body.classList.contains('light') ? '🌙' : '☀️'; };
+  setIcon();
+  if(btn){
+    btn.addEventListener('click',()=>{
+      body.classList.toggle('light');
+      localStorage.setItem(KEY, body.classList.contains('light') ? 'light' : 'dark');
+      setIcon();
+    });
+  }
+})();
+
+/* === SHANG SHI v4.2.4 HOTFIX — robust filter indicator + frost attach === */
+(function () {
+  const body = document.body;
+  function anyChipActive() {
+    const root = document.querySelector('#chips, [id*="chips" i], .filter-panel .chips, .chips');
+    if (!root) return false;
+    return !!root.querySelector('.chip.active, .chip[aria-pressed="true"]');
+  }
+  function syncFiltersActive() { body.classList.toggle('filters-active', anyChipActive()); }
+  syncFiltersActive();
+  document.addEventListener('click', (e) => {
+    if (e.target.closest && e.target.closest('.chip')) setTimeout(syncFiltersActive, 50);
+  });
+  const chipsRoot = document.querySelector('#chips, [id*="chips" i], .filter-panel .chips, .chips');
+  if (chipsRoot) {
+    new MutationObserver(syncFiltersActive).observe(chipsRoot, {
+      subtree: true, childList: true, attributes: true, attributeFilter: ['class','aria-pressed']
+    });
+  }
+  const candidates = Array.from(document.querySelectorAll('button, .btn, .pill, [role="button"]'));
+  const frostIfMatch = (el, label) => el && el.textContent && el.textContent.trim().toLowerCase().startsWith(label);
+  const filtersBtn = candidates.find(el => frostIfMatch(el, 'filters')) || document.getElementById('filterToggle');
+  const categoriesBtn = candidates.find(el => frostIfMatch(el, 'categories')) || document.getElementById('categoryToggle');
+  [filtersBtn, categoriesBtn].forEach((btn) => {
+    if (!btn) return;
+    btn.classList.add('filter-btn');
+    if (btn === filtersBtn) {
+      let dot = btn.querySelector('.dot');
+      if (!dot) { dot = document.createElement('span'); dot.className = 'dot'; btn.appendChild(dot); }
+    }
+  });
+})();
+
+console.log('%c Shang Shi Zen Edition v4.2.5 — Off-white Frost + Bright Chips ', 'background:#0c0f14;color:#D2A455;padding:4px 8px;border-radius:6px');
+
+
+console.log('%c Shang Shi Zen Edition v4.2.7 — Warm White Dock Edition ', 'background:#0c0f14;color:#D2A455;padding:4px 8px;border-radius:6px');
+
+
+/* === v4.3.1 — UNSAFE toggle inversion via baseline snapshot === */
+(function() {
   const KEY='show-unsafe-only';
   const body=document.body;
 
-  function ensureToggle(){
+  function ensureToggle() {
     if(document.getElementById('toggleUnsafe')) return;
     const btn = document.querySelector('#filterToggle, .filter-btn, .filters-toggle, .filter-dock .filter-btn');
     const host = btn && btn.parentElement ? btn.parentElement : document.querySelector('.filter-dock, .dock, .dock-inner') || document.body;
@@ -336,42 +441,50 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.getElementById('toggleUnsafe');
   if(!toggle) return;
 
-  function selectedAllergens(){
+  function hasSelectedAllergens(){
     const root = document.querySelector('#chips, [id*="chips" i], .chips');
-    if(!root) return [];
-    return Array.from(root.querySelectorAll('.chip'))
-      .filter(c => c.classList.contains('active') || c.getAttribute('aria-pressed')==='true')
-      .map(c => (c.dataset.code || c.textContent || '').trim().toUpperCase())
-      .filter(Boolean);
+    if(!root) return false;
+    return !!root.querySelector('.chip.active, .chip[aria-pressed="true"]');
   }
 
-  function tagCardUnsafe(card, selSet){
-    const a = (card.dataset.allergens || '').split(',').map(s=>s.trim().toUpperCase()).filter(Boolean);
-    const unsafe = selSet.size>0 && a.some(x=>selSet.has(x));
-    card.classList.toggle('is-unsafe', unsafe);
-    if(unsafe && !card.querySelector('.badge-unsafe')){
-      const b=document.createElement('span'); b.className='badge-unsafe'; b.textContent='UNSAFE'; card.appendChild(b);
-    }
-    return unsafe;
+  function eachCard(cb){
+    const cards = document.querySelectorAll('.card');
+    let i=0;
+    cards.forEach(card=>{
+      if(!card.dataset.id) card.dataset.id = 'auto_' + (i++);
+      cb(card);
+    });
   }
 
-  function applyUnsafeOnly(){
+  function computeVisible(card){
+    const cs = getComputedStyle(card);
+    return cs.display !== 'none' && cs.visibility !== 'hidden' && card.offsetParent !== null;
+  }
+
+  function snapshotBaseline() {
+    const anySel = hasSelectedAllergens();
+    eachCard(card=>{
+      const vis = computeVisible(card);
+      card.dataset.basevisible = anySel ? (vis ? '1':'0') : '1';
+    });
+  }
+
+  function applyUnsafeInversion(){ 
     const showUnsafeOnly = !!toggle.checked;
     body.classList.toggle('show-unsafe-only', showUnsafeOnly);
-    localStorage.setItem(KEY, String(showUnsafeOnly));
 
-    const sel = new Set(selectedAllergens());
-    const cards = document.querySelectorAll('.card[data-id]');
-    if(sel.size===0){
-      cards.forEach(c=>{ c.style.display=''; c.classList.remove('is-unsafe'); });
+    const anySel = hasSelectedAllergens();
+    if(!anySel){
+      eachCard(card=>{ card.style.display=''; card.classList.remove('is-unsafe'); });
       syncEmptyState();
       return;
     }
 
-    cards.forEach(card => {
-      const isUnsafe = tagCardUnsafe(card, sel);
-      const show = showUnsafeOnly ? isUnsafe : !isUnsafe;
+    eachCard(card=>{
+      const base = card.dataset.basevisible === '1';
+      const show = showUnsafeOnly ? !base : base;
       card.style.display = show ? '' : 'none';
+      card.classList.toggle('is-unsafe', !base);
     });
 
     syncEmptyState();
@@ -385,25 +498,21 @@ document.addEventListener('DOMContentLoaded', () => {
     empty.style.display = visible.length ? 'none' : '';
   }
 
-  toggle.addEventListener('change', applyUnsafeOnly);
+  function recompute(){
+    setTimeout(()=>{ snapshotBaseline(); applyUnsafeInversion(); }, 0);
+  }
 
-  document.addEventListener('click', (e)=>{
-    if(e.target.closest && e.target.closest('#chips .chip, .chips .chip')){
-      setTimeout(applyUnsafeOnly, 0);
-    }
+  toggle.addEventListener('change', ()=>{
+    localStorage.setItem(KEY, String(!!toggle.checked));
+    applyUnsafeInversion();
   });
 
   const chipsRoot = document.querySelector('#chips, [id*="chips" i], .chips');
-  if(chipsRoot){
-    new MutationObserver(()=>applyUnsafeOnly()).observe(chipsRoot, {subtree:true, childList:true, attributes:true, attributeFilter:['class','aria-pressed']});
-  }
+  if(chipsRoot) new MutationObserver(recompute).observe(chipsRoot, {subtree:true, childList:true, attributes:true, attributeFilter:['class','aria-pressed']});
   const grid = document.querySelector('.grid, #grid, .cards');
-  if(grid){
-    new MutationObserver(()=>applyUnsafeOnly()).observe(grid, {subtree:true, childList:true});
-  }
+  if(grid) new MutationObserver(recompute).observe(grid, {subtree:true, childList:true, attributes:true, attributeFilter:['style','class']});
 
   const saved = localStorage.getItem(KEY);
-  const initialOn = saved === 'true';
-  toggle.checked = initialOn;
-  applyUnsafeOnly();
+  toggle.checked = (saved === 'true');
+  recompute();
 })();

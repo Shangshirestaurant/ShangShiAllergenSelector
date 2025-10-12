@@ -725,101 +725,461 @@ html { scroll-behavior: smooth; }
 .reset-btn.spin svg{ transform: rotate(360deg); transition: transform .6s cubic-bezier(.22,1,.36,1); }
 
 
-/* === Light theme modal glass fix — v1 === */
-/* Bright frosted glass for light theme modals */
-body.light .modal {
-  background: radial-gradient(1200px 600px at 50% 10%, rgba(255,255,255,0.55), rgba(255,255,255,0.78));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+
+/* === Shang Shi v4.2 — Glowing Filters (Static Elegance) === */
+/* Static glow on active allergen chips (no animation) */
+#chips .chip.active,
+#chips .chip[aria-pressed="true"] {
+  filter: brightness(1.1);
+  transform: scale(1.02);
+  transition: filter .2s ease, transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 0 8px 2px currentColor;
 }
 
-body.light .modal-content {
-  background: rgba(255,255,255,0.72);
-  color: #143d31;
-  border: 1px solid rgba(0,0,0,0.08);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.10), inset 0 0 0 1px rgba(255,255,255,0.4);
+/* Per-allergen color tuning for glow intensity */
+#chips .chip.gl.active,  #chips .chip.gl[aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(179,58,47,0.60); }
+#chips .chip.cr.active,  #chips .chip.cr[aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(179,58,47,0.60); }
+#chips .chip.eg.active,  #chips .chip.eg[aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(255,214,98,0.60); }
+#chips .chip.mi.active,  #chips .chip.mi[aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(210,164,85,0.55); }
+#chips .chip.mu.active,  #chips .chip.mu[aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(210,164,85,0.60); }
+#chips .chip.so.active,  #chips .chip.so[aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(47,110,79,0.60); }
+#chips .chip.fi.active,  #chips .chip.fi[aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(120,186,255,0.60); }
+#chips .chip.ga.active,  #chips .chip.ga[aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(160,180,90,0.55); }
+#chips .chip.mo.active,  #chips .chip.mo[aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(150,110,200,0.60); }
+#chips .chip.mr.active,  #chips .chip.mr[aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(120,100,180,0.60); }
+#chips .chip.nu.active,  #chips .chip.nu[aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(120,200,140,0.60); }
+#chips .chip.on.active,  #chips .chip.on[aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(160,120,90,0.60); }
+#chips .chip.se.active,  #chips .chip.se[aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(180,160,90,0.60); }
+#chips .chip.so.active,  #chips .chip.so[aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(90,180,180,0.60); }
+
+/* Filters button: neutral by default; jade dot when any filter active */
+.filter-btn {
+  position: relative;
+  background: transparent !important;
+  background-image: none !important;
+}
+.filter-dock .filter-btn::after {
+  content: '';
+  position: absolute;
+  top: 9px; right: 9px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  transition: background .25s ease, box-shadow .25s ease, transform .2s ease;
+}
+body.filters-active .filter-dock .filter-btn::after {
+  background: #2F6E4F; /* jade */
+  box-shadow: 0 0 6px 1px rgba(47,110,79,0.60);
+  transform: scale(1.02);
 }
 
-/* Labels & help text */
-body.light .modal-content .lbl,
-body.light .modal-content legend,
-body.light .modal-content label {
-  color: #143d31;
-  opacity: 0.92;
-}
-
-/* Inputs & textareas */
-body.light .modal-content input:not([type="checkbox"]),
-body.light .modal-content textarea {
-  background: rgba(255,255,255,0.70);
-  border: 1px solid rgba(0,0,0,0.10);
-  color: #143d31;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
-}
-
-body.light .modal-content input::placeholder,
-body.light .modal-content textarea::placeholder {
-  color: rgba(20,61,49,0.55);
-}
-
-body.light .modal-content input:focus,
-body.light .modal-content textarea:focus {
-  border-color: rgba(46,107,76,0.45);
-  box-shadow: 0 0 0 3px rgba(46,107,76,0.14), 0 10px 20px rgba(0,0,0,0.08);
-  background: rgba(255,255,255,0.80);
-}
-
-/* Allergen checklist text */
-body.light .modal-content .allergen-list label {
-  color: #143d31;
-}
-
-/* Close button & ghost buttons */
-body.light .modal-close {
-  background: rgba(0,0,0,0.04);
-  border: 1px solid rgba(0,0,0,0.08);
-  color: #143d31;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.6);
-}
-
-body.light .btn-ghost {
-  background: rgba(0,0,0,0.06);
-  color: #143d31;
-  border: 1px solid rgba(0,0,0,0.08);
-}
-
-body.light .hint {
-  color: rgba(20,61,49,0.65);
+/* Prevent gold fill when filters selected (strong override) */
+.filter-dock .filter-btn.active,
+.filter-dock .filter-btn.is-active,
+.filter-dock .filter-btn[aria-pressed="true"],
+.filter-dock .filter-btn.selected {
+  background: transparent !important;
+  background-image: none !important;
 }
 
 
-
-/* === v4.3 — UNSAFE toggle (invert filter) === */
-.unsafe-toggle {
-  display:inline-flex; align-items:center; gap:10px;
-  padding:6px 10px; border-radius:24px;
-  background: rgba(249,248,246,0.90);
-  border:1px solid rgba(0,0,0,0.10);
+/* === v4.2.2 — Frosted Filters & Categories Buttons === */
+.filter-btn,
+.category-btn,
+.filters-toggle,
+.categories-toggle {
+  position: relative;
   backdrop-filter: blur(10px) saturate(120%);
   -webkit-backdrop-filter: blur(10px) saturate(120%);
-  user-select:none; cursor:pointer;
+  background: rgba(20, 20, 20, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 40px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
-.unsafe-toggle .label { font-size:14px; letter-spacing:.2px; color:#1C1A18; }
-.unsafe-toggle input { position:absolute; opacity:0; pointer-events:none; }
-.unsafe-toggle .knob {
-  width:40px; height:22px; border-radius:999px; position:relative; flex:0 0 40px;
-  background: rgba(0,0,0,0.15); transition: background .25s ease;
+body.light .filter-btn,
+body.light .category-btn,
+body.light .filters-toggle,
+body.light .categories-toggle {
+  background: rgba(255, 255, 255, 0.40);
+  border: 1px solid rgba(0,0,0,0.06);
 }
-.unsafe-toggle .knob::after {
-  content:""; position:absolute; top:3px; left:3px;
-  width:16px; height:16px; border-radius:50%;
-  background:#F9F8F6; box-shadow:0 1px 2px rgba(0,0,0,.25);
-  transition: transform .25s ease;
+.filter-btn:hover,
+.category-btn:hover {
+  background: rgba(40,40,40,0.45);
+  border-color: rgba(255,255,255,0.12);
 }
-.unsafe-toggle input:checked + .knob { background:#B23A2F; }
-.unsafe-toggle input:checked + .knob::after { transform: translateX(18px); }
+body.light .filter-btn:hover,
+body.light .category-btn:hover {
+  background: rgba(255,255,255,0.55);
+  border-color: rgba(0,0,0,0.08);
+}
 
-body.show-unsafe-only .card.is-unsafe {
-  outline:1px dashed rgba(178,58,47,0.45);
-  outline-offset:-2px;
+
+/* === v4.2.3 — Robust selectors for chips + frosted buttons === */
+/* 1) Active allergen chips: stop any gold fill from legacy rules (handles UPPERCASE class tokens) */
+#chips .chip.active,
+#chips .chip[aria-pressed="true"],
+#chips .chip.is-active,
+#chips .chip.selected {
+  /* keep existing background; we only add glow/brighten */
+  filter: brightness(1.08);
+  transform: scale(1.02);
+  transition: filter .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+/* Per-allergen static glow using case-insensitive class matching */
+#chips .chip[class*=" gl" i].active,  #chips .chip[class*=" gl" i][aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(200,70,70,.55); }
+#chips .chip[class*=" cr" i].active,  #chips .chip[class*=" cr" i][aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(179,58,47,.55); }
+#chips .chip[class*=" eg" i].active,  #chips .chip[class*=" eg" i][aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(255,214,98,.55); }
+#chips .chip[class*=" fi" i].active,  #chips .chip[class*=" fi" i][aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(120,186,255,.55); }
+#chips .chip[class*=" mi" i].active,  #chips .chip[class*=" mi" i][aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(210,164,85,.50); }
+#chips .chip[class*=" mu" i].active,  #chips .chip[class*=" mu" i][aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(210,164,85,.55); }
+#chips .chip[class*=" so" i].active,  #chips .chip[class*=" so" i][aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(47,110,79,.55); }
+#chips .chip[class*=" mo" i].active,  #chips .chip[class*=" mo" i][aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(150,110,200,.55); }
+#chips .chip[class*=" mr" i].active,  #chips .chip[class*=" mr" i][aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(120,100,180,.55); }
+#chips .chip[class*=" nu" i].active,  #chips .chip[class*=" nu" i][aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(120,200,140,.55); }
+#chips .chip[class*=" on" i].active,  #chips .chip[class*=" on" i][aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(160,120,90,.55); }
+#chips .chip[class*=" se" i].active,  #chips .chip[class*=" se" i][aria-pressed="true"]  { box-shadow: 0 0 8px 2px rgba(180,160,90,.55); }
+
+/* Hard kill any gold fill background override */
+#chips .chip.active,
+#chips .chip[aria-pressed="true"] {
+  background-image: none !important;
+}
+
+/* 2) Frosted Filters & Categories using robust selectors (IDs + fallbacks) */
+#filterToggle, #categoryToggle,
+.dock-inner button[id*="filter" i], .dock-inner button[id*="categ" i],
+.filter-btn, .category-btn {
+  position: relative;
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  background: rgba(20,20,20,0.35);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 40px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: background .25s ease, border-color .25s ease;
+}
+body.light #filterToggle, body.light #categoryToggle,
+body.light .dock-inner button[id*="filter" i], body.light .dock-inner button[id*="categ" i],
+body.light .filter-btn, body.light .category-btn {
+  background: rgba(255,255,255,0.40);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+#filterToggle:hover, #categoryToggle:hover,
+.dock-inner button[id*="filter" i]:hover, .dock-inner button[id*="categ" i]:hover,
+.filter-btn:hover, .category-btn:hover {
+  background: rgba(40,40,40,0.45);
+  border-color: rgba(255,255,255,0.12);
+}
+body.light #filterToggle:hover, body.light #categoryToggle:hover,
+body.light .dock-inner button[id*="filter" i]:hover, body.light .dock-inner button[id*="categ" i]:hover,
+body.light .filter-btn:hover, body.light .category-btn:hover {
+  background: rgba(255,255,255,0.55);
+  border-color: rgba(0,0,0,0.08);
+}
+
+/* 3) Filters jade dot retained (if .dot exists) */
+body.filters-active #filterToggle .dot,
+body.filters-active .filter-btn .dot {
+  background: #2F6E4F !important;
+  box-shadow: 0 0 6px 1px rgba(47,110,79,.60) !important;
+}
+
+
+/* === SHANG SHI v4.2.4 HOTFIX — chips + frosted buttons (nuclear specificity) === */
+#chips .chip.active,
+#chips .chip[aria-pressed="true"],
+[id*="chips" i] .chip.active,
+[id*="chips" i] .chip[aria-pressed="true"],
+.filter-panel .chip.active,
+.chips .chip.active {
+  background: unset !important;
+  background-image: none !important;
+  border-color: inherit !important;
+  filter: brightness(1.08);
+  transform: scale(1.02);
+  transition: filter .2s ease, transform .2s ease, box-shadow .2s ease;
+  box-shadow: 0 0 8px 2px currentColor;
+}
+#chips .chip[class*=" GL" i].active,  #chips .chip[class*=" GL" i][aria-pressed="true"],
+#chips .chip[class*=" CR" i].active,  #chips .chip[class*=" CR" i][aria-pressed="true"],
+#chips .chip[class*=" EG" i].active,  #chips .chip[class*=" EG" i][aria-pressed="true"],
+#chips .chip[class*=" FI" i].active,  #chips .chip[class*=" FI" i][aria-pressed="true"],
+#chips .chip[class*=" MU" i].active,  #chips .chip[class*=" MU" i][aria-pressed="true"],
+#chips .chip[class*=" MI" i].active,  #chips .chip[class*=" MI" i][aria-pressed="true"],
+#chips .chip[class*=" MO" i].active,  #chips .chip[class*=" MO" i][aria-pressed="true"],
+#chips .chip[class*=" MR" i].active,  #chips .chip[class*=" MR" i][aria-pressed="true"],
+#chips .chip[class*=" NU" i].active,  #chips .chip[class*=" NU" i][aria-pressed="true"],
+#chips .chip[class*=" ON" i].active,  #chips .chip[class*=" ON" i][aria-pressed="true"],
+#chips .chip[class*=" SE" i].active,  #chips .chip[class*=" SE" i][aria-pressed="true"],
+#chips .chip[class*=" SO" i].active,  #chips .chip[class*=" SO" i][aria-pressed="true"] {
+  box-shadow: 0 0 0 1px currentColor, 0 0 10px 2px currentColor;
+}
+#filterToggle, #categoryToggle,
+.dock-inner button[id*="filter" i], .dock-inner button[id*="categ" i],
+.filter-btn, .category-btn {
+  position: relative;
+  backdrop-filter: blur(10px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(120%) !important;
+  background: rgba(20,20,20,0.35) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 40px !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.20) !important;
+}
+body.light #filterToggle, body.light #categoryToggle,
+body.light .dock-inner button[id*="filter" i], body.light .dock-inner button[id*="categ" i],
+body.light .filter-btn, body.light .category-btn {
+  background: rgba(255,255,255,0.40) !important;
+  border: 1px solid rgba(0,0,0,0.06) !important;
+}
+#filterToggle.active, #filterToggle[aria-pressed="true"],
+.filter-btn.active,  .filter-btn[aria-pressed="true"] {
+  background: inherit !important;
+  background-image: none !important;
+}
+#filterToggle .dot, .filter-btn .dot {
+  position: absolute; top: 9px; right: 9px; width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,0.25) !important; box-shadow: none !important;
+  transition: background .25s ease, box-shadow .25s ease;
+}
+body.filters-active #filterToggle .dot,
+body.filters-active .filter-btn .dot {
+  background: #2F6E4F !important; box-shadow: 0 0 6px 1px rgba(47,110,79,.60) !important;
+}
+
+
+/* === v4.2.5 — Off-white frosted dock + brighter active allergens === */
+
+/* A) Filters/Categories: off-white frosted base in both themes */
+#filterToggle, #categoryToggle,
+.dock-inner button[id*="filter" i], .dock-inner button[id*="categ" i],
+.filter-btn, .category-btn {
+  position: relative;
+  backdrop-filter: blur(10px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(120%) !important;
+  background: rgba(255,255,255,0.88) !important;  /* off-white */
+  border: 1px solid rgba(0,0,0,0.12) !important;
+  color: #1C1A18 !important;
+  border-radius: 40px !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.28) !important;
+}
+body.light #filterToggle, body.light #categoryToggle,
+body.light .dock-inner button[id*="filter" i], body.light .dock-inner button[id*="categ" i],
+body.light .filter-btn, body.light .category-btn {
+  background: rgba(255,255,255,0.92) !important;
+  border: 1px solid rgba(0,0,0,0.10) !important;
+}
+#filterToggle:hover, #categoryToggle:hover,
+.dock-inner button[id*="filter" i]:hover, .dock-inner button[id*="categ" i]:hover,
+.filter-btn:hover, .category-btn:hover {
+  background: rgba(255,255,255,0.94) !important;
+}
+
+/* Keep jade dot behavior (existing .dot span already in HTML) */
+body.filters-active #filterToggle .dot,
+body.filters-active .filter-btn .dot {
+  background: #2F6E4F !important;
+  box-shadow: 0 0 6px 1px rgba(47,110,79,.60) !important;
+}
+
+/* B) Active allergen chips: brighten in their own color, no gold fill */
+#chips .chip, [id*="chips" i] .chip { position: relative; }
+
+/* kill legacy gold fill on active */
+#chips .chip.active, #chips .chip[aria-pressed="true"],
+[id*="chips" i] .chip.active, [id*="chips" i] .chip[aria-pressed="true"] {
+  background: inherit !important;
+  background-image: none !important;
+  border-color: currentColor !important;
+  filter: saturate(1.12) brightness(1.08);
+  transform: translateZ(0) scale(1.02);
+  box-shadow: 0 0 8px 2px currentColor;
+  transition: filter .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+/* subtle same-color wash to look brighter */
+#chips .chip.active::after, #chips .chip[aria-pressed="true"]::after,
+[id*="chips" i] .chip.active::after, [id*="chips" i] .chip[aria-pressed="true"]::after {
+  content: "";
+  position: absolute; inset: 0; border-radius: inherit;
+  background: currentColor;
+  opacity: .12;
+  pointer-events: none;
+}
+
+
+/* === Hotfix v4.2.5.1 — Remove duplicate dot on Filters/Categories === */
+#filterToggle::before,
+#categoryToggle::before,
+.filter-btn::before,
+.category-btn::before {
+  content: none !important;
+}
+#filterToggle .dot,
+.category-btn .dot,
+.filter-btn .dot,
+#categoryToggle .dot {
+  display: inline-block !important;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-left: 10px;
+  background: #2F6E4F !important;
+  box-shadow: 0 0 6px 1px rgba(47,110,79,.6);
+}
+
+
+/* === v4.2.6 — Light Theme Modal Polish === */
+/* Generic modal selectors to be safe across builds */
+.modal, .dialog, .popup, [role="dialog"] {
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  transition: background .25s ease, border-color .25s ease, color .25s ease, box-shadow .25s ease;
+}
+
+/* Light theme: bright frosted surface */
+body.light .modal, 
+body.light .dialog, 
+body.light .popup, 
+body.light [role="dialog"] {
+  background: rgba(255,255,255,0.92) !important;
+  color: #1C1A18 !important; /* warm ink */
+  border: 1px solid rgba(0,0,0,0.08) !important;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.20), 0 0 0 1px rgba(0,0,0,0.02);
+}
+
+/* Dark theme: keep existing dark panel but ensure readability */
+body:not(.light) .modal,
+body:not(.light) .dialog,
+body:not(.light) .popup,
+body:not(.light) [role="dialog"] {
+  background: rgba(20,20,22,0.78) !important;
+  color: rgba(240,242,245,0.95) !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+}
+
+/* Modal headings & close button tuned for light */
+body.light .modal h2, 
+body.light .dialog h2, 
+body.light .popup h2 {
+  color: #1C1A18 !important;
+}
+body.light .modal .close, 
+body.light .dialog .close, 
+body.light .popup .close {
+  background: rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Inputs & chips inside the modal for light theme */
+body.light .modal input,
+body.light .modal select,
+body.light .modal textarea,
+body.light .dialog input,
+body.light .dialog select,
+body.light .dialog textarea {
+  background: rgba(0,0,0,0.04);
+  color: #1C1A18;
+  border: 1px solid rgba(0,0,0,0.10);
+}
+
+/* Backdrop/overlay tone (slightly softer in light theme) */
+.modal-backdrop, .overlay, .backdrop, [data-overlay] {
+  transition: background .25s ease;
+}
+body.light .modal-backdrop, 
+body.light .overlay, 
+body.light .backdrop, 
+body.light [data-overlay] {
+  background: rgba(0,0,0,0.25) !important;
+}
+
+
+/* === v4.2.7 — Warm White Dock Edition (flat, dark default) === */
+
+/* A) Dock buttons — flat warm white base */
+#filterToggle, #categoryToggle,
+.dock-inner button[id*="filter" i], .dock-inner button[id*="categ" i],
+.filter-btn, .category-btn {
+  position: relative;
+  background: #F9F8F6 !important;
+  color: #1C1A18 !important;
+  border: 1px solid rgba(0,0,0,0.08) !important;
+  border-radius: 40px !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+  backdrop-filter: blur(10px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(120%) !important;
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+#filterToggle:hover, #categoryToggle:hover,
+.filter-btn:hover, .category-btn:hover {
+  background: #FFFFFF !important;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.25) !important;
+}
+
+/* Dark mode still default, keep warm white tone visible on dark bg */
+body:not(.light) #filterToggle, body:not(.light) #categoryToggle,
+body:not(.light) .filter-btn, body:not(.light) .category-btn {
+  background: rgba(249,248,246,0.95) !important;
+}
+
+/* Keep jade dot indicator as is */
+#filterToggle .dot, .filter-btn .dot {
+  background: #2F6E4F !important;
+  box-shadow: 0 0 6px 1px rgba(47,110,79,.60) !important;
+}
+
+/* B) Selected allergens — retain their hue but slightly brighter */
+#chips .chip.active, #chips .chip[aria-pressed="true"],
+[id*="chips" i] .chip.active, [id*="chips" i] .chip[aria-pressed="true"] {
+  filter: saturate(1.15) brightness(1.10);
+  transform: translateZ(0) scale(1.02);
+  box-shadow: 0 0 10px 2px currentColor;
+  background-image: none !important;
+  background: inherit !important;
+  transition: filter .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+/* Add a soft overlay wash using their own color */
+#chips .chip.active::after, #chips .chip[aria-pressed="true"]::after,
+[id*="chips" i] .chip.active::after, [id*="chips" i] .chip[aria-pressed="true"]::after {
+  content: "";
+  position: absolute; inset: 0; border-radius: inherit;
+  background: currentColor;
+  opacity: .15;
+  pointer-events: none;
+}
+
+
+/* === v4.2.7.1 — Chip accent variables to prevent darkening === */
+#chips .chip, [id*="chips" i] .chip {
+  --chip-accent: currentColor;
+}
+#chips .chip.CR,  #chips .chip.cr,  [id*="chips" i] .chip.CR,  [id*="chips" i] .chip.cr { --chip-accent: rgba(179,58,47,1); }
+#chips .chip.GL,  #chips .chip.gl,  [id*="chips" i] .chip.GL,  [id*="chips" i] .chip.gl { --chip-accent: rgba(200,70,70,1); }
+#chips .chip.EG,  #chips .chip.eg,  [id*="chips" i] .chip.EG,  [id*="chips" i] .chip.eg { --chip-accent: rgba(255,214,98,1); }
+#chips .chip.FI,  #chips .chip.fi,  [id*="chips" i] .chip.FI,  [id*="chips" i] .chip.fi { --chip-accent: rgba(120,186,255,1); }
+#chips .chip.MU,  #chips .chip.mu,  [id*="chips" i] .chip.MU,  [id*="chips" i] .chip.mu { --chip-accent: rgba(210,164,85,1); }
+#chips .chip.SO,  #chips .chip.so,  [id*="chips" i] .chip.SO,  [id*="chips" i] .chip.so { --chip-accent: rgba(47,110,79,1); }
+#chips .chip.MI,  #chips .chip.mi,  [id*="chips" i] .chip.MI,  [id*="chips" i] .chip.mi { --chip-accent: rgba(200,170,110,1); }
+#chips .chip.NU,  #chips .chip.nu,  [id*="chips" i] .chip.NU,  [id*="chips" i] .chip.nu { --chip-accent: rgba(120,200,140,1); }
+#chips .chip.SE,  #chips .chip.se,  [id*="chips" i] .chip.SE,  [id*="chips" i] .chip.se { --chip-accent: rgba(180,160,90,1); }
+
+#chips .chip.active, #chips .chip[aria-pressed="true"],
+[id*="chips" i] .chip.active, [id*="chips" i] .chip[aria-pressed="true"] {
+  filter: saturate(1.15) brightness(1.10);
+  transform: translateZ(0) scale(1.02);
+  box-shadow: 0 0 10px 2px var(--chip-accent);
+  background-image: none !important;
+  background: inherit !important;
+}
+#chips .chip.active::after, #chips .chip[aria-pressed="true"]::after,
+[id*="chips" i] .chip.active::after, [id*="chips" i] .chip[aria-pressed="true"]::after {
+  content: "";
+  position: absolute; inset: 0; border-radius: inherit;
+  background: var(--chip-accent);
+  opacity: .15;
+  pointer-events: none;
 }
