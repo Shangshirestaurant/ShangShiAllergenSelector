@@ -27,9 +27,10 @@ const LEGEND = {
 let data = [];
 let selectedAllergens = new Set();
 let selectedCategory = null;
-const EXTRA_CATEGORIES = ["Sauces","Specials"];
-const CATEGORY_ORDER = ["Starters","Mains","Desserts","Sauces"];
+const EXTRA_CATEGORIES = ["Sauces","Sides"];
+const CATEGORY_ORDER = ["Starters","Mains","Desserts","Sauces","Sides"];
 
+let showUnsafeOnly = JSON.parse(localStorage.getItem("show-unsafe-only")||"false");
 const els = {
   grid: document.getElementById('grid'),
   chips: document.getElementById('chips'),
@@ -59,6 +60,8 @@ function renderAllergenChips(){
       if (selectedAllergens.has(code)){ selectedAllergens.delete(code); btn.classList.remove('active'); }
       else { selectedAllergens.add(code); btn.classList.add('active'); }
       refresh();
+initResetEnhance();
+ensureDockUnsafeToggle();
     }, {passive:true});
     els.chips.appendChild(btn);
   });
@@ -91,6 +94,7 @@ function card(item){
   a.setAttribute('data-allergens', JSON.stringify(item.allergens||[]));
 
   const labels = document.createElement('div');
+  ensureContainsPill(labels, item);
   labels.className = 'labels';
 
   const key = (item.category||'').toLowerCase().replace(/\s+/g,'');
@@ -141,7 +145,7 @@ function renderGrid(){
     return i === -1 ? 999 : i;
   };
   const items = data
-    .filter(d => isSafe(d) && inCategory(d))
+    .filter(d => visible(d))
     .sort((a,b) => orderIndex(a.category) - orderIndex(b.category) || String(a.name).localeCompare(String(b.name)));
   items.forEach(d => els.grid.appendChild(card(d)));
   els.result.textContent = `${items.length} dishes`;
@@ -317,112 +321,50 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-/* v4.2 — Filter Indicator Logic */
-(function(){
-  const body = document.body;
-  function getChipsRoot(){
-    return document.getElementById('chips');
+/* Decide visibility given current mode and selections */
+function visible(d){
+  // If no allergens are selected, just respect category filters
+  if(!selectedAllergens || selectedAllergens.size===0){
+    return inCategory(d);
   }
-  function computeActive(){
-    const root = getChipsRoot();
-    if (!root) return false;
-    const chips = root.querySelectorAll('.chip');
-    return Array.from(chips).some(c => c.classList.contains('active') || c.getAttribute('aria-pressed') === 'true');
-  }
-  function update(){ body.classList.toggle('filters-active', computeActive()); }
-  // Initial
-  update();
-  // Clicks on chips
-  document.addEventListener('click', (e)=>{
-    const t = e.target.closest && e.target.closest('#chips .chip');
-    if (t) setTimeout(update, 50);
-  });
-  // Observe dynamic changes to chips list or attributes
-  const root = getChipsRoot();
-  if (root) {
-    const mo = new MutationObserver(update);
-    mo.observe(root, { childList:true, subtree:true, attributes:true, attributeFilter:['class','aria-pressed'] });
-  }
-})();
+  // Safe when none of the selected allergens are present
+  const hasAny = (d.allergens||[]).some(a => selectedAllergens.has(String(a).toUpperCase()));
+  return showUnsafeOnly ? (hasAny && inCategory(d)) : (!hasAny && inCategory(d));
+}
 
-/* v4.2.2 dark-default theme controller */
-(function(){
-  const KEY='shangshi-theme';
-  const body=document.body;
-  let mode=localStorage.getItem(KEY);
-  if(!mode){ mode='dark'; localStorage.setItem(KEY,'dark'); }
-  if(mode==='light') body.classList.add('light'); else body.classList.remove('light');
-  const btn=document.getElementById('themeToggle');
-  const setIcon=()=>{ if(btn) btn.textContent = body.classList.contains('light') ? '🌙' : '☀️'; };
-  setIcon();
-  if(btn){
-    btn.addEventListener('click',()=>{
-      body.classList.toggle('light');
-      localStorage.setItem(KEY, body.classList.contains('light') ? 'light' : 'dark');
-      setIcon();
-    });
-  }
-})();
 
-console.log('%c Shang Shi Zen Edition v4.2.2 — Frosted Dock ', 'background:#0c0f14;color:#D2A455;padding:4px 8px;border-radius:6px');
-
-/* v4.2.3 dark-default theme controller */
-(function(){
-  const KEY='shangshi-theme'; const body=document.body;
-  let mode=localStorage.getItem(KEY) || 'dark';
-  if (mode==='light') body.classList.add('light'); else body.classList.remove('light');
-  const btn=document.getElementById('themeToggle');
-  const setIcon=()=>{ if(btn) btn.textContent = body.classList.contains('light') ? '🌙' : '☀️'; };
-  setIcon();
-  if(btn){
-    btn.addEventListener('click',()=>{
-      body.classList.toggle('light');
-      localStorage.setItem(KEY, body.classList.contains('light') ? 'light' : 'dark');
-      setIcon();
-    });
-  }
-})();
-
-/* === SHANG SHI v4.2.4 HOTFIX — robust filter indicator + frost attach === */
-(function () {
-  const body = document.body;
-  function anyChipActive() {
-    const root = document.querySelector('#chips, [id*="chips" i], .filter-panel .chips, .chips');
-    if (!root) return false;
-    return !!root.querySelector('.chip.active, .chip[aria-pressed="true"]');
-  }
-  function syncFiltersActive() { body.classList.toggle('filters-active', anyChipActive()); }
-  syncFiltersActive();
-  document.addEventListener('click', (e) => {
-    if (e.target.closest && e.target.closest('.chip')) setTimeout(syncFiltersActive, 50);
-  });
-  const chipsRoot = document.querySelector('#chips, [id*="chips" i], .filter-panel .chips, .chips');
-  if (chipsRoot) {
-    new MutationObserver(syncFiltersActive).observe(chipsRoot, {
-      subtree: true, childList: true, attributes: true, attributeFilter: ['class','aria-pressed']
-    });
-  }
-  const candidates = Array.from(document.querySelectorAll('button, .btn, .pill, [role="button"]'));
-  const frostIfMatch = (el, label) => el && el.textContent && el.textContent.trim().toLowerCase().startsWith(label);
-  const filtersBtn = candidates.find(el => frostIfMatch(el, 'filters')) || document.getElementById('filterToggle');
-  const categoriesBtn = candidates.find(el => frostIfMatch(el, 'categories')) || document.getElementById('categoryToggle');
-  [filtersBtn, categoriesBtn].forEach((btn) => {
-    if (!btn) return;
-    btn.classList.add('filter-btn');
-    if (btn === filtersBtn) {
-      let dot = btn.querySelector('.dot');
-      if (!dot) { dot = document.createElement('span'); dot.className = 'dot'; btn.appendChild(dot); }
+function ensureContainsPill(labels, item){
+  const anySel = selectedAllergens && selectedAllergens.size > 0;
+  const allergens = (item.allergens || []).map(a => String(a).toUpperCase());
+  const has = anySel && allergens.some(a => selectedAllergens.has(a));
+  let pill = labels.querySelector('.contains-pill');
+  if (showUnsafeOnly && has){
+    if(!pill){
+      pill = document.createElement('span');
+      pill.className = 'contains-pill';
+      pill.textContent = 'Contains';
+      labels.appendChild(pill);
     }
-  });
-})();
-
-console.log('%c Shang Shi Zen Edition v4.2.5 — Off-white Frost + Bright Chips ', 'background:#0c0f14;color:#D2A455;padding:4px 8px;border-radius:6px');
-
-
-console.log('%c Shang Shi Zen Edition v4.2.7 — Warm White Dock Edition ', 'background:#0c0f14;color:#D2A455;padding:4px 8px;border-radius:6px');
+  } else if (pill){
+    pill.remove();
+  }
+}
 
 
-/* v1.3.1 — Ensure dock unsafe toggle exists, then init */
+function initUnsafeDockToggle(){
+  const t = document.getElementById('unsafeToggle');
+  if(!t) return;
+  t.setAttribute('aria-pressed', String(showUnsafeOnly));
+  document.body.classList.toggle('show-unsafe-only', !!showUnsafeOnly);
+  t.addEventListener('click', () => {
+    showUnsafeOnly = !showUnsafeOnly;
+    localStorage.setItem('show-unsafe-only', JSON.stringify(showUnsafeOnly));
+    t.setAttribute('aria-pressed', String(showUnsafeOnly));
+    document.body.classList.toggle('show-unsafe-only', !!showUnsafeOnly);
+    refresh();
+  }, {passive:true});
+}
+
 function ensureDockUnsafeToggle(){
   let t = document.getElementById('unsafeToggle');
   if (!t){
@@ -440,6 +382,34 @@ function ensureDockUnsafeToggle(){
       dockInner.insertBefore(t, dockInner.firstChild);
     }
   }
-  if (typeof initUnsafeDockToggle === 'function') initUnsafeDockToggle();
-ensureDockUnsafeToggle();
+  initUnsafeDockToggle();
+}
+
+
+function resetToSafeAndClearFilters(){
+  try{
+    if (typeof selectedAllergens !== 'undefined' && selectedAllergens.clear) selectedAllergens.clear();
+    // clear any active state on chips
+    const chipsRoot = document.querySelector('#chips, .chips');
+    if (chipsRoot){
+      chipsRoot.querySelectorAll('.chip').forEach(ch => {
+        ch.classList.remove('active');
+        ch.setAttribute && ch.setAttribute('aria-pressed','false');
+      });
+    }
+    // force SAFE mode
+    showUnsafeOnly = false;
+    localStorage.setItem('show-unsafe-only', 'false');
+    const t = document.getElementById('unsafeToggle');
+    if (t) t.setAttribute('aria-pressed','false');
+    document.body.classList.remove('show-unsafe-only');
+    refresh();
+  }catch(e){/*noop*/}
+}
+
+function initResetEnhance(){
+  const btn = document.getElementById('resetBtn');
+  if (!btn || btn.dataset.resetEnhanced==='1') return;
+  btn.dataset.resetEnhanced='1';
+  btn.addEventListener('click', () => { resetToSafeAndClearFilters(); }, {passive:true});
 }
