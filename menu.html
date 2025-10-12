@@ -10,6 +10,11 @@
 </head>
 <body>
 <button aria-label="Toggle theme" class="theme-btn" id="themeToggle">🌙</button>
+    <!-- Icon-only UNSAFE toggle (beside theme toggle) -->
+    <button id="unsafeIconToggle" class="unsafe-icon" aria-pressed="false" title="Show Unsafe Dishes" type="button">
+      <span class="icon">!</span>
+    </button>
+    
     <!-- Show Unsafe toggle -->
     <label class="unsafe-toggle" id="unsafeToggleLabel" aria-label="Toggle to show dishes that are unsafe for selected allergens">
       <input id="toggleUnsafe" type="checkbox" />

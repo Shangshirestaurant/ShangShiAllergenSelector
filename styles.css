@@ -794,3 +794,49 @@ body.show-unsafe-only .card.is-unsafe { outline:1px dashed rgba(178,58,47,0.45);
 }
 body.show-unsafe-only .card.is-unsafe .unsafe-badge{ display:flex !important; }
 .card .unsafe-badge{ display:none !important; }
+
+
+/* === v4.5 — Icon-only UNSAFE toggle (Apple red) === */
+/* Hide legacy text toggle if present */
+.unsafe-toggle{ display:none !important; }
+
+/* Small circular icon toggle */
+#unsafeIconToggle.unsafe-icon{
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  backdrop-filter: blur(10px) saturate(120%);
+  width: 24px; height: 24px;
+  border-radius: 999px;
+  display:inline-flex; align-items:center; justify-content:center;
+  background: rgba(249,248,246,0.55);
+  border: 1px solid rgba(0,0,0,0.10);
+  box-shadow: 0 2px 6px rgba(0,0,0,.24);
+  color: rgba(0,0,0,.55);
+  margin-left: 8px;
+  vertical-align: middle;
+  transition: background .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease, transform .06s ease;
+}
+body.light #unsafeIconToggle.unsafe-icon{
+  background: rgba(255,255,255,0.65);
+  border-color: rgba(0,0,0,0.10);
+  color: rgba(0,0,0,.6);
+}
+#unsafeIconToggle.unsafe-icon:active{ transform: translateY(1px); }
+
+/* Active (UNSAFE view) — Apple red */
+#unsafeIconToggle[aria-pressed="true"].unsafe-icon{
+  background: #FF3B30;
+  border-color: #E2332A;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(255,59,48,.35), 0 0 8px rgba(255,59,48,.45);
+}
+#unsafeIconToggle .icon{
+  display:inline-block;
+  font-weight: 800;
+  font-size: 14px;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+/* Align to the right header cluster (left of theme toggle) */
+#themeToggle{ position: relative; z-index: 2; }
+#unsafeIconToggle{ position: relative; z-index: 2; }
