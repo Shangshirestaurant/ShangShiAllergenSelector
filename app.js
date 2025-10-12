@@ -27,8 +27,8 @@ const LEGEND = {
 let data = [];
 let selectedAllergens = new Set();
 let selectedCategory = null;
-const EXTRA_CATEGORIES = ["Sauces","Sides"];
-const CATEGORY_ORDER = ["Starters","Mains","Desserts","Sauces","Sides"];
+const EXTRA_CATEGORIES = ["Sauces","Specials"];
+const CATEGORY_ORDER = ["Starters","Mains","Desserts","Sauces"];
 
 const els = {
   grid: document.getElementById('grid'),
@@ -59,7 +59,6 @@ function renderAllergenChips(){
       if (selectedAllergens.has(code)){ selectedAllergens.delete(code); btn.classList.remove('active'); }
       else { selectedAllergens.add(code); btn.classList.add('active'); }
       refresh();
-initResetEnhance();
     }, {passive:true});
     els.chips.appendChild(btn);
   });
@@ -318,46 +317,129 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-/* v1.3 — Reset button enhancement: clears allergen filters AND forces SAFE mode */
-function resetToSafeAndClearFilters(){
-  try{
-    // 1) Clear selectedAllergens set
-    if (typeof selectedAllergens !== 'undefined' && selectedAllergens.clear) selectedAllergens.clear();
+/* v4.2 — Filter Indicator Logic */
+(function(){
+  const body = document.body;
+  function getChipsRoot(){
+    return document.getElementById('chips');
+  }
+  function computeActive(){
+    const root = getChipsRoot();
+    if (!root) return false;
+    const chips = root.querySelectorAll('.chip');
+    return Array.from(chips).some(c => c.classList.contains('active') || c.getAttribute('aria-pressed') === 'true');
+  }
+  function update(){ body.classList.toggle('filters-active', computeActive()); }
+  // Initial
+  update();
+  // Clicks on chips
+  document.addEventListener('click', (e)=>{
+    const t = e.target.closest && e.target.closest('#chips .chip');
+    if (t) setTimeout(update, 50);
+  });
+  // Observe dynamic changes to chips list or attributes
+  const root = getChipsRoot();
+  if (root) {
+    const mo = new MutationObserver(update);
+    mo.observe(root, { childList:true, subtree:true, attributes:true, attributeFilter:['class','aria-pressed'] });
+  }
+})();
 
-    // 2) Remove visual active state from chips
-    const chipsRoot = document.querySelector('#chips, [id*="chips" i], .chips');
-    if (chipsRoot){
-      chipsRoot.querySelectorAll('.chip').forEach(ch => {
-        ch.classList.remove('active');
-        ch.setAttribute && ch.setAttribute('aria-pressed','false');
-      });
+/* v4.2.2 dark-default theme controller */
+(function(){
+  const KEY='shangshi-theme';
+  const body=document.body;
+  let mode=localStorage.getItem(KEY);
+  if(!mode){ mode='dark'; localStorage.setItem(KEY,'dark'); }
+  if(mode==='light') body.classList.add('light'); else body.classList.remove('light');
+  const btn=document.getElementById('themeToggle');
+  const setIcon=()=>{ if(btn) btn.textContent = body.classList.contains('light') ? '🌙' : '☀️'; };
+  setIcon();
+  if(btn){
+    btn.addEventListener('click',()=>{
+      body.classList.toggle('light');
+      localStorage.setItem(KEY, body.classList.contains('light') ? 'light' : 'dark');
+      setIcon();
+    });
+  }
+})();
+
+console.log('%c Shang Shi Zen Edition v4.2.2 — Frosted Dock ', 'background:#0c0f14;color:#D2A455;padding:4px 8px;border-radius:6px');
+
+/* v4.2.3 dark-default theme controller */
+(function(){
+  const KEY='shangshi-theme'; const body=document.body;
+  let mode=localStorage.getItem(KEY) || 'dark';
+  if (mode==='light') body.classList.add('light'); else body.classList.remove('light');
+  const btn=document.getElementById('themeToggle');
+  const setIcon=()=>{ if(btn) btn.textContent = body.classList.contains('light') ? '🌙' : '☀️'; };
+  setIcon();
+  if(btn){
+    btn.addEventListener('click',()=>{
+      body.classList.toggle('light');
+      localStorage.setItem(KEY, body.classList.contains('light') ? 'light' : 'dark');
+      setIcon();
+    });
+  }
+})();
+
+/* === SHANG SHI v4.2.4 HOTFIX — robust filter indicator + frost attach === */
+(function () {
+  const body = document.body;
+  function anyChipActive() {
+    const root = document.querySelector('#chips, [id*="chips" i], .filter-panel .chips, .chips');
+    if (!root) return false;
+    return !!root.querySelector('.chip.active, .chip[aria-pressed="true"]');
+  }
+  function syncFiltersActive() { body.classList.toggle('filters-active', anyChipActive()); }
+  syncFiltersActive();
+  document.addEventListener('click', (e) => {
+    if (e.target.closest && e.target.closest('.chip')) setTimeout(syncFiltersActive, 50);
+  });
+  const chipsRoot = document.querySelector('#chips, [id*="chips" i], .filter-panel .chips, .chips');
+  if (chipsRoot) {
+    new MutationObserver(syncFiltersActive).observe(chipsRoot, {
+      subtree: true, childList: true, attributes: true, attributeFilter: ['class','aria-pressed']
+    });
+  }
+  const candidates = Array.from(document.querySelectorAll('button, .btn, .pill, [role="button"]'));
+  const frostIfMatch = (el, label) => el && el.textContent && el.textContent.trim().toLowerCase().startsWith(label);
+  const filtersBtn = candidates.find(el => frostIfMatch(el, 'filters')) || document.getElementById('filterToggle');
+  const categoriesBtn = candidates.find(el => frostIfMatch(el, 'categories')) || document.getElementById('categoryToggle');
+  [filtersBtn, categoriesBtn].forEach((btn) => {
+    if (!btn) return;
+    btn.classList.add('filter-btn');
+    if (btn === filtersBtn) {
+      let dot = btn.querySelector('.dot');
+      if (!dot) { dot = document.createElement('span'); dot.className = 'dot'; btn.appendChild(dot); }
     }
+  });
+})();
 
-    // 3) Force SAFE mode on the dock toggle
-    if (typeof showUnsafeOnly !== 'undefined'){
-      showUnsafeOnly = false;
-      localStorage.setItem('show-unsafe-only', 'false');
+console.log('%c Shang Shi Zen Edition v4.2.5 — Off-white Frost + Bright Chips ', 'background:#0c0f14;color:#D2A455;padding:4px 8px;border-radius:6px');
+
+
+console.log('%c Shang Shi Zen Edition v4.2.7 — Warm White Dock Edition ', 'background:#0c0f14;color:#D2A455;padding:4px 8px;border-radius:6px');
+
+
+/* v1.3.1 — Ensure dock unsafe toggle exists, then init */
+function ensureDockUnsafeToggle(){
+  let t = document.getElementById('unsafeToggle');
+  if (!t){
+    const dockInner = document.querySelector('.dock-inner');
+    if (dockInner){
+      t = document.createElement('button');
+      t.id = 'unsafeToggle';
+      t.className = 'ios-toggle';
+      t.type = 'button';
+      t.title = 'Show dishes that CONTAIN selected allergen(s)';
+      t.setAttribute('aria-pressed','false');
+      const knob = document.createElement('span');
+      knob.className = 'knob';
+      t.appendChild(knob);
+      dockInner.insertBefore(t, dockInner.firstChild);
     }
-    const t = document.getElementById('unsafeToggle');
-    if (t) t.setAttribute('aria-pressed','false');
-    document.body.classList.remove('show-unsafe-only');
-
-    // 4) Re-render
-    if (typeof refresh === 'function') refresh();
-  }catch(e){ /* no-op */ }
-}
-
-function initResetEnhance(){
-  // Try to find an existing reset button
-  const btn = document.getElementById('resetFilters') ||
-              document.querySelector('.reset-btn, button[data-action="reset"], .dock .reset, .filters .reset');
-  if (!btn) return;
-  // Avoid double-binding
-  if (btn.dataset.resetEnhanced === '1') return;
-  btn.dataset.resetEnhanced = '1';
-
-  btn.addEventListener('click', (ev) => {
-    // If other handlers exist, let them run after ours; we don't preventDefault
-    resetToSafeAndClearFilters();
-  }, { passive: true });
+  }
+  if (typeof initUnsafeDockToggle === 'function') initUnsafeDockToggle();
+ensureDockUnsafeToggle();
 }
