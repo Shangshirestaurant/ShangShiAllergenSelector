@@ -25,6 +25,7 @@ const LEGEND = {
 };
 
 let data = [];
+let showUnsafeOnly = false;
 let selectedAllergens = new Set();
 let selectedCategory = null;
 const EXTRA_CATEGORIES = ["Sauces","Specials"];
@@ -59,6 +60,7 @@ function renderAllergenChips(){
       if (selectedAllergens.has(code)){ selectedAllergens.delete(code); btn.classList.remove('active'); }
       else { selectedAllergens.add(code); btn.classList.add('active'); }
       refresh();
+  initUnsafeToggle();
     }, {passive:true});
     els.chips.appendChild(btn);
   });
@@ -78,6 +80,7 @@ function renderCategoryChips(){
       if (selectedCategory === cat){ selectedCategory = null; btn.classList.remove('active'); }
       else { selectedCategory = cat; [...els.cat.children].forEach(c=>c.classList.remove('active')); btn.classList.add('active'); }
       refresh();
+  initUnsafeToggle();
     }, {passive:true});
     els.cat.appendChild(btn);
   });
@@ -141,10 +144,12 @@ function renderGrid(){
     return i === -1 ? 999 : i;
   };
   const items = data
-    .filter(d => isSafe(d) && inCategory(d))
+    .filter(d => (showUnsafeOnly ? (!isSafe(d)) : isSafe(d)) && inCategory(d))
+    /* UNSAFE inversion */
     .sort((a,b) => orderIndex(a.category) - orderIndex(b.category) || String(a.name).localeCompare(String(b.name)));
   items.forEach(d => els.grid.appendChild(card(d)));
   els.result.textContent = `${items.length} dishes`;
+  markUnsafeOnCards();
 }
 
 function updateMeta(){
@@ -177,6 +182,7 @@ function clearAll(){
     setTimeout(()=> els.resetBtn.classList.remove('spin'), 420);
   }
   refresh();
+  initUnsafeToggle();
   // close panels
   els.filterPanel && els.filterPanel.classList.remove('open');
   els.categoryPanel && els.categoryPanel.classList.remove('open');
@@ -212,6 +218,7 @@ function updateResetState(){
   renderAllergenChips();
   renderCategoryChips();
   refresh();
+  initUnsafeToggle();
 
   if (els.filterToggle && els.filterPanel) els.filterToggle.addEventListener('click', () => toggle(els.filterToggle, els.filterPanel), {passive:true});
   if (els.categoryToggle && els.categoryPanel) els.categoryToggle.addEventListener('click', () => toggle(els.categoryToggle, els.categoryPanel), {passive:true});
@@ -283,6 +290,7 @@ function saveDishToMemory(){
   data.push({ name, allergens, description, category });
   if (typeof renderCategoryChips==='function') renderCategoryChips();
   if (typeof refresh==='function') refresh();
+  initUnsafeToggle();
   closeAddDish();
 }
 function ensurePendingDishCommitted(){
@@ -292,7 +300,8 @@ function ensurePendingDishCommitted(){
   const description=(document.getElementById('dishDesc')?.value||'').trim();
   const allergens=Array.from(document.querySelectorAll('#allergenChecklist input[name=allergen]:checked')).map(x=>x.value);
   const exists=(data||[]).some(d=> (d.name||'').trim().toLowerCase()===name.toLowerCase() && (d.category||'')===category);
-  if(!exists){ data.push({ name, allergens, description, category }); if (typeof renderCategoryChips==='function') renderCategoryChips(); if (typeof refresh==='function') refresh(); }
+  if(!exists){ data.push({ name, allergens, description, category }); if (typeof renderCategoryChips==='function') renderCategoryChips(); if (typeof refresh==='function') refresh();
+  initUnsafeToggle(); }
 }
 function downloadMenuJson(){
   ensurePendingDishCommitted();
@@ -317,202 +326,36 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-/* v4.2 — Filter Indicator Logic */
-(function(){
-  const body = document.body;
-  function getChipsRoot(){
-    return document.getElementById('chips');
-  }
-  function computeActive(){
-    const root = getChipsRoot();
-    if (!root) return false;
-    const chips = root.querySelectorAll('.chip');
-    return Array.from(chips).some(c => c.classList.contains('active') || c.getAttribute('aria-pressed') === 'true');
-  }
-  function update(){ body.classList.toggle('filters-active', computeActive()); }
-  // Initial
-  update();
-  // Clicks on chips
-  document.addEventListener('click', (e)=>{
-    const t = e.target.closest && e.target.closest('#chips .chip');
-    if (t) setTimeout(update, 50);
-  });
-  // Observe dynamic changes to chips list or attributes
-  const root = getChipsRoot();
-  if (root) {
-    const mo = new MutationObserver(update);
-    mo.observe(root, { childList:true, subtree:true, attributes:true, attributeFilter:['class','aria-pressed'] });
-  }
-})();
+/* === v4.4 — Show UNSAFE toggle wiring (no flicker) === */
+function initUnsafeToggle(){
+  const t = document.getElementById('toggleUnsafe');
+  if (!t) return;
+  // Restore
+  const saved = localStorage.getItem('show-unsafe-only');
+  showUnsafeOnly = saved === 'true';
+  t.checked = showUnsafeOnly;
+  document.body.classList.toggle('show-unsafe-only', showUnsafeOnly);
+  // Listen
+  t.addEventListener('change', () => {
+    showUnsafeOnly = !!t.checked;
+    localStorage.setItem('show-unsafe-only', String(showUnsafeOnly));
+    document.body.classList.toggle('show-unsafe-only', showUnsafeOnly);
+    refresh();
+  initUnsafeToggle(); // re-render grid once using existing pipeline
+  }, {passive:true});
+}
 
-/* v4.2.2 dark-default theme controller */
-(function(){
-  const KEY='shangshi-theme';
-  const body=document.body;
-  let mode=localStorage.getItem(KEY);
-  if(!mode){ mode='dark'; localStorage.setItem(KEY,'dark'); }
-  if(mode==='light') body.classList.add('light'); else body.classList.remove('light');
-  const btn=document.getElementById('themeToggle');
-  const setIcon=()=>{ if(btn) btn.textContent = body.classList.contains('light') ? '🌙' : '☀️'; };
-  setIcon();
-  if(btn){
-    btn.addEventListener('click',()=>{
-      body.classList.toggle('light');
-      localStorage.setItem(KEY, body.classList.contains('light') ? 'light' : 'dark');
-      setIcon();
+
+/* Mark cards as .is-unsafe after each render so CSS can hint them when showing unsafe-only */
+function markUnsafeOnCards(){
+  try{
+    if (!Array.isArray(data) || !els || !els.grid) return;
+    const sel = new Set(selectedAllergens);
+    const any = selectedAllergens && selectedAllergens.size>0;
+    els.grid.querySelectorAll('.card').forEach(card => {
+      const all = JSON.parse(card.getAttribute('data-allergens')||'[]').map(String);
+      const unsafe = any && all.some(a => sel.has(a));
+      card.classList.toggle('is-unsafe', !!unsafe);
     });
-  }
-})();
-
-console.log('%c Shang Shi Zen Edition v4.2.2 — Frosted Dock ', 'background:#0c0f14;color:#D2A455;padding:4px 8px;border-radius:6px');
-
-/* v4.2.3 dark-default theme controller */
-(function(){
-  const KEY='shangshi-theme'; const body=document.body;
-  let mode=localStorage.getItem(KEY) || 'dark';
-  if (mode==='light') body.classList.add('light'); else body.classList.remove('light');
-  const btn=document.getElementById('themeToggle');
-  const setIcon=()=>{ if(btn) btn.textContent = body.classList.contains('light') ? '🌙' : '☀️'; };
-  setIcon();
-  if(btn){
-    btn.addEventListener('click',()=>{
-      body.classList.toggle('light');
-      localStorage.setItem(KEY, body.classList.contains('light') ? 'light' : 'dark');
-      setIcon();
-    });
-  }
-})();
-
-/* === SHANG SHI v4.2.4 HOTFIX — robust filter indicator + frost attach === */
-(function () {
-  const body = document.body;
-  function anyChipActive() {
-    const root = document.querySelector('#chips, [id*="chips" i], .filter-panel .chips, .chips');
-    if (!root) return false;
-    return !!root.querySelector('.chip.active, .chip[aria-pressed="true"]');
-  }
-  function syncFiltersActive() { body.classList.toggle('filters-active', anyChipActive()); }
-  syncFiltersActive();
-  document.addEventListener('click', (e) => {
-    if (e.target.closest && e.target.closest('.chip')) setTimeout(syncFiltersActive, 50);
-  });
-  const chipsRoot = document.querySelector('#chips, [id*="chips" i], .filter-panel .chips, .chips');
-  if (chipsRoot) {
-    new MutationObserver(syncFiltersActive).observe(chipsRoot, {
-      subtree: true, childList: true, attributes: true, attributeFilter: ['class','aria-pressed']
-    });
-  }
-  const candidates = Array.from(document.querySelectorAll('button, .btn, .pill, [role="button"]'));
-  const frostIfMatch = (el, label) => el && el.textContent && el.textContent.trim().toLowerCase().startsWith(label);
-  const filtersBtn = candidates.find(el => frostIfMatch(el, 'filters')) || document.getElementById('filterToggle');
-  const categoriesBtn = candidates.find(el => frostIfMatch(el, 'categories')) || document.getElementById('categoryToggle');
-  [filtersBtn, categoriesBtn].forEach((btn) => {
-    if (!btn) return;
-    btn.classList.add('filter-btn');
-    if (btn === filtersBtn) {
-      let dot = btn.querySelector('.dot');
-      if (!dot) { dot = document.createElement('span'); dot.className = 'dot'; btn.appendChild(dot); }
-    }
-  });
-})();
-
-console.log('%c Shang Shi Zen Edition v4.2.5 — Off-white Frost + Bright Chips ', 'background:#0c0f14;color:#D2A455;padding:4px 8px;border-radius:6px');
-
-
-console.log('%c Shang Shi Zen Edition v4.2.7 — Warm White Dock Edition ', 'background:#0c0f14;color:#D2A455;padding:4px 8px;border-radius:6px');
-
-
-/* === v4.3.1 — UNSAFE toggle inversion via baseline snapshot === */
-(function() {
-  const KEY='show-unsafe-only';
-  const body=document.body;
-
-  function ensureToggle() {
-    if(document.getElementById('toggleUnsafe')) return;
-    const btn = document.querySelector('#filterToggle, .filter-btn, .filters-toggle, .filter-dock .filter-btn');
-    const host = btn && btn.parentElement ? btn.parentElement : document.querySelector('.filter-dock, .dock, .dock-inner') || document.body;
-    const wrap = document.createElement('label');
-    wrap.className='unsafe-toggle';
-    wrap.setAttribute('aria-label','Toggle to show dishes that are unsafe for selected allergens');
-    wrap.innerHTML = '<input id="toggleUnsafe" type="checkbox"/><span class="knob" aria-hidden="true"></span><span class="label">Show UNSAFE</span>';
-    if (btn && btn.nextSibling) host.insertBefore(wrap, btn.nextSibling); else host.appendChild(wrap);
-  }
-  ensureToggle();
-  const toggle = document.getElementById('toggleUnsafe');
-  if(!toggle) return;
-
-  function hasSelectedAllergens(){
-    const root = document.querySelector('#chips, [id*="chips" i], .chips');
-    if(!root) return false;
-    return !!root.querySelector('.chip.active, .chip[aria-pressed="true"]');
-  }
-
-  function eachCard(cb){
-    const cards = document.querySelectorAll('.card');
-    let i=0;
-    cards.forEach(card=>{
-      if(!card.dataset.id) card.dataset.id = 'auto_' + (i++);
-      cb(card);
-    });
-  }
-
-  function computeVisible(card){
-    const cs = getComputedStyle(card);
-    return cs.display !== 'none' && cs.visibility !== 'hidden' && card.offsetParent !== null;
-  }
-
-  function snapshotBaseline() {
-    const anySel = hasSelectedAllergens();
-    eachCard(card=>{
-      const vis = computeVisible(card);
-      card.dataset.basevisible = anySel ? (vis ? '1':'0') : '1';
-    });
-  }
-
-  function applyUnsafeInversion(){ 
-    const showUnsafeOnly = !!toggle.checked;
-    body.classList.toggle('show-unsafe-only', showUnsafeOnly);
-
-    const anySel = hasSelectedAllergens();
-    if(!anySel){
-      eachCard(card=>{ card.style.display=''; card.classList.remove('is-unsafe'); });
-      syncEmptyState();
-      return;
-    }
-
-    eachCard(card=>{
-      const base = card.dataset.basevisible === '1';
-      const show = showUnsafeOnly ? !base : base;
-      card.style.display = show ? '' : 'none';
-      card.classList.toggle('is-unsafe', !base);
-    });
-
-    syncEmptyState();
-  }
-
-  function syncEmptyState(){
-    const grid = document.querySelector('.grid, #grid, .cards');
-    const empty = document.getElementById('emptyState') || document.querySelector('.empty-state');
-    if(!grid || !empty) return;
-    const visible = Array.from(grid.querySelectorAll('.card')).filter(c=>c.style.display!=='none');
-    empty.style.display = visible.length ? 'none' : '';
-  }
-
-  function recompute(){
-    setTimeout(()=>{ snapshotBaseline(); applyUnsafeInversion(); }, 0);
-  }
-
-  toggle.addEventListener('change', ()=>{
-    localStorage.setItem(KEY, String(!!toggle.checked));
-    applyUnsafeInversion();
-  });
-
-  const chipsRoot = document.querySelector('#chips, [id*="chips" i], .chips');
-  if(chipsRoot) new MutationObserver(recompute).observe(chipsRoot, {subtree:true, childList:true, attributes:true, attributeFilter:['class','aria-pressed']});
-  const grid = document.querySelector('.grid, #grid, .cards');
-  if(grid) new MutationObserver(recompute).observe(grid, {subtree:true, childList:true, attributes:true, attributeFilter:['style','class']});
-
-  const saved = localStorage.getItem(KEY);
-  toggle.checked = (saved === 'true');
-  recompute();
-})();
+  }catch(e){/* no-op */}
+}

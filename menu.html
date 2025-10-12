@@ -10,6 +10,13 @@
 </head>
 <body>
 <button aria-label="Toggle theme" class="theme-btn" id="themeToggle">🌙</button>
+    <!-- Show Unsafe toggle -->
+    <label class="unsafe-toggle" id="unsafeToggleLabel" aria-label="Toggle to show dishes that are unsafe for selected allergens">
+      <input id="toggleUnsafe" type="checkbox" />
+      <span class="knob" aria-hidden="true"></span>
+      <span class="label">Show UNSAFE</span>
+    </label>
+    
 <header class="header">
 <img alt="Shang Shi logo" class="header-logo" src="./logo.png"/>
 <p class="subtitle">Select allergen(s) to show only <strong>SAFE</strong> dishes.</p>
