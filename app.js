@@ -30,7 +30,6 @@ let selectedCategory = null;
 const EXTRA_CATEGORIES = ["Sauces","Sides"];
 const CATEGORY_ORDER = ["Starters","Mains","Desserts","Sauces","Sides"];
 
-let showUnsafeOnly = JSON.parse(localStorage.getItem("show-unsafe-only")||"false");
 const els = {
   grid: document.getElementById('grid'),
   chips: document.getElementById('chips'),
@@ -60,7 +59,7 @@ function renderAllergenChips(){
       if (selectedAllergens.has(code)){ selectedAllergens.delete(code); btn.classList.remove('active'); }
       else { selectedAllergens.add(code); btn.classList.add('active'); }
       refresh();
-initUnsafeDockToggle();
+initResetEnhance();
     }, {passive:true});
     els.chips.appendChild(btn);
   });
@@ -93,7 +92,6 @@ function card(item){
   a.setAttribute('data-allergens', JSON.stringify(item.allergens||[]));
 
   const labels = document.createElement('div');
-  ensureContainsPill(labels, item);
   labels.className = 'labels';
 
   const key = (item.category||'').toLowerCase().replace(/\s+/g,'');
@@ -144,7 +142,7 @@ function renderGrid(){
     return i === -1 ? 999 : i;
   };
   const items = data
-    .filter(d => visible(d))
+    .filter(d => isSafe(d) && inCategory(d))
     .sort((a,b) => orderIndex(a.category) - orderIndex(b.category) || String(a.name).localeCompare(String(b.name)));
   items.forEach(d => els.grid.appendChild(card(d)));
   els.result.textContent = `${items.length} dishes`;
@@ -320,45 +318,46 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-/** Decide if item should be visible based on current mode */
-function visible(d){
-  // If no allergens selected, show by category regardless of toggle
-  if(!selectedAllergens || selectedAllergens.size===0){
-    return inCategory(d);
-  }
-  return showUnsafeOnly ? (!isSafe(d) && inCategory(d)) : (isSafe(d) && inCategory(d));
-}
+/* v1.3 — Reset button enhancement: clears allergen filters AND forces SAFE mode */
+function resetToSafeAndClearFilters(){
+  try{
+    // 1) Clear selectedAllergens set
+    if (typeof selectedAllergens !== 'undefined' && selectedAllergens.clear) selectedAllergens.clear();
 
-
-/* Add or remove 'Contains' pill based on item/allergens and mode */
-function ensureContainsPill(labels, item){
-  const anySel = selectedAllergens && selectedAllergens.size > 0;
-  const allergens = (item.allergens || []).map(a => String(a).toUpperCase());
-  const has = anySel && allergens.some(a => selectedAllergens.has(a));
-  let pill = labels.querySelector('.contains-pill');
-  if (showUnsafeOnly && has){
-    if(!pill){
-      pill = document.createElement('span');
-      pill.className = 'contains-pill';
-      pill.textContent = 'Contains';
-      labels.appendChild(pill);
+    // 2) Remove visual active state from chips
+    const chipsRoot = document.querySelector('#chips, [id*="chips" i], .chips');
+    if (chipsRoot){
+      chipsRoot.querySelectorAll('.chip').forEach(ch => {
+        ch.classList.remove('active');
+        ch.setAttribute && ch.setAttribute('aria-pressed','false');
+      });
     }
-  } else if (pill){
-    pill.remove();
-  }
+
+    // 3) Force SAFE mode on the dock toggle
+    if (typeof showUnsafeOnly !== 'undefined'){
+      showUnsafeOnly = false;
+      localStorage.setItem('show-unsafe-only', 'false');
+    }
+    const t = document.getElementById('unsafeToggle');
+    if (t) t.setAttribute('aria-pressed','false');
+    document.body.classList.remove('show-unsafe-only');
+
+    // 4) Re-render
+    if (typeof refresh === 'function') refresh();
+  }catch(e){ /* no-op */ }
 }
 
+function initResetEnhance(){
+  // Try to find an existing reset button
+  const btn = document.getElementById('resetFilters') ||
+              document.querySelector('.reset-btn, button[data-action="reset"], .dock .reset, .filters .reset');
+  if (!btn) return;
+  // Avoid double-binding
+  if (btn.dataset.resetEnhanced === '1') return;
+  btn.dataset.resetEnhanced = '1';
 
-function initUnsafeDockToggle(){
-  const t = document.getElementById('unsafeToggle');
-  if(!t) return;
-  t.setAttribute('aria-pressed', String(showUnsafeOnly));
-  document.body.classList.toggle('show-unsafe-only', !!showUnsafeOnly);
-  t.addEventListener('click', () => {
-    showUnsafeOnly = !showUnsafeOnly;
-    localStorage.setItem('show-unsafe-only', JSON.stringify(showUnsafeOnly));
-    t.setAttribute('aria-pressed', String(showUnsafeOnly));
-    document.body.classList.toggle('show-unsafe-only', !!showUnsafeOnly);
-    refresh();
-  }, {passive:true});
+  btn.addEventListener('click', (ev) => {
+    // If other handlers exist, let them run after ours; we don't preventDefault
+    resetToSafeAndClearFilters();
+  }, { passive: true });
 }
