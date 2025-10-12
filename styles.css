@@ -812,3 +812,30 @@ body:not(.light) .ios-toggle{ background: rgba(255,255,255,0.18); border: 1px so
 .ios-toggle[aria-pressed="true"] .knob{ transform: translateX(16px); background: #fff; }
 
 .dock-inner > .ios-toggle{ margin-right: 8px; }
+
+
+/* === v1.1 Dock toggle fit & UNSAFE pill === */
+.dock-inner > .ios-toggle{
+  width: 64px; height: 40px; border-radius: 20px;
+  background: rgba(255,255,255,0.85);
+  border: 1px solid rgba(0,0,0,0.12);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.12), 0 4px 10px rgba(0,0,0,0.18);
+}
+body:not(.light) .dock-inner > .ios-toggle{ background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.18); }
+.dock-inner > .ios-toggle .knob{
+  width: 32px; height: 32px; top: 4px; left: 4px;
+  background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25);
+}
+.dock-inner > .ios-toggle[aria-pressed="true"] .knob{ transform: translateX(24px); }
+.dock-inner{ align-items: center; }
+
+.unsafe-pill{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:4px 10px; font-size:11px; font-weight:800; line-height:1;
+  border-radius:999px; color:#fff;
+  background: radial-gradient(120% 140% at 30% 10%, rgba(255,82,82,0.98), rgba(214,58,58,0.95));
+  border:1px solid rgba(0,0,0,0.10);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.18), 0 0 0 0.5px rgba(255,255,255,0.28) inset;
+}
+.card .unsafe-pill{ display:none; }
+body.show-unsafe-only .card .unsafe-pill{ display:inline-flex; }

@@ -111,7 +111,18 @@ function card(item){
       s.textContent = 'SAFE';
       labels.appendChild(s);
     }
-  }
+  
+    else {
+      const al2 = item.allergens || [];
+      const bad = [...selectedAllergens].some(x => al2.includes(x));
+      if (showUnsafeOnly && bad){
+        const u = document.createElement('span');
+        u.className = 'unsafe-pill';
+        u.textContent = 'UNSAFE';
+        labels.appendChild(u);
+      }
+    }
+}
 
   const h = document.createElement('h3'); h.textContent = item.name;
 
