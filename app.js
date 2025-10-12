@@ -364,3 +364,34 @@ function markUnsafeOnCards(){
     });
   }catch(e){/* no-op */}
 }
+
+
+/* === passesSafety + initUnsafeIconToggle integration === */
+let showUnsafeOnly = JSON.parse(localStorage.getItem('show-unsafe-only') || 'false');
+
+function passesSafety(d) {
+  if (!selectedAllergens || selectedAllergens.size === 0) return true;
+  const hasAny = Array.isArray(d.allergens) && d.allergens.some(a => selectedAllergens.has(String(a).toUpperCase()));
+  return showUnsafeOnly ? hasAny : !hasAny;
+}
+
+function initUnsafeIconToggle() {
+  const btn = document.getElementById('unsafeIconToggle');
+  if (!btn) return;
+  btn.setAttribute('aria-pressed', String(showUnsafeOnly));
+  btn.title = showUnsafeOnly ? 'Show Safe Dishes' : 'Show Unsafe Dishes';
+  btn.addEventListener('click', () => {
+    showUnsafeOnly = !showUnsafeOnly;
+    localStorage.setItem('show-unsafe-only', JSON.stringify(showUnsafeOnly));
+    btn.setAttribute('aria-pressed', String(showUnsafeOnly));
+    btn.title = showUnsafeOnly ? 'Show Safe Dishes' : 'Show Unsafe Dishes';
+    refresh();
+  }, { passive: true });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof refresh === 'function') {
+    refresh();
+    initUnsafeIconToggle();
+  }
+});
