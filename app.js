@@ -315,3 +315,95 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ const m=document.getElementById('addDishModal'); if(m && !m.classList.contains('hidden')) closeAddDish(); }}, {passive:true});
 });
+
+
+/* === v4.3 — UNSAFE toggle (invert filter) logic === */
+(function(){
+  const KEY='show-unsafe-only';
+  const body=document.body;
+
+  function ensureToggle(){
+    if(document.getElementById('toggleUnsafe')) return;
+    const btn = document.querySelector('#filterToggle, .filter-btn, .filters-toggle, .filter-dock .filter-btn');
+    const host = btn && btn.parentElement ? btn.parentElement : document.querySelector('.filter-dock, .dock, .dock-inner') || document.body;
+    const wrap = document.createElement('label');
+    wrap.className='unsafe-toggle';
+    wrap.setAttribute('aria-label','Toggle to show dishes that are unsafe for selected allergens');
+    wrap.innerHTML = '<input id="toggleUnsafe" type="checkbox"/><span class="knob" aria-hidden="true"></span><span class="label">Show UNSAFE</span>';
+    if (btn && btn.nextSibling) host.insertBefore(wrap, btn.nextSibling); else host.appendChild(wrap);
+  }
+  ensureToggle();
+  const toggle = document.getElementById('toggleUnsafe');
+  if(!toggle) return;
+
+  function selectedAllergens(){
+    const root = document.querySelector('#chips, [id*="chips" i], .chips');
+    if(!root) return [];
+    return Array.from(root.querySelectorAll('.chip'))
+      .filter(c => c.classList.contains('active') || c.getAttribute('aria-pressed')==='true')
+      .map(c => (c.dataset.code || c.textContent || '').trim().toUpperCase())
+      .filter(Boolean);
+  }
+
+  function tagCardUnsafe(card, selSet){
+    const a = (card.dataset.allergens || '').split(',').map(s=>s.trim().toUpperCase()).filter(Boolean);
+    const unsafe = selSet.size>0 && a.some(x=>selSet.has(x));
+    card.classList.toggle('is-unsafe', unsafe);
+    if(unsafe && !card.querySelector('.badge-unsafe')){
+      const b=document.createElement('span'); b.className='badge-unsafe'; b.textContent='UNSAFE'; card.appendChild(b);
+    }
+    return unsafe;
+  }
+
+  function applyUnsafeOnly(){
+    const showUnsafeOnly = !!toggle.checked;
+    body.classList.toggle('show-unsafe-only', showUnsafeOnly);
+    localStorage.setItem(KEY, String(showUnsafeOnly));
+
+    const sel = new Set(selectedAllergens());
+    const cards = document.querySelectorAll('.card[data-id]');
+    if(sel.size===0){
+      cards.forEach(c=>{ c.style.display=''; c.classList.remove('is-unsafe'); });
+      syncEmptyState();
+      return;
+    }
+
+    cards.forEach(card => {
+      const isUnsafe = tagCardUnsafe(card, sel);
+      const show = showUnsafeOnly ? isUnsafe : !isUnsafe;
+      card.style.display = show ? '' : 'none';
+    });
+
+    syncEmptyState();
+  }
+
+  function syncEmptyState(){
+    const grid = document.querySelector('.grid, #grid, .cards');
+    const empty = document.getElementById('emptyState') || document.querySelector('.empty-state');
+    if(!grid || !empty) return;
+    const visible = Array.from(grid.querySelectorAll('.card')).filter(c=>c.style.display!=='none');
+    empty.style.display = visible.length ? 'none' : '';
+  }
+
+  toggle.addEventListener('change', applyUnsafeOnly);
+
+  document.addEventListener('click', (e)=>{
+    if(e.target.closest && e.target.closest('#chips .chip, .chips .chip')){
+      setTimeout(applyUnsafeOnly, 0);
+    }
+  });
+
+  const chipsRoot = document.querySelector('#chips, [id*="chips" i], .chips');
+  if(chipsRoot){
+    new MutationObserver(()=>applyUnsafeOnly()).observe(chipsRoot, {subtree:true, childList:true, attributes:true, attributeFilter:['class','aria-pressed']});
+  }
+  const grid = document.querySelector('.grid, #grid, .cards');
+  if(grid){
+    new MutationObserver(()=>applyUnsafeOnly()).observe(grid, {subtree:true, childList:true});
+  }
+
+  const saved = localStorage.getItem(KEY);
+  const initialOn = saved === 'true';
+  toggle.checked = initialOn;
+  applyUnsafeOnly();
+})();
