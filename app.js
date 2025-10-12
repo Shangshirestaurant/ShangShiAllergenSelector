@@ -356,6 +356,11 @@ function markUnsafeOnCards(){
       const all = JSON.parse(card.getAttribute('data-allergens')||'[]').map(String);
       const unsafe = any && all.some(a => sel.has(a));
       card.classList.toggle('is-unsafe', !!unsafe);
+      /* v4.4.1 add unsafe-badge */
+      if(unsafe){
+        let ub = card.querySelector('.unsafe-badge');
+        if(!ub){ ub = document.createElement('span'); ub.className='unsafe-badge'; ub.textContent='!'; card.appendChild(ub); }
+      }
     });
   }catch(e){/* no-op */}
 }

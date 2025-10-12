@@ -754,3 +754,43 @@ body.light .unsafe-toggle { background: rgba(255,255,255,0.92); border-color: rg
 .unsafe-toggle input:checked + .knob::after { transform: translateX(18px); }
 
 body.show-unsafe-only .card.is-unsafe { outline:1px dashed rgba(178,58,47,0.45); outline-offset:-2px; }
+
+
+/* === v4.4.1 — Unsafe toggle reposition + badge === */
+.unsafe-toggle{
+  position: fixed;
+  top: 1rem;
+  right: calc(1rem + 44px + 10px);
+  z-index: 999;
+  padding: 4px 8px;
+  gap: 8px;
+  transform: translateZ(0);
+}
+.unsafe-toggle .label{ font-size:13px; }
+.unsafe-toggle .knob{ width:34px; height:18px; }
+.unsafe-toggle .knob::after{ width:12px; height:12px; top:3px; left:3px; }
+.unsafe-toggle input:checked + .knob::after{ transform: translateX(16px); }
+
+.unsafe-badge{
+  position: absolute !important;
+  top: 8px !important;
+  right: 8px !important;
+  width: 22px !important;
+  height: 22px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(145deg, #e75858, #c73e3e) !important;
+  border-radius: 50% !important;
+  border: none !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.22), 0 0 6px rgba(231,88,88,0.55) !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  letter-spacing: .2px !important;
+  backdrop-filter: none !important;
+  pointer-events: none !important;
+}
+body.show-unsafe-only .card.is-unsafe .unsafe-badge{ display:flex !important; }
+.card .unsafe-badge{ display:none !important; }
