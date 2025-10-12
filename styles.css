@@ -725,110 +725,78 @@ html { scroll-behavior: smooth; }
 .reset-btn.spin svg{ transform: rotate(360deg); transition: transform .6s cubic-bezier(.22,1,.36,1); }
 
 
-/* === Light theme modal glass fix — v1 === */
-/* Bright frosted glass for light theme modals */
-body.light .modal {
-  background: radial-gradient(1200px 600px at 50% 10%, rgba(255,255,255,0.55), rgba(255,255,255,0.78));
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+
+/* === v4.4 — Show UNSAFE toggle (dock, next to theme) === */
+.unsafe-toggle {
+  display:inline-flex; align-items:center; gap:10px;
+  padding:6px 10px; border-radius:24px;
+  background: rgba(249,248,246,0.90);
+  border:1px solid rgba(0,0,0,0.10);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  user-select:none; cursor:pointer;
+  margin-left:10px;
 }
-
-body.light .modal-content {
-  background: rgba(255,255,255,0.72);
-  color: #143d31;
-  border: 1px solid rgba(0,0,0,0.08);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.10), inset 0 0 0 1px rgba(255,255,255,0.4);
+body.light .unsafe-toggle { background: rgba(255,255,255,0.92); border-color: rgba(0,0,0,0.10); }
+.unsafe-toggle .label { font-size:14px; letter-spacing:.2px; color:#1C1A18; }
+.unsafe-toggle input { position:absolute; opacity:0; pointer-events:none; }
+.unsafe-toggle .knob {
+  width:40px; height:22px; border-radius:999px; position:relative; flex:0 0 40px;
+  background: rgba(0,0,0,0.15); transition: background .25s ease;
 }
-
-/* Labels & help text */
-body.light .modal-content .lbl,
-body.light .modal-content legend,
-body.light .modal-content label {
-  color: #143d31;
-  opacity: 0.92;
+.unsafe-toggle .knob::after {
+  content:""; position:absolute; top:3px; left:3px;
+  width:16px; height:16px; border-radius:50%;
+  background:#F9F8F6; box-shadow:0 1px 2px rgba(0,0,0,.25);
+  transition: transform .25s ease;
 }
+.unsafe-toggle input:checked + .knob { background:#B23A2F; }
+.unsafe-toggle input:checked + .knob::after { transform: translateX(18px); }
 
-/* Inputs & textareas */
-body.light .modal-content input:not([type="checkbox"]),
-body.light .modal-content textarea {
-  background: rgba(255,255,255,0.70);
-  border: 1px solid rgba(0,0,0,0.10);
-  color: #143d31;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+body.show-unsafe-only .card.is-unsafe { outline:1px dashed rgba(178,58,47,0.45); outline-offset:-2px; }
+
+
+/* === v4.4.1 — Unsafe toggle reposition + badge === */
+.unsafe-toggle{
+  position: fixed;
+  top: 1rem;
+  right: calc(1rem + 44px + 10px);
+  z-index: 999;
+  padding: 4px 8px;
+  gap: 8px;
+  transform: translateZ(0);
 }
+.unsafe-toggle .label{ font-size:13px; }
+.unsafe-toggle .knob{ width:34px; height:18px; }
+.unsafe-toggle .knob::after{ width:12px; height:12px; top:3px; left:3px; }
+.unsafe-toggle input:checked + .knob::after{ transform: translateX(16px); }
 
-body.light .modal-content input::placeholder,
-body.light .modal-content textarea::placeholder {
-  color: rgba(20,61,49,0.55);
+.unsafe-badge{
+  position: absolute !important;
+  top: 8px !important;
+  right: 8px !important;
+  width: 22px !important;
+  height: 22px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(145deg, #e75858, #c73e3e) !important;
+  border-radius: 50% !important;
+  border: none !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.22), 0 0 6px rgba(231,88,88,0.55) !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+  font-weight: 700 !important;
+  letter-spacing: .2px !important;
+  backdrop-filter: none !important;
+  pointer-events: none !important;
 }
-
-body.light .modal-content input:focus,
-body.light .modal-content textarea:focus {
-  border-color: rgba(46,107,76,0.45);
-  box-shadow: 0 0 0 3px rgba(46,107,76,0.14), 0 10px 20px rgba(0,0,0,0.08);
-  background: rgba(255,255,255,0.80);
-}
-
-/* Allergen checklist text */
-body.light .modal-content .allergen-list label {
-  color: #143d31;
-}
-
-/* Close button & ghost buttons */
-body.light .modal-close {
-  background: rgba(0,0,0,0.04);
-  border: 1px solid rgba(0,0,0,0.08);
-  color: #143d31;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.6);
-}
-
-body.light .btn-ghost {
-  background: rgba(0,0,0,0.06);
-  color: #143d31;
-  border: 1px solid rgba(0,0,0,0.08);
-}
-
-body.light .hint {
-  color: rgba(20,61,49,0.65);
-}
+body.show-unsafe-only .card.is-unsafe .unsafe-badge{ display:flex !important; }
+.card .unsafe-badge{ display:none !important; }
 
 
-
-/* === vSafeFlip Dock UNSAFE toggle === */
-.ios-toggle{
-  width: 38px; height: 22px; border-radius: 999px;
-  background: rgba(255,255,255,0.85); border: none; position: relative;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.15), 0 2px 6px rgba(0,0,0,0.15);
-  cursor: pointer; -webkit-tap-highlight-color: transparent;
-  transition: background .2s ease, box-shadow .2s ease;
-}
-body:not(.light) .ios-toggle{ background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.22); }
-.ios-toggle .knob{
-  position:absolute; top: 3px; left: 3px; width:16px; height:16px; border-radius:50%;
-  background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.25);
-  transition: transform .22s cubic-bezier(.22,1,.36,1);
-}
-.ios-toggle[aria-pressed="true"]{ background: #FF3B30; box-shadow: 0 4px 10px rgba(255,59,48,.35); }
-.ios-toggle[aria-pressed="true"] .knob{ transform: translateX(16px); background: #fff; }
-
-.dock-inner > .ios-toggle{ margin-right: 8px; }
-
-
-/* === v1.1 Dock toggle fit & UNSAFE pill === */
-.dock-inner > .ios-toggle{
-  width: 64px; height: 40px; border-radius: 20px;
-  background: rgba(255,255,255,0.85);
-  border: 1px solid rgba(0,0,0,0.12);
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.12), 0 4px 10px rgba(0,0,0,0.18);
-}
-body:not(.light) .dock-inner > .ios-toggle{ background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.18); }
-.dock-inner > .ios-toggle .knob{
-  width: 32px; height: 32px; top: 4px; left: 4px;
-  background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.25);
-}
-.dock-inner > .ios-toggle[aria-pressed="true"] .knob{ transform: translateX(24px); }
-.dock-inner{ align-items: center; }
-
+/* Fallback UNSAFE pill styles */
 .unsafe-pill{
   display:inline-flex; align-items:center; gap:6px;
   padding:4px 10px; font-size:11px; font-weight:800; line-height:1;
