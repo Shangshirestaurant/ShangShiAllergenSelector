@@ -25,12 +25,12 @@ const LEGEND = {
 };
 
 let data = [];
-let showUnsafeOnly = false;
 let selectedAllergens = new Set();
 let selectedCategory = null;
-const EXTRA_CATEGORIES = ["Sauces","Specials"];
-const CATEGORY_ORDER = ["Starters","Mains","Desserts","Sauces"];
+const EXTRA_CATEGORIES = ["Sauces","Sides"];
+const CATEGORY_ORDER = ["Starters","Mains","Desserts","Sauces","Sides"];
 
+let showUnsafeOnly = JSON.parse(localStorage.getItem("show-unsafe-only")||"false");
 const els = {
   grid: document.getElementById('grid'),
   chips: document.getElementById('chips'),
@@ -60,7 +60,7 @@ function renderAllergenChips(){
       if (selectedAllergens.has(code)){ selectedAllergens.delete(code); btn.classList.remove('active'); }
       else { selectedAllergens.add(code); btn.classList.add('active'); }
       refresh();
-  initUnsafeToggle();
+initUnsafeDockToggle();
     }, {passive:true});
     els.chips.appendChild(btn);
   });
@@ -80,7 +80,6 @@ function renderCategoryChips(){
       if (selectedCategory === cat){ selectedCategory = null; btn.classList.remove('active'); }
       else { selectedCategory = cat; [...els.cat.children].forEach(c=>c.classList.remove('active')); btn.classList.add('active'); }
       refresh();
-  initUnsafeToggle();
     }, {passive:true});
     els.cat.appendChild(btn);
   });
@@ -94,7 +93,7 @@ function card(item){
   a.setAttribute('data-allergens', JSON.stringify(item.allergens||[]));
 
   const labels = document.createElement('div');
-  ensureUnsafePill(labels, item);
+  ensureContainsPill(labels, item);
   labels.className = 'labels';
 
   const key = (item.category||'').toLowerCase().replace(/\s+/g,'');
@@ -145,12 +144,10 @@ function renderGrid(){
     return i === -1 ? 999 : i;
   };
   const items = data
-    .filter(d => (showUnsafeOnly ? (!isSafe(d)) : isSafe(d)) && inCategory(d))
-    /* UNSAFE inversion */
+    .filter(d => visible(d))
     .sort((a,b) => orderIndex(a.category) - orderIndex(b.category) || String(a.name).localeCompare(String(b.name)));
   items.forEach(d => els.grid.appendChild(card(d)));
   els.result.textContent = `${items.length} dishes`;
-  markUnsafeOnCards();
 }
 
 function updateMeta(){
@@ -183,7 +180,6 @@ function clearAll(){
     setTimeout(()=> els.resetBtn.classList.remove('spin'), 420);
   }
   refresh();
-  initUnsafeToggle();
   // close panels
   els.filterPanel && els.filterPanel.classList.remove('open');
   els.categoryPanel && els.categoryPanel.classList.remove('open');
@@ -219,7 +215,6 @@ function updateResetState(){
   renderAllergenChips();
   renderCategoryChips();
   refresh();
-  initUnsafeToggle();
 
   if (els.filterToggle && els.filterPanel) els.filterToggle.addEventListener('click', () => toggle(els.filterToggle, els.filterPanel), {passive:true});
   if (els.categoryToggle && els.categoryPanel) els.categoryToggle.addEventListener('click', () => toggle(els.categoryToggle, els.categoryPanel), {passive:true});
@@ -291,7 +286,6 @@ function saveDishToMemory(){
   data.push({ name, allergens, description, category });
   if (typeof renderCategoryChips==='function') renderCategoryChips();
   if (typeof refresh==='function') refresh();
-  initUnsafeToggle();
   closeAddDish();
 }
 function ensurePendingDishCommitted(){
@@ -301,8 +295,7 @@ function ensurePendingDishCommitted(){
   const description=(document.getElementById('dishDesc')?.value||'').trim();
   const allergens=Array.from(document.querySelectorAll('#allergenChecklist input[name=allergen]:checked')).map(x=>x.value);
   const exists=(data||[]).some(d=> (d.name||'').trim().toLowerCase()===name.toLowerCase() && (d.category||'')===category);
-  if(!exists){ data.push({ name, allergens, description, category }); if (typeof renderCategoryChips==='function') renderCategoryChips(); if (typeof refresh==='function') refresh();
-  initUnsafeToggle(); }
+  if(!exists){ data.push({ name, allergens, description, category }); if (typeof renderCategoryChips==='function') renderCategoryChips(); if (typeof refresh==='function') refresh(); }
 }
 function downloadMenuJson(){
   ensurePendingDishCommitted();
@@ -327,64 +320,45 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-/* === v4.4 — Show UNSAFE toggle wiring (no flicker) === */
-function initUnsafeToggle(){
-  const t = document.getElementById('toggleUnsafe');
-  if (!t) return;
-  // Restore
-  const saved = localStorage.getItem('show-unsafe-only');
-  showUnsafeOnly = saved === 'true';
-  t.checked = showUnsafeOnly;
-  document.body.classList.toggle('show-unsafe-only', showUnsafeOnly);
-  // Listen
-  t.addEventListener('change', () => {
-    showUnsafeOnly = !!t.checked;
-    localStorage.setItem('show-unsafe-only', String(showUnsafeOnly));
-    document.body.classList.toggle('show-unsafe-only', showUnsafeOnly);
-    refresh();
-  initUnsafeToggle(); // re-render grid once using existing pipeline
-  }, {passive:true});
+/** Decide if item should be visible based on current mode */
+function visible(d){
+  // If no allergens selected, show by category regardless of toggle
+  if(!selectedAllergens || selectedAllergens.size===0){
+    return inCategory(d);
+  }
+  return showUnsafeOnly ? (!isSafe(d) && inCategory(d)) : (isSafe(d) && inCategory(d));
 }
 
 
-/* Mark cards as .is-unsafe after each render so CSS can hint them when showing unsafe-only */
-function markUnsafeOnCards(){
-  try{
-    if (!Array.isArray(data) || !els || !els.grid) return;
-    const sel = new Set(selectedAllergens);
-    const any = selectedAllergens && selectedAllergens.size>0;
-    els.grid.querySelectorAll('.card').forEach(card => {
-      const all = JSON.parse(card.getAttribute('data-allergens')||'[]').map(String);
-      const unsafe = any && all.some(a => sel.has(a));
-      card.classList.toggle('is-unsafe', !!unsafe);
-      /* v4.4.1 add unsafe-badge */
-      if(unsafe){
-        let ub = card.querySelector('.unsafe-badge');
-        if(!ub){ ub = document.createElement('span'); ub.className='unsafe-badge'; ub.textContent='!'; card.appendChild(ub); }
-      }
-    });
-  }catch(e){/* no-op */}
-}
-
-
-/* Ensure an UNSAFE pill exists on cards that contain any selected allergen.
-   Visibility is CSS-controlled (only visible in UNSAFE view). */
-function ensureUnsafePill(labels, item){
-  try{
-    const anySel = selectedAllergens && selectedAllergens.size > 0;
-    if (!anySel) return;
-    const allergens = (item.allergens || []).map(a => String(a).toUpperCase());
-    const has = allergens.some(a => selectedAllergens.has(a));
-    let u = labels.querySelector('.unsafe-pill');
-    if (has){
-      if (!u){
-        u = document.createElement('span');
-        u.className = 'unsafe-pill';
-        u.textContent = 'UNSAFE';
-        labels.appendChild(u);
-      }
-    } else if (u){
-      u.remove();
+/* Add or remove 'Contains' pill based on item/allergens and mode */
+function ensureContainsPill(labels, item){
+  const anySel = selectedAllergens && selectedAllergens.size > 0;
+  const allergens = (item.allergens || []).map(a => String(a).toUpperCase());
+  const has = anySel && allergens.some(a => selectedAllergens.has(a));
+  let pill = labels.querySelector('.contains-pill');
+  if (showUnsafeOnly && has){
+    if(!pill){
+      pill = document.createElement('span');
+      pill.className = 'contains-pill';
+      pill.textContent = 'Contains';
+      labels.appendChild(pill);
     }
-  }catch(e){}
+  } else if (pill){
+    pill.remove();
+  }
+}
+
+
+function initUnsafeDockToggle(){
+  const t = document.getElementById('unsafeToggle');
+  if(!t) return;
+  t.setAttribute('aria-pressed', String(showUnsafeOnly));
+  document.body.classList.toggle('show-unsafe-only', !!showUnsafeOnly);
+  t.addEventListener('click', () => {
+    showUnsafeOnly = !showUnsafeOnly;
+    localStorage.setItem('show-unsafe-only', JSON.stringify(showUnsafeOnly));
+    t.setAttribute('aria-pressed', String(showUnsafeOnly));
+    document.body.classList.toggle('show-unsafe-only', !!showUnsafeOnly);
+    refresh();
+  }, {passive:true});
 }

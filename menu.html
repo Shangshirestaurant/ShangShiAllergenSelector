@@ -10,13 +10,6 @@
 </head>
 <body>
 <button aria-label="Toggle theme" class="theme-btn" id="themeToggle">🌙</button>
-    <!-- Show Unsafe toggle -->
-    <label class="unsafe-toggle" id="unsafeToggleLabel" aria-label="Toggle to show dishes that are unsafe for selected allergens">
-      <input id="toggleUnsafe" type="checkbox" />
-      <span class="knob" aria-hidden="true"></span>
-      <span class="label">Show UNSAFE</span>
-    </label>
-    
 <header class="header">
 <img alt="Shang Shi logo" class="header-logo" src="./logo.png"/>
 <p class="subtitle">Select allergen(s) to show only <strong>SAFE</strong> dishes.</p>
@@ -53,7 +46,7 @@
 </div>
 <!-- Bottom dock -->
 <div aria-live="polite" class="filter-dock">
-<div class="dock-inner"><button aria-controls="filterPanel" aria-expanded="false" class="filter-btn" id="filterToggle"><span class="dot"></span> Filters</button><button aria-controls="categoryPanel" aria-expanded="false" class="filter-btn" id="categoryToggle"><span class="dot"></span> Categories</button><button class="add-btn" id="addDishBtn"><svg aria-hidden="true" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg></button><button class="reset-btn" id="resetBtn"><svg aria-hidden="true" fill="none" viewbox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.343-5.657" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path><path d="M20 6v4h-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg></button></div>
+<div class="dock-inner"><button id="unsafeToggle" class="ios-toggle" aria-pressed="false" title="Show dishes that CONTAIN selected allergen(s)" type="button"><span class="knob"></span></button><button aria-controls="filterPanel" aria-expanded="false" class="filter-btn" id="filterToggle"><span class="dot"></span> Filters</button><button aria-controls="categoryPanel" aria-expanded="false" class="filter-btn" id="categoryToggle"><span class="dot"></span> Categories</button><button class="add-btn" id="addDishBtn"><svg aria-hidden="true" fill="none" viewbox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg></button><button class="reset-btn" id="resetBtn"><svg aria-hidden="true" fill="none" viewbox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.343-5.657" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path><path d="M20 6v4h-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"></path></svg></button></div>
 </div>
 <div class="filter-panel" id="filterPanel">
 <div aria-label="Allergen filters" class="chips" id="chips" role="group"></div>
