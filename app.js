@@ -1,22 +1,18 @@
 
-/* N8 Menu — Allergen Filter (normalized) */
-/* This file replaces the previous app.js. It fixes the "CONTAINS Milk" toggle by
-   normalizing allergen codes on BOTH sides before filtering.
-   It also keeps the UI behavior used in menu.html (chips, categories, unsafe toggle, etc.). */
-
+/* N8 Menu — Minimal Fix (Normalize allergens + correct CONTAINS logic)
+   This replaces app.js without changing visuals (chip text/badges untouched). */
 (function() {
-  // ---------- Helpers ----------
   const $ = (sel, ctx=document) => ctx.querySelector(sel);
   const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
 
+  // === Normalization helpers (logic only) ===
   const NORM = s => (s || '').trim().toUpperCase();
   const normalizeList = arr => Array.from(new Set((arr || []).map(NORM).filter(Boolean)));
 
   // State
   let dishes = [];
-  let filtered = [];
   let selectedAllergens = new Set(); // normalized codes
-  let selectedCategories = new Set(); // raw category strings
+  let selectedCategories = new Set();
   let unsafeMode = false; // false = SAFE (exclude), true = CONTAINS
 
   // Elements
@@ -26,17 +22,14 @@
   const resultCount = $('#resultCount');
   const activeFilter = $('#activeFilter');
   const empty = $('#empty');
-
   const unsafeToggle = $('#unsafeToggle');
   const filterToggle = $('#filterToggle');
   const filterPanel = $('#filterPanel');
-
   const categoryToggle = $('#categoryToggle');
   const categoryPanel = $('#categoryPanel');
-
   const resetBtn = $('#resetBtn');
 
-  // Theme toggle (keep existing behavior)
+  // Theme toggle (kept as-is)
   const themeToggle = $('#themeToggle');
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
@@ -45,41 +38,29 @@
     }, { passive: true });
   }
 
-  // ---------- Fetch & boot ----------
+  // Load menu
   fetch('./menu.json', { cache: 'no-store' })
     .then(r => r.json())
     .then(data => {
       dishes = (data || []).map(d => ({
         ...d,
-        allergensNorm: normalizeList(d.allergens),
+        allergensNorm: normalizeList(d.allergens), // <— normalized copy for logic
         category: (d.category || '').trim()
       }));
-
       buildAllergenChips(dishes);
       buildCategoryChips(dishes);
       render();
     })
     .catch(err => {
       console.error('Failed to load menu.json', err);
-      grid.innerHTML = `<div class="card"><h3>Could not load menu.json</h3><p class="desc">Check console.</p></div>`;
+      grid.innerHTML = `<article class="card"><h3>Could not load menu.json</h3><p class="desc">Open console for details.</p></article>`;
     });
 
-  // ---------- Build chips ----------
+  // Build allergen chips (codes only to keep visuals unchanged)
   function buildAllergenChips(list) {
     const allCodes = new Set();
     list.forEach(d => d.allergensNorm.forEach(c => allCodes.add(c)));
-
-    // Keep stable order A..Z, but show common ones earlier if present
-    const priority = ['GL','SO','CR','EG','MI','FI','SE','NU','MU','MR','GA','ON','CE','MO','LU','PE','HO'];
-    const codes = Array.from(allCodes);
-    codes.sort((a,b) => {
-      const ia = priority.indexOf(a); const ib = priority.indexOf(b);
-      if (ia !== -1 && ib !== -1) return ia - ib;
-      if (ia !== -1) return -1;
-      if (ib !== -1) return 1;
-      return a.localeCompare(b);
-    });
-
+    const codes = Array.from(allCodes).sort();
     chipsWrap.innerHTML = '';
     codes.forEach(code => {
       const btn = document.createElement('button');
@@ -88,7 +69,7 @@
       btn.setAttribute('role', 'switch');
       btn.setAttribute('aria-checked', 'false');
       btn.dataset.code = code;
-      btn.innerHTML = `<b>${code}</b> `;
+      btn.innerHTML = `<b>${code}</b>`; // keep original look
       btn.addEventListener('click', () => toggleAllergen(code, btn));
       chipsWrap.appendChild(btn);
     });
@@ -110,15 +91,17 @@
     });
   }
 
-  // ---------- Interactions ----------
+  // Interactions
   function toggleAllergen(code, el) {
     const C = NORM(code);
     if (selectedAllergens.has(C)) {
       selectedAllergens.delete(C);
-      if (el) { el.classList.remove('active'); el.setAttribute('aria-checked','false'); }
+      el && el.classList.remove('active');
+      el && el.setAttribute('aria-checked', 'false');
     } else {
       selectedAllergens.add(C);
-      if (el) { el.classList.add('active'); el.setAttribute('aria-checked','true'); }
+      el && el.classList.add('active');
+      el && el.setAttribute('aria-checked', 'true');
     }
     render();
   }
@@ -127,30 +110,28 @@
     const key = (cat || '').trim();
     if (selectedCategories.has(key)) {
       selectedCategories.delete(key);
-      if (el) { el.classList.remove('active'); el.setAttribute('aria-checked','false'); }
+      el && el.classList.remove('active');
+      el && el.setAttribute('aria-checked', 'false');
     } else {
       selectedCategories.add(key);
-      if (el) { el.classList.add('active'); el.setAttribute('aria-checked','true'); }
+      el && el.classList.add('active');
+      el && el.setAttribute('aria-checked', 'true');
     }
     render();
   }
 
-  // Unsafe toggle = "Show dishes that CONTAIN selected allergen(s)"
   if (unsafeToggle) {
     unsafeToggle.addEventListener('click', () => {
       unsafeMode = !unsafeMode;
       unsafeToggle.setAttribute('aria-pressed', String(unsafeMode));
-      unsafeToggle.dataset.active = unsafeMode ? 'true' : 'false';
       render();
     }, { passive: true });
   }
 
-  // Filter panel toggles
   if (filterToggle && filterPanel) {
     filterToggle.addEventListener('click', () => {
       const open = filterPanel.classList.toggle('open');
       filterToggle.setAttribute('aria-expanded', String(open));
-      filterToggle.dataset.active = open ? 'true' : 'false';
     }, { passive: true });
   }
 
@@ -158,75 +139,59 @@
     categoryToggle.addEventListener('click', () => {
       const open = categoryPanel.classList.toggle('open');
       categoryToggle.setAttribute('aria-expanded', String(open));
-      categoryToggle.dataset.active = open ? 'true' : 'false';
     }, { passive: true });
   }
 
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
-      // clear selections
       selectedAllergens.clear();
       selectedCategories.clear();
       unsafeMode = false;
       unsafeToggle && unsafeToggle.setAttribute('aria-pressed', 'false');
-      // reset chip UI
       $$('.chip', chipsWrap).forEach(b => { b.classList.remove('active'); b.setAttribute('aria-checked','false'); });
       $$('.chip', catWrap).forEach(b => { b.classList.remove('active'); b.setAttribute('aria-checked','false'); });
       render();
-      // subtle pulse class (optional)
       resetBtn.classList.add('active');
-      setTimeout(()=>resetBtn.classList.remove('active'), 1200);
+      setTimeout(()=>resetBtn.classList.remove('active'), 1000);
     }, { passive: true });
   }
 
-  // ---------- Filtering ----------
+  // Filtering
   function dishMatches(d) {
-    // Categories (AND: must be in any selected category set)
-    if (selectedCategories.size) {
-      if (!selectedCategories.has(d.category)) return false;
-    }
-    // Allergen logic
-    if (!selectedAllergens.size) return true; // no allergen filters
+    if (selectedCategories.size && !selectedCategories.has(d.category)) return false;
+    if (!selectedAllergens.size) return true;
 
     const hasAnySelected = d.allergensNorm.some(a => selectedAllergens.has(a));
-    // unsafeMode -> show dishes that CONTAIN any selected allergens
-    // !unsafeMode -> show dishes that contain NONE of selected allergens
+    // unsafeMode -> show dishes that CONTAIN any selected allergen(s)
+    // !unsafeMode -> show dishes that contain NONE of selected allergen(s)
     return unsafeMode ? hasAnySelected : !hasAnySelected;
   }
 
-  // ---------- Render ----------
+  // Render
   function render() {
-    filtered = dishes.filter(dishMatches);
-    // Count + active filter text
-    const n = filtered.length;
-    resultCount.textContent = `${n} ${n === 1 ? 'dish' : 'dishes'}`;
+    const visible = dishes.filter(dishMatches);
+    const n = visible.length;
+    resultCount.textContent = `${n} ${n===1?'dish':'dishes'}`;
 
-    const afParts = [];
-    if (selectedAllergens.size) {
-      const arr = Array.from(selectedAllergens).join(', ');
-      afParts.push(unsafeMode ? `Contains: ${arr}` : `SAFE from: ${arr}`);
-    }
-    if (selectedCategories.size) {
-      afParts.push(`Categories: ${Array.from(selectedCategories).join(', ')}`);
-    }
-    activeFilter.textContent = afParts.length ? afParts.join(' · ') : 'No filters active';
+    const af = [];
+    if (selectedAllergens.size) af.push(unsafeMode ? `Contains: ${Array.from(selectedAllergens).join(', ')}`
+                                                   : `SAFE from: ${Array.from(selectedAllergens).join(', ')}`);
+    if (selectedCategories.size) af.push(`Categories: ${Array.from(selectedCategories).join(', ')}`);
+    activeFilter.textContent = af.length ? af.join(' · ') : 'No filters active';
 
     empty.classList.toggle('hidden', n !== 0);
-
-    // Grid
-    grid.innerHTML = filtered.map(cardHTML).join('');
+    grid.innerHTML = visible.map(cardHTML).join('');
   }
 
   function cardHTML(d) {
-    const catPill = d.category ? `<div class="labels"><span class="pill">${d.category}</span></div>` : '';
     const desc = (d.description || '').trim();
-    const descHTML = desc ? `<p class="desc">${escapeHtml(desc)}</p>` : '';
-    const chips = d.allergensNorm.map(c => `<span class="badge chip-${c.toLowerCase()}">${c}</span>`).join('');
+    const chips = (d.allergensNorm || []).map(c => `<span class="badge chip-${c.toLowerCase()}">${c}</span>`).join('');
+    const cat = d.category ? `<div class="labels"><span class="pill">${d.category}</span></div>` : '';
     return `
       <article class="card">
-        ${catPill}
+        ${cat}
         <h3>${escapeHtml(d.name || '')}</h3>
-        ${descHTML}
+        ${desc ? `<p class="desc">${escapeHtml(desc)}</p>` : ''}
         <div class="badges">${chips}</div>
       </article>
     `;
@@ -238,8 +203,7 @@
     }[m]));
   }
 
-  // ---------- Optional: Add Dish Modal (minimal, non-destructive) ----------
-  // Keeps UI from breaking when buttons are clicked.
+  // Minimal modal support to avoid errors
   const addDishBtn = $('#addDishBtn');
   const addDishModal = $('#addDishModal');
   const addDishClose = $('#addDishClose');
