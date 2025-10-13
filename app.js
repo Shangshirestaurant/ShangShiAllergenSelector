@@ -47,18 +47,31 @@ const els = {
 // Load
 async function loadMenu(){ const r = await fetch('./menu.json', {cache:'no-store'}); return r.ok ? r.json() : []; }
 
+// --- Normalization helpers ---
+const NORM = s => String(s ?? '').trim().toUpperCase();
+function normalizeData(arr){
+  return (arr||[]).map(d => ({
+    ...d,
+    allergens: Array.from(new Set((d.allergens||[]).map(NORM).filter(Boolean)))
+  }));
+}
+// Uppercase-key legend for consistent chips
+const LEGEND_UC = Object.fromEntries(Object.entries(LEGEND).map(([k,v]) => [k.toUpperCase(), v]));
+
+
 // Build chips
 function renderAllergenChips(){
   els.chips.innerHTML = '';
-  const codes = Array.from(Object.keys(LEGEND)).filter(c => data.some(d => (d.allergens||[]).includes(c)));
+  const codes = Array.from(Object.keys(LEGEND_UC)).filter(c => data.some(d => (d.allergens||[]).includes(c)));
   codes.forEach(code => {
     const btn = document.createElement('button');
     btn.className = 'chip';
-    btn.dataset.code = code;
+    btn.dataset.code = NORM(code);
     btn.innerHTML = `<b>${code}</b> ${LEGEND[code] || code}`; // Dock shows code + full name
     btn.addEventListener('click', () => {
-      if (selectedAllergens.has(code)){ selectedAllergens.delete(code); btn.classList.remove('active'); }
-      else { selectedAllergens.add(code); btn.classList.add('active'); }
+      const UC = NORM(code);
+      if (selectedAllergens.has(UC)){ selectedAllergens.delete(UC); btn.classList.remove('active'); }
+      else { selectedAllergens.add(UC); btn.classList.add('active'); }
       refresh();
 initResetEnhance();
 ensureDockUnsafeToggle();
@@ -105,7 +118,7 @@ function card(item){
 
   // SAFE only if allergens selected and dish safe
   if (selectedAllergens.size){
-    const al = item.allergens || [];
+    const al = (item.allergens || []).map(NORM);
     const ok = [...selectedAllergens].every(x => !al.includes(x));
     if (ok){
       const s = document.createElement('span');
@@ -212,7 +225,7 @@ function updateResetState(){
 
 // Init
 (async function(){
-  data = await loadMenu();
+  data = normalizeData(await loadMenu());
   renderAllergenChips();
   renderCategoryChips();
   refresh();
