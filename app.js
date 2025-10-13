@@ -29,14 +29,17 @@ const ALLERGENS = {
 };
 
 // These selectors are intentionally generic. If something isn’t found, the feature is skipped gracefully.
+
 const SEL = {
   chips: '#allergen-chips, #chips, .chips, [data-role="chips"]',
-  grid: '#menu-grid, #dishes, #menu, .menu-grid, [data-role="menu"]',
+  grid: '#grid, .grid, #menu-grid, #dishes, #menu, .menu-grid, [data-role="menu"]',
   search: '#search, #search-input, input[type="search"], [data-role="search"]',
   safeBtn: '#filter-safe, [data-filter="safe"]',
   containsBtn: '#filter-contains, [data-filter="contains"]',
+  unsafeToggle: '#unsafeToggle',
   modeLabel: '#mode-label, [data-role="mode-label"]'
 };
+
 
 // ====== State ======
 let MENU = [];                 // raw menu
@@ -183,11 +186,13 @@ function renderModeLabel() {
 function wireModeButtons() {
   const safeBtn = pickOne(SEL.safeBtn);
   const contBtn = pickOne(SEL.containsBtn);
+  const unsafeTgl = pickOne(SEL.unsafeToggle);
 
   if (safeBtn) {
     safeBtn.addEventListener('click', () => {
       CONTAINS_MODE = false;
       if (safeBtn.blur) safeBtn.blur();
+      if (unsafeTgl) unsafeTgl.classList.remove('active');
       renderModeLabel();
       renderMenu();
     });
@@ -196,6 +201,15 @@ function wireModeButtons() {
     contBtn.addEventListener('click', () => {
       CONTAINS_MODE = true;
       if (contBtn.blur) contBtn.blur();
+      if (unsafeTgl) unsafeTgl.classList.add('active');
+      renderModeLabel();
+      renderMenu();
+    });
+  }
+  if (unsafeTgl) {
+    unsafeTgl.addEventListener('click', () => {
+      CONTAINS_MODE = !CONTAINS_MODE;
+      unsafeTgl.classList.toggle('active', CONTAINS_MODE);
       renderModeLabel();
       renderMenu();
     });
