@@ -25,6 +25,12 @@ const LEGEND = {
 };
 
 let data = [];
+
+// --- normalization helpers for robust allergen matching ---
+const norm = v => String(v).trim().toUpperCase();
+function selectedUpper(){
+  return new Set([...(selectedAllergens || [])].map(norm));
+}
 let selectedAllergens = new Set();
 let selectedCategory = null;
 const EXTRA_CATEGORIES = ["Sauces","Sides"];
@@ -323,20 +329,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* Decide visibility given current mode and selections */
 function visible(d){
-  // If no allergens are selected, just respect category filters
-  if(!selectedAllergens || selectedAllergens.size===0){
-    return inCategory(d);
-  }
-  // Safe when none of the selected allergens are present
-  const hasAny = (d.allergens||[]).some(a => selectedAllergens.has(String(a).toUpperCase()));
+  const sel = selectedUpper();
+  if (sel.size === 0) return inCategory(d);
+  const itemAllergens = (d.allergens || []).map(norm);
+  const hasAny = itemAllergens.some(a => sel.has(a));
   return showUnsafeOnly ? (hasAny && inCategory(d)) : (!hasAny && inCategory(d));
-}
+
 
 
 function ensureContainsPill(labels, item){
-  const anySel = selectedAllergens && selectedAllergens.size > 0;
-  const allergens = (item.allergens || []).map(a => String(a).toUpperCase());
-  const has = anySel && allergens.some(a => selectedAllergens.has(a));
+  const sel = selectedUpper();
+  const has = sel.size > 0 && (item.allergens || []).map(norm).some(a => sel.has(a));
   let pill = labels.querySelector('.contains-pill');
   if (showUnsafeOnly && has){
     if(!pill){
@@ -348,7 +351,7 @@ function ensureContainsPill(labels, item){
   } else if (pill){
     pill.remove();
   }
-}
+
 
 
 function initUnsafeDockToggle(){
