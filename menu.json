@@ -4,7 +4,7 @@
     "allergens": [
       "CE",
       "GL",
-      "MI",
+      "Mi",
       "MR"
     ],
     "description": "",
@@ -27,7 +27,7 @@
       "MR",
       "SE",
       "CR",
-      "MI",
+      "Mi",
       "EG",
       "ON"
     ],
@@ -40,7 +40,7 @@
       "EG",
       "GL",
       "CR",
-      "MI"
+      "Mi"
     ],
     "description": "",
     "category": "Starters"
@@ -132,7 +132,7 @@
       "SO",
       "ON",
       "EG",
-      "MI"
+      "Mi"
     ],
     "description": "",
     "category": "Starters"
@@ -141,7 +141,7 @@
     "name": "Baby Pok-Choi with Garlic",
     "allergens": [
       "EG",
-      "MI",
+      "Mi",
       "GA",
       "ON"
     ],
@@ -157,7 +157,7 @@
       "SO",
       "ON",
       "EG",
-      "MI"
+      "Mi"
     ],
     "description": "",
     "category": "Mains"
@@ -183,7 +183,7 @@
       "ON",
       "SO",
       "GA",
-      "MI"
+      "Mi"
     ],
     "description": "",
     "category": "Mains"
@@ -196,7 +196,7 @@
       "MR",
       "SO",
       "EG",
-      "MI",
+      "Mi",
       "MO"
     ],
     "description": "",
@@ -206,7 +206,7 @@
     "name": "Legendary Peking Duck",
     "allergens": [
       "GL",
-      "MI",
+      "Mi",
       "EG"
     ],
     "description": "",
@@ -221,7 +221,7 @@
       "SO",
       "ON",
       "EG",
-      "MI"
+      "Mi"
     ],
     "description": "",
     "category": "Mains"
@@ -249,7 +249,7 @@
       "SO",
       "MR",
       "EG",
-      "MI"
+      "Mi"
     ],
     "description": "",
     "category": "Mains"
@@ -285,7 +285,7 @@
     "allergens": [
       "GA",
       "GL",
-      "MI",
+      "Mi",
       "ON",
       "SO",
       "CR"
@@ -325,7 +325,7 @@
       "SO",
       "CR",
       "GA",
-      "MI",
+      "Mi",
       "EG",
       "MO"
     ],
@@ -341,7 +341,7 @@
       "SO",
       "ON",
       "CR",
-      "MI",
+      "Mi",
       "FI"
     ],
     "description": "",
@@ -357,7 +357,7 @@
       "ON",
       "SO",
       "SE",
-      "MI",
+      "Mi",
       "EG"
     ],
     "description": "",
@@ -370,7 +370,7 @@
       "MR",
       "MU",
       "ON",
-      "MI",
+      "Mi",
       "EG"
     ],
     "description": "",
@@ -384,7 +384,7 @@
       "ON",
       "GA",
       "SO",
-      "MI"
+      "Mi"
     ],
     "description": "Can be vegetarian",
     "category": "Mains"
@@ -397,7 +397,7 @@
       "ON",
       "SO",
       "CR",
-      "MI"
+      "Mi"
     ],
     "description": "",
     "category": "Mains"
@@ -408,7 +408,7 @@
       "MR",
       "GA",
       "EG",
-      "MI"
+      "Mi"
     ],
     "description": "It can be without Egg and Milk",
     "category": "Sides"
@@ -435,7 +435,7 @@
   {
     "name": "Rack of Lamb with Chef's Special Sauce",
     "allergens": [
-      "MI",
+      "Mi",
       "ON",
       "GA",
       "SO",
@@ -448,7 +448,7 @@
     "name": "Peach Melba",
     "allergens": [
       "EG",
-      "MI"
+      "Mi"
     ],
     "description": "It its only Gluten Free, if we request to remove the Tuille",
     "category": "Desserts"
@@ -457,7 +457,7 @@
     "name": "Wasabi Blanch",
     "allergens": [
       "EG",
-      "MI",
+      "Mi",
       "NU",
       "GL"
     ],
@@ -467,7 +467,7 @@
   {
     "name": "Venison Puff",
     "allergens": [
-      "MI",
+      "Mi",
       "EG",
       "SE",
       "GL"
@@ -478,7 +478,7 @@
   {
     "name": "Roasted Half Duck with Truffle Sauce",
     "allergens": [
-      "MI",
+      "Mi",
       "GL",
       "GA",
       "SO",
@@ -503,7 +503,7 @@
       "EG",
       "GA",
       "ON",
-      "MI"
+      "Mi"
     ],
     "description": "",
     "category": "Starters"
@@ -514,7 +514,7 @@
       "CR",
       "ON",
       "EG",
-      "MI",
+      "Mi",
       "SE"
     ],
     "description": "",
@@ -527,7 +527,7 @@
       "GA",
       "ON",
       "SO",
-      "MI"
+      "Mi"
     ],
     "description": "",
     "category": "Mains"
@@ -542,7 +542,7 @@
       "GA",
       "ON",
       "SE",
-      "MI"
+      "Mi"
     ],
     "description": "",
     "category": "Sides"
@@ -551,7 +551,7 @@
     "name": "Five Spice Crispy Corn Fed Chicken Parcel with Thai Basil",
     "allergens": [
       "GA",
-      "MI",
+      "Mi",
       "EG"
     ],
     "description": "",
@@ -573,7 +573,7 @@
     "allergens": [
       "NU",
       "SO",
-      "MI",
+      "Mi",
       "FI",
       "ON",
       "EG",
@@ -585,7 +585,7 @@
   {
     "name": "Genmaicha Ganache",
     "allergens": [
-      "MI"
+      "Mi"
     ],
     "description": "",
     "category": "Desserts"
@@ -630,7 +630,7 @@
     "allergens": [
       "EG",
       "ON",
-      "MI"
+      "Mi"
     ],
     "description": "",
     "category": "Starters"
@@ -639,7 +639,7 @@
     "name": "Golden Egg Fried Rice",
     "allergens": [
       "EG",
-      "MI"
+      "Mi"
     ],
     "description": "",
     "category": "Sides"
@@ -660,7 +660,7 @@
     "name": "Baked venison puff",
     "allergens": [
       "SE",
-      "MI",
+      "Mi",
       "GL"
     ],
     "description": "",
@@ -673,7 +673,7 @@
       "EG",
       "ON",
       "GA",
-      "MI"
+      "Mi"
     ],
     "description": "",
     "category": "Mains"
@@ -752,7 +752,7 @@
     "name": "Black Truffle Edamame Dumpling",
     "allergens": [
       "GL",
-      "MI",
+      "Mi",
       "MR"
     ],
     "description": "",

@@ -11,7 +11,7 @@ const allergenClassMap = {
   "MO": "chip-mo",
   "MR": "chip-mr",
   "MU": "chip-mu",
-  "MI": "chip-mi",
+  "Mi": "chip-mi",
   "NU": "chip-nu",
   "ON": "chip-on",
   "SE": "chip-se",
@@ -20,7 +20,7 @@ const allergenClassMap = {
 };
 
 const LEGEND = {
-  CE:"Celery", GL:"Gluten", CR:"Crustaceans", EG:"Eggs", FI:"Fish", MO:"Molluscs", MI:"Milk",
+  CE:"Celery", GL:"Gluten", CR:"Crustaceans", EG:"Eggs", FI:"Fish", MO:"Molluscs", Mi:"Milk",
   MU:"Mustard", NU:"Nuts", SE:"Sesame", SO:"Soya", GA:"Garlic", ON:"Onion", MR:"Mushrooms", HO:"Honey"
 };
 
@@ -415,90 +415,35 @@ function initResetEnhance(){
 }
 
 
-/* === Morphing dock chips: Option A (tap to expand, click-away to collapse) === */
+/* === Refinement: explicit toggle for panels on repeated press === */
 (function(){
-  const btnFilter = document.getElementById('filterToggle');
-  const btnCategories = document.getElementById('categoryToggle');
-  if(!btnFilter || !btnCategories) return;
+  const fBtn = document.getElementById('filterToggle');
+  const cBtn = document.getElementById('categoryToggle');
+  const fPanel = document.getElementById('filterPanel');
+  const cPanel = document.getElementById('categoryPanel');
+  if(!fBtn || !cBtn) return;
 
-  function animateMorphWidth(el, expand) {
-    const start = el.getBoundingClientRect().width;
-
-    // Prepare to measure content width
-    el.classList.add('expanded');
-    el.classList.remove('compact');
-    el.style.width = 'auto';
-    const target = el.getBoundingClientRect().width;
-
-    // Reset to start state & set classes for desired end state
-    el.style.width = start + 'px';
-    el.classList.toggle('expanded', expand);
-    el.classList.toggle('compact', !expand);
-
-    // Force reflow then animate to target
-    // eslint-disable-next-line no-unused-expressions
-    el.offsetHeight;
-    el.style.transition = 'width .24s ease';
-    el.style.width = (expand ? target : parseFloat(getComputedStyle(el).height)) ? (expand ? target + 'px' : null) : null;
-
-    function cleanup(e){
-      if(e.propertyName !== 'width') return;
-      el.style.transition = '';
-      el.style.width = expand ? 'auto' : '';
-      el.removeEventListener('transitionend', cleanup);
-    }
-    el.addEventListener('transitionend', cleanup);
+  function toggle(el, panel){
+    const willExpand = !el.classList.contains('expanded');
+    setExpanded(el, willExpand);
+    if(panel){ panel.classList.toggle('open', willExpand); }
+    el.setAttribute('data-active', willExpand ? 'true' : 'false');
+    el.setAttribute('aria-expanded', String(willExpand));
   }
 
-  function setExpanded(el, expand) {
-    const isExpanded = el.classList.contains('expanded');
-    if (expand === isExpanded) return;
-    animateMorphWidth(el, expand);
-    el.setAttribute('aria-expanded', String(expand));
-  }
-
-  // Initialize in compact
-  [btnFilter, btnCategories].forEach(b => {
-    b.classList.add('compact');
-    b.classList.remove('expanded');
-    b.setAttribute('aria-expanded','false');
-  });
-
-  // Wire interactions
-  btnFilter.addEventListener('click', () => {
-    const expand = !btnFilter.classList.contains('expanded');
-    setExpanded(btnFilter, expand);
-    setExpanded(btnCategories, false);
-    // existing panel toggling if any
-    const panel = document.getElementById('filterPanel');
-    if(panel){
-      panel.classList.toggle('open', expand);
-      document.getElementById('filterToggle')?.setAttribute('data-active', expand ? 'true' : 'false');
-    }
+  fBtn.addEventListener('click', (e)=>{
+    setExpanded(cBtn, false);
+    cPanel?.classList.remove('open');
+    cBtn.setAttribute('data-active','false');
+    cBtn.setAttribute('aria-expanded','false');
+    toggle(fBtn, fPanel);
   }, {passive:true});
 
-  btnCategories.addEventListener('click', () => {
-    const expand = !btnCategories.classList.contains('expanded');
-    setExpanded(btnCategories, expand);
-    setExpanded(btnFilter, false);
-    const panel = document.getElementById('categoryPanel');
-    if(panel){
-      panel.classList.toggle('open', expand);
-      document.getElementById('categoryToggle')?.setAttribute('data-active', expand ? 'true' : 'false');
-    }
-  }, {passive:true});
-
-  // Click-away to collapse both
-  document.addEventListener('click', (e) => {
-    const dock = document.querySelector('.dock-inner');
-    if(!dock) return;
-    if(!dock.contains(e.target)){
-      setExpanded(btnFilter, false);
-      setExpanded(btnCategories, false);
-      document.getElementById('filterPanel')?.classList.remove('open');
-      document.getElementById('categoryPanel')?.classList.remove('open');
-      document.getElementById('filterToggle')?.setAttribute('data-active','false');
-      document.getElementById('categoryToggle')?.setAttribute('data-active','false');
-    }
+  cBtn.addEventListener('click', (e)=>{
+    setExpanded(fBtn, false);
+    fPanel?.classList.remove('open');
+    fBtn.setAttribute('data-active','false');
+    fBtn.setAttribute('aria-expanded','false');
+    toggle(cBtn, cPanel);
   }, {passive:true});
 })();
