@@ -25,11 +25,22 @@ const LEGEND = {
 };
 
 let data = [];
-let selectedAllergens = new Set();
+let 
+// === Allergen normalization helpers (case-insensitive matching) ===
+const norm = v => String(v).trim().toUpperCase();
+function selectedUpper(){
+  try {
+    return new Set([...(selectedAllergens || [])].map(norm));
+  } catch (e) {
+    return new Set();
+  }
+}
+selectedAllergens = new Set();
 let selectedCategory = null;
 const EXTRA_CATEGORIES = ["Sauces","Sides"];
 const CATEGORY_ORDER = ["Starters","Mains","Desserts","Sauces","Sides"];
 
+let showUnsafeOnly = JSON.parse(localStorage.getItem("show-unsafe-only")||"false");
 const els = {
   grid: document.getElementById('grid'),
   chips: document.getElementById('chips'),
@@ -59,6 +70,8 @@ function renderAllergenChips(){
       if (selectedAllergens.has(code)){ selectedAllergens.delete(code); btn.classList.remove('active'); }
       else { selectedAllergens.add(code); btn.classList.add('active'); }
       refresh();
+initResetEnhance();
+ensureDockUnsafeToggle();
     }, {passive:true});
     els.chips.appendChild(btn);
   });
@@ -91,6 +104,7 @@ function card(item){
   a.setAttribute('data-allergens', JSON.stringify(item.allergens||[]));
 
   const labels = document.createElement('div');
+  ensureContainsPill(labels, item);
   labels.className = 'labels';
 
   const key = (item.category||'').toLowerCase().replace(/\s+/g,'');
@@ -129,9 +143,12 @@ function card(item){
 
 // Filtering
 function isSafe(item){
-  const A = item.allergens || [];
-  return !selectedAllergens.size || [...selectedAllergens].every(x => !A.includes(x));
-}
+  const sel = selectedUpper();
+  if (sel.size === 0) return true;
+  const itemAllergens = Array.isArray(d.allergens) ? d.allergens.map(norm) : [];
+  const hasAny = itemAllergens.some(a => sel.has(a));
+  return !hasAny;
+
 function inCategory(item){ return !selectedCategory || item.category === selectedCategory; }
 
 function renderGrid(){
@@ -141,7 +158,7 @@ function renderGrid(){
     return i === -1 ? 999 : i;
   };
   const items = data
-    .filter(d => isSafe(d) && inCategory(d))
+    .filter(d => visible(d))
     .sort((a,b) => orderIndex(a.category) - orderIndex(b.category) || String(a.name).localeCompare(String(b.name)));
   items.forEach(d => els.grid.appendChild(card(d)));
   els.result.textContent = `${items.length} dishes`;
@@ -315,3 +332,96 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ const m=document.getElementById('addDishModal'); if(m && !m.classList.contains('hidden')) closeAddDish(); }}, {passive:true});
 });
+
+
+/* Decide visibility given current mode and selections */
+function visible(d){
+  const sel = selectedUpper();
+  const inCat = (typeof inCategory === 'function') ? inCategory(d) : true;
+  if (sel.size === 0) return inCat;
+  const itemAllergens = Array.isArray(d.allergens) ? d.allergens.map(norm) : [];
+  const hasAny = itemAllergens.some(a => sel.has(a));
+  return showUnsafeOnly ? (hasAny && inCat) : (!hasAny && inCat);
+
+
+
+function ensureContainsPill(labels, item){
+  if(!labels || !item) return;
+  const sel = selectedUpper();
+  const itemHas = sel.size > 0 && (Array.isArray(item.allergens) ? item.allergens.map(norm) : []).some(a => sel.has(a));
+  let pill = labels.querySelector('.contains-pill');
+  if (showUnsafeOnly && itemHas){
+    if(!pill){
+      pill = document.createElement('span');
+      pill.className = 'contains-pill';
+      pill.textContent = 'Contains';
+      labels.appendChild(pill);
+    }
+  } else if (pill){
+    pill.remove();
+  }
+
+
+
+function initUnsafeDockToggle(){
+  const t = document.getElementById('unsafeToggle');
+  if(!t) return;
+  t.setAttribute('aria-pressed', String(showUnsafeOnly));
+  document.body.classList.toggle('show-unsafe-only', !!showUnsafeOnly);
+  t.addEventListener('click', () => {
+    showUnsafeOnly = !showUnsafeOnly;
+    localStorage.setItem('show-unsafe-only', JSON.stringify(showUnsafeOnly));
+    t.setAttribute('aria-pressed', String(showUnsafeOnly));
+    document.body.classList.toggle('show-unsafe-only', !!showUnsafeOnly);
+    refresh();
+  }, {passive:true});
+}
+
+function ensureDockUnsafeToggle(){
+  let t = document.getElementById('unsafeToggle');
+  if (!t){
+    const dockInner = document.querySelector('.dock-inner');
+    if (dockInner){
+      t = document.createElement('button');
+      t.id = 'unsafeToggle';
+      t.className = 'ios-toggle';
+      t.type = 'button';
+      t.title = 'Show dishes that CONTAIN selected allergen(s)';
+      t.setAttribute('aria-pressed','false');
+      const knob = document.createElement('span');
+      knob.className = 'knob';
+      t.appendChild(knob);
+      dockInner.insertBefore(t, dockInner.firstChild);
+    }
+  }
+  initUnsafeDockToggle();
+}
+
+
+function resetToSafeAndClearFilters(){
+  try{
+    if (typeof selectedAllergens !== 'undefined' && selectedAllergens.clear) selectedAllergens.clear();
+    // clear any active state on chips
+    const chipsRoot = document.querySelector('#chips, .chips');
+    if (chipsRoot){
+      chipsRoot.querySelectorAll('.chip').forEach(ch => {
+        ch.classList.remove('active');
+        ch.setAttribute && ch.setAttribute('aria-pressed','false');
+      });
+    }
+    // force SAFE mode
+    showUnsafeOnly = false;
+    localStorage.setItem('show-unsafe-only', 'false');
+    const t = document.getElementById('unsafeToggle');
+    if (t) t.setAttribute('aria-pressed','false');
+    document.body.classList.remove('show-unsafe-only');
+    refresh();
+  }catch(e){/*noop*/}
+}
+
+function initResetEnhance(){
+  const btn = document.getElementById('resetBtn');
+  if (!btn || btn.dataset.resetEnhanced==='1') return;
+  btn.dataset.resetEnhanced='1';
+  btn.addEventListener('click', () => { resetToSafeAndClearFilters(); }, {passive:true});
+}
