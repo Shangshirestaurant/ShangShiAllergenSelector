@@ -11,7 +11,7 @@ const allergenClassMap = {
   "MO": "chip-mo",
   "MR": "chip-mr",
   "MU": "chip-mu",
-  "Mi": "chip-mi",
+  "MI": "chip-mi",
   "NU": "chip-nu",
   "ON": "chip-on",
   "SE": "chip-se",
@@ -20,7 +20,7 @@ const allergenClassMap = {
 };
 
 const LEGEND = {
-  CE:"Celery", GL:"Gluten", CR:"Crustaceans", EG:"Eggs", FI:"Fish", MO:"Molluscs", Mi:"Milk",
+  CE:"Celery", GL:"Gluten", CR:"Crustaceans", EG:"Eggs", FI:"Fish", MO:"Molluscs", MI:"Milk",
   MU:"Mustard", NU:"Nuts", SE:"Sesame", SO:"Soya", GA:"Garlic", ON:"Onion", MR:"Mushrooms", HO:"Honey"
 };
 
