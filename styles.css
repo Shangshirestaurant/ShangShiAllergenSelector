@@ -830,3 +830,44 @@ body:not(.light) .dock-inner > #unsafeToggle.ios-toggle{ border-color: rgba(255,
 }
 .card .contains-pill{ display:none; }
 body.show-unsafe-only .card .contains-pill{ display:inline-flex; }
+
+
+/* === Morphing dock chips (Option A: tap-to-expand, click-away to collapse) === */
+.dock-chip {
+  --chip: 52px;
+  height: var(--chip);
+  min-width: var(--chip);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid color-mix(in oklab, white 10%, black 90%);
+  background: color-mix(in oklab, var(--surface, #111) 80%, white 5%);
+  color: var(--text, #f5f5f5);
+  padding: 0 14px;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: box-shadow .18s ease, background .18s ease, border-color .18s ease;
+}
+.dock-chip .icon { width: 20px; height: 20px; flex: 0 0 20px; }
+.dock-chip .label {
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity .18s ease, transform .18s ease;
+}
+.dock-chip.compact {
+  width: var(--chip);
+  padding: 0;
+  justify-content: center;
+}
+.dock-chip.expanded .label {
+  opacity: 1;
+  transform: none;
+}
+.dock-chip:hover { box-shadow: 0 4px 12px rgba(0,0,0,.25); }
+.dock-chip:active { transform: translateY(1px); }
+
+@media (max-width: 480px) {
+  .dock-chip { --chip: 48px; }
+}

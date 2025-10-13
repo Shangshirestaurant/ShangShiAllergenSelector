@@ -413,3 +413,92 @@ function initResetEnhance(){
   btn.dataset.resetEnhanced='1';
   btn.addEventListener('click', () => { resetToSafeAndClearFilters(); }, {passive:true});
 }
+
+
+/* === Morphing dock chips: Option A (tap to expand, click-away to collapse) === */
+(function(){
+  const btnFilter = document.getElementById('filterToggle');
+  const btnCategories = document.getElementById('categoryToggle');
+  if(!btnFilter || !btnCategories) return;
+
+  function animateMorphWidth(el, expand) {
+    const start = el.getBoundingClientRect().width;
+
+    // Prepare to measure content width
+    el.classList.add('expanded');
+    el.classList.remove('compact');
+    el.style.width = 'auto';
+    const target = el.getBoundingClientRect().width;
+
+    // Reset to start state & set classes for desired end state
+    el.style.width = start + 'px';
+    el.classList.toggle('expanded', expand);
+    el.classList.toggle('compact', !expand);
+
+    // Force reflow then animate to target
+    // eslint-disable-next-line no-unused-expressions
+    el.offsetHeight;
+    el.style.transition = 'width .24s ease';
+    el.style.width = (expand ? target : parseFloat(getComputedStyle(el).height)) ? (expand ? target + 'px' : null) : null;
+
+    function cleanup(e){
+      if(e.propertyName !== 'width') return;
+      el.style.transition = '';
+      el.style.width = expand ? 'auto' : '';
+      el.removeEventListener('transitionend', cleanup);
+    }
+    el.addEventListener('transitionend', cleanup);
+  }
+
+  function setExpanded(el, expand) {
+    const isExpanded = el.classList.contains('expanded');
+    if (expand === isExpanded) return;
+    animateMorphWidth(el, expand);
+    el.setAttribute('aria-expanded', String(expand));
+  }
+
+  // Initialize in compact
+  [btnFilter, btnCategories].forEach(b => {
+    b.classList.add('compact');
+    b.classList.remove('expanded');
+    b.setAttribute('aria-expanded','false');
+  });
+
+  // Wire interactions
+  btnFilter.addEventListener('click', () => {
+    const expand = !btnFilter.classList.contains('expanded');
+    setExpanded(btnFilter, expand);
+    setExpanded(btnCategories, false);
+    // existing panel toggling if any
+    const panel = document.getElementById('filterPanel');
+    if(panel){
+      panel.classList.toggle('open', expand);
+      document.getElementById('filterToggle')?.setAttribute('data-active', expand ? 'true' : 'false');
+    }
+  }, {passive:true});
+
+  btnCategories.addEventListener('click', () => {
+    const expand = !btnCategories.classList.contains('expanded');
+    setExpanded(btnCategories, expand);
+    setExpanded(btnFilter, false);
+    const panel = document.getElementById('categoryPanel');
+    if(panel){
+      panel.classList.toggle('open', expand);
+      document.getElementById('categoryToggle')?.setAttribute('data-active', expand ? 'true' : 'false');
+    }
+  }, {passive:true});
+
+  // Click-away to collapse both
+  document.addEventListener('click', (e) => {
+    const dock = document.querySelector('.dock-inner');
+    if(!dock) return;
+    if(!dock.contains(e.target)){
+      setExpanded(btnFilter, false);
+      setExpanded(btnCategories, false);
+      document.getElementById('filterPanel')?.classList.remove('open');
+      document.getElementById('categoryPanel')?.classList.remove('open');
+      document.getElementById('filterToggle')?.setAttribute('data-active','false');
+      document.getElementById('categoryToggle')?.setAttribute('data-active','false');
+    }
+  }, {passive:true});
+})();
