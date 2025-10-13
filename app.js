@@ -11,7 +11,7 @@ const allergenClassMap = {
   "MO": "chip-mo",
   "MR": "chip-mr",
   "MU": "chip-mu",
-  "Mi": "chip-mi",
+  "MI": "chip-mi",
   "NU": "chip-nu",
   "ON": "chip-on",
   "SE": "chip-se",
