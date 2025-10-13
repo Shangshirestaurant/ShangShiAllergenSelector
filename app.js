@@ -413,37 +413,3 @@ function initResetEnhance(){
   btn.dataset.resetEnhanced='1';
   btn.addEventListener('click', () => { resetToSafeAndClearFilters(); }, {passive:true});
 }
-
-
-/* === Refinement: explicit toggle for panels on repeated press === */
-(function(){
-  const fBtn = document.getElementById('filterToggle');
-  const cBtn = document.getElementById('categoryToggle');
-  const fPanel = document.getElementById('filterPanel');
-  const cPanel = document.getElementById('categoryPanel');
-  if(!fBtn || !cBtn) return;
-
-  function toggle(el, panel){
-    const willExpand = !el.classList.contains('expanded');
-    setExpanded(el, willExpand);
-    if(panel){ panel.classList.toggle('open', willExpand); }
-    el.setAttribute('data-active', willExpand ? 'true' : 'false');
-    el.setAttribute('aria-expanded', String(willExpand));
-  }
-
-  fBtn.addEventListener('click', (e)=>{
-    setExpanded(cBtn, false);
-    cPanel?.classList.remove('open');
-    cBtn.setAttribute('data-active','false');
-    cBtn.setAttribute('aria-expanded','false');
-    toggle(fBtn, fPanel);
-  }, {passive:true});
-
-  cBtn.addEventListener('click', (e)=>{
-    setExpanded(fBtn, false);
-    fPanel?.classList.remove('open');
-    fBtn.setAttribute('data-active','false');
-    fBtn.setAttribute('aria-expanded','false');
-    toggle(cBtn, cPanel);
-  }, {passive:true});
-})();

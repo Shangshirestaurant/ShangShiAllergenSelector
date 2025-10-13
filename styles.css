@@ -860,3 +860,15 @@ body.show-unsafe-only .card .contains-pill{ display:inline-flex; }
 .dock-chip .label{ opacity:0; transform:translateX(6px); transition: opacity .18s ease, transform .18s ease; }
 .dock-chip:hover{ transform: translateY(-1px); }
 .dock-chip:active{ transform: translateY(0) scale(.98); }
+
+
+/* === Attribute-driven morph (no extra JS): aria-expanded toggles width/label === */
+.dock-chip{
+  --chip: 44px;
+  width: var(--chip);
+  height: var(--chip);
+  transition: width .24s ease, box-shadow .18s ease, background .18s ease;
+}
+.dock-chip .label{ opacity:0; transform: translateX(6px); }
+.dock-chip[aria-expanded="true"]{ width: var(--expanded, 140px); padding: 0 16px; }
+.dock-chip[aria-expanded="true"] .label{ opacity:1; transform:none; transition: opacity .18s ease, transform .18s ease; }
