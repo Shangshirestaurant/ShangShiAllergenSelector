@@ -208,7 +208,9 @@
     "allergens": [
       "GL",
       "MI",
-      "EG"
+      "EG",
+      "FI",
+      "MR"
     ],
     "description": "",
     "category": "Mains"
