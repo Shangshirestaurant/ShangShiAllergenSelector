@@ -5,7 +5,8 @@
       "CE",
       "GL",
       "MI",
-      "MR"
+      "MR",
+      "MO"
     ],
     "description": "",
     "category": "Starters"
@@ -75,7 +76,8 @@
       "ON",
       "CR",
       "HO",
-      "SO"
+      "SO",
+      "MO"
     ],
     "description": "Slow Cooked Wagyu; Roasted Duck",
     "category": "Sauces"
@@ -224,7 +226,8 @@
       "SO",
       "ON",
       "EG",
-      "MI"
+      "MI",
+      "MO"
     ],
     "description": "",
     "category": "Mains"
@@ -252,7 +255,8 @@
       "SO",
       "MR",
       "EG",
-      "MI"
+      "MI",
+      "MO"
     ],
     "description": "",
     "category": "Mains"
@@ -374,7 +378,8 @@
       "MU",
       "ON",
       "MI",
-      "EG"
+      "EG",
+      "MO"
     ],
     "description": "",
     "category": "Starters"
@@ -485,7 +490,8 @@
       "GL",
       "GA",
       "SO",
-      "CR"
+      "CR",
+      "MO"
     ],
     "description": "Check the Sauces Category",
     "category": "Mains"
@@ -494,7 +500,8 @@
     "name": "Chilli Oil",
     "allergens": [
       "CR",
-      "GL"
+      "GL",
+      "MO"
     ],
     "description": "",
     "category": "Sauces"
@@ -506,7 +513,8 @@
       "EG",
       "GA",
       "ON",
-      "MI"
+      "MI",
+      "MO"
     ],
     "description": "",
     "category": "Starters"
